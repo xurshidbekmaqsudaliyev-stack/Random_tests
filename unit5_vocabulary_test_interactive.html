@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#182a45" />
+  <title>Unit 5 Vocabulary Check | Student Life</title>
+  <style>
+    :root {
+      --ink: #182a45;
+      --ink-soft: #40516a;
+      --muted: #65758b;
+      --paper: #f4f7fb;
+      --card: #ffffff;
+      --line: #dce4ee;
+      --accent: #e15514;
+      --accent-dark: #b9400b;
+      --accent-pale: #fff1e9;
+      --blue-pale: #edf4ff;
+      --green: #18794e;
+      --green-pale: #e8f7ef;
+      --red: #b42318;
+      --red-pale: #fff0ef;
+      --shadow: 0 12px 32px rgba(24, 42, 69, 0.08);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    button:focus-visible, input:focus-visible, .drop-slot:focus-visible {
+      outline: 3px solid rgba(225, 85, 20, .30);
+      outline-offset: 3px;
+    }
+    .site-header {
+      color: #fff;
+      background: var(--ink);
+      padding: 17px 22px;
+    }
+    .header-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand-mark {
+      display: grid; place-items: center;
+      width: 40px; height: 40px; flex: 0 0 auto;
+      color: #fff; background: var(--accent); border-radius: 12px;
+      font-weight: 800; letter-spacing: -.04em;
+    }
+    .brand-title { margin: 0; font-size: 14px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+    .brand-subtitle { margin: 1px 0 0; color: #c7d2e2; font-size: 12px; }
+    .header-tag {
+      border: 1px solid rgba(255,255,255,.22); border-radius: 99px;
+      padding: 7px 12px; color: #e4eaf3; font-size: 12px; white-space: nowrap;
+    }
+    main { max-width: 940px; margin: 0 auto; padding: 34px 18px 56px; }
+    .screen { display: none; animation: fade-in .2s ease-out; }
+    .screen.active { display: block; }
+    @keyframes fade-in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    .eyebrow { margin: 0 0 10px; color: var(--accent-dark); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    h1, h2, h3, p { overflow-wrap: anywhere; }
+    h1 { margin: 0; font-size: clamp(30px, 5vw, 46px); line-height: 1.1; letter-spacing: -.045em; }
+    h2 { margin: 0; font-size: clamp(22px, 3vw, 29px); line-height: 1.2; letter-spacing: -.025em; }
+    h3 { margin: 0; font-size: 17px; line-height: 1.3; }
+    .muted { color: var(--muted); }
+    .hero-card, .panel, .question-card, .result-card {
+      background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
+    }
+    .hero-card { padding: clamp(24px, 5vw, 48px); overflow: hidden; position: relative; }
+    .hero-card::after {
+      content: ""; position: absolute; right: -54px; top: -65px; width: 220px; height: 220px;
+      border-radius: 50%; background: var(--accent-pale); z-index: 0;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 620px; }
+    .hero-description { max-width: 540px; color: var(--ink-soft); margin: 16px 0 26px; font-size: 16px; }
+    .stat-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 28px; }
+    .stat-pill { display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px; background: #f4f7fb; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-soft); font-size: 13px; font-weight: 650; }
+    .stat-pill strong { color: var(--ink); }
+    .entry-form { max-width: 460px; }
+    .field-label { display: block; margin-bottom: 7px; font-size: 13px; font-weight: 750; }
+    .text-field { width: 100%; min-height: 49px; padding: 12px 14px; border: 1px solid #becbdb; border-radius: 11px; background: #fff; color: var(--ink); outline: none; }
+    .text-field:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(225,85,20,.12); }
+    .field-hint { margin: 7px 0 0; color: var(--muted); font-size: 12px; }
+    .form-error { min-height: 22px; margin: 5px 0 0; color: var(--red); font-size: 13px; }
+    .button-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 18px; }
+    .btn { min-height: 46px; display: inline-flex; justify-content: center; align-items: center; gap: 9px; border: 1px solid transparent; border-radius: 11px; padding: 11px 17px; font-weight: 750; transition: transform .12s ease, background .12s ease, box-shadow .12s ease; }
+    .btn:hover:not(:disabled) { transform: translateY(-1px); }
+    .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 6px 16px rgba(225,85,20,.18); }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-dark); }
+    .btn-primary:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
+    .btn-secondary { color: var(--ink); background: #fff; border-color: #cbd6e3; }
+    .btn-secondary:hover { background: #f7f9fc; }
+    .instructions { margin-top: 18px; padding: 15px 17px; border: 1px solid #d8e5f7; border-radius: 12px; background: var(--blue-pale); color: #354c6c; font-size: 13px; }
+    .instructions strong { color: var(--ink); }
+
+    .test-intro { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; margin: 0 0 22px; }
+    .student-chip { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 10px 13px; min-width: 140px; }
+    .student-chip span { display: block; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .08em; font-weight: 750; }
+    .student-chip strong { display: block; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; }
+    .progress-panel { padding: 15px 18px; margin-bottom: 25px; background: #fff; border: 1px solid var(--line); border-radius: 14px; }
+    .progress-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 9px; font-size: 13px; }
+    .progress-top strong { font-size: 14px; }
+    .progress-track { height: 8px; overflow: hidden; background: #e7edf5; border-radius: 99px; }
+    .progress-fill { width: 0; height: 100%; background: var(--accent); border-radius: 99px; transition: width .2s ease; }
+    .section-block { margin-top: 30px; }
+    .section-heading { display: flex; gap: 13px; align-items: flex-start; margin-bottom: 14px; }
+    .section-letter { width: 38px; height: 38px; display: grid; place-items: center; flex: 0 0 auto; border-radius: 11px; background: var(--accent-pale); color: var(--accent-dark); font-size: 17px; font-weight: 850; }
+    .section-heading p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+    .question-list { display: grid; gap: 12px; }
+    .question-card { box-shadow: 0 3px 11px rgba(24,42,69,.035); padding: 18px 19px; }
+    .question-title { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 13px; font-weight: 650; }
+    .question-number { display: inline-grid; place-items: center; flex: 0 0 auto; width: 29px; height: 29px; border-radius: 9px; background: #f0f3f8; color: var(--ink); font-size: 12px; font-weight: 850; }
+    .options-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; padding-left: 39px; }
+    .option-label { display: flex; align-items: flex-start; gap: 9px; min-height: 42px; padding: 9px 11px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; color: var(--ink-soft); transition: border .12s ease, background .12s ease; }
+    .option-label:hover { border-color: #aabbd0; background: #fafcff; }
+    .option-label:has(input:checked) { border-color: var(--accent); background: var(--accent-pale); color: var(--ink); }
+    .option-label input { margin: 4px 0 0; accent-color: var(--accent); flex: 0 0 auto; }
+    .tf-options { display: flex; gap: 10px; padding-left: 39px; }
+    .tf-options .option-label { min-width: 120px; align-items: center; }
+    .tf-options .option-label input { margin-top: 0; }
+    .gap-instructions { margin: 0 0 14px; padding: 13px 15px; background: #f6f8fb; border: 1px solid var(--line); border-radius: 12px; color: var(--ink-soft); font-size: 13px; }
+    .bank-title { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 9px; font-size: 12px; font-weight: 850; text-transform: uppercase; letter-spacing: .08em; }
+    .bank-count { color: var(--muted); font-size: 12px; font-weight: 650; text-transform: none; letter-spacing: 0; }
+    .word-bank { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; padding: 13px; border: 1px dashed #afbed0; border-radius: 13px; background: #fbfcfe; }
+    .word-chip { min-height: 36px; padding: 7px 11px; background: #fff; color: var(--ink); border: 1px solid #c8d5e4; border-radius: 9px; font-size: 13px; font-weight: 700; cursor: grab; user-select: none; }
+    .word-chip:hover, .word-chip.selected { border-color: var(--accent); background: var(--accent-pale); }
+    .word-chip:active { cursor: grabbing; }
+    .bank-empty { color: var(--green); font-size: 13px; padding: 6px; }
+    .selection-hint { min-height: 18px; margin: -8px 0 14px; color: var(--accent-dark); font-size: 12px; }
+    .gap-list { display: grid; gap: 10px; }
+    .gap-question { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; padding: 14px 15px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+    .gap-sentence { margin: 0; display: flex; align-items: baseline; flex-wrap: wrap; gap: 0; color: var(--ink-soft); }
+    .gap-sentence .question-number { align-self: flex-start; margin-right: 4px; }
+    .drop-slot { display: inline-flex; align-items: center; justify-content: center; min-width: 145px; min-height: 35px; max-width: 100%; margin: 0 5px; padding: 4px 10px; border: 1.5px dashed #99abc0; border-radius: 8px; background: #f8faff; color: var(--muted); font-size: 13px; font-weight: 750; vertical-align: middle; }
+    .drop-slot[data-q="21"] { margin-right: 0; }
+    .drop-slot.has-word { border-style: solid; border-color: #e5a083; background: var(--accent-pale); color: var(--ink); }
+    .drop-slot.drag-over { border-color: var(--accent); background: #ffe4d5; box-shadow: 0 0 0 3px rgba(225,85,20,.10); }
+    .gap-actions { display: flex; justify-content: flex-end; margin-top: 10px; }
+    .text-button { background: transparent; border: 0; color: var(--accent-dark); padding: 5px 3px; font-size: 12px; font-weight: 750; }
+    .submit-panel { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 15px; margin-top: 28px; padding: 19px 20px; border-radius: 15px; border: 1px solid var(--line); background: #fff; }
+    .submit-panel p { margin: 3px 0 0; color: var(--muted); font-size: 13px; }
+    .footer-note { margin: 22px 0 0; text-align: center; color: #8a97a8; font-size: 12px; }
+
+    .result-hero { padding: clamp(23px, 4vw, 38px); margin-bottom: 20px; background: var(--ink); color: #fff; border-radius: var(--radius); box-shadow: var(--shadow); }
+    .result-hero .eyebrow { color: #ffb494; }
+    .result-hero p { color: #d6dfeb; }
+    .score-layout { display: grid; grid-template-columns: minmax(155px, .7fr) minmax(0, 1.8fr); gap: 22px; align-items: center; margin-top: 22px; }
+    .score-circle { width: 148px; height: 148px; display: grid; place-content: center; text-align: center; border: 8px solid rgba(255,255,255,.18); border-top-color: #ff9b6a; border-right-color: #ff9b6a; border-radius: 50%; margin: 0 auto; }
+    .score-circle strong { font-size: 34px; line-height: 1.1; letter-spacing: -.04em; }
+    .score-circle span { font-size: 12px; color: #d4deeb; margin-top: 5px; }
+    .result-summary h2 { font-size: clamp(23px, 3.3vw, 34px); }
+    .result-summary p { margin: 8px 0 0; }
+    .result-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+    .result-meta span { border: 1px solid rgba(255,255,255,.19); padding: 6px 10px; border-radius: 99px; font-size: 12px; color: #edf2f8; }
+    .section-scores { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin-bottom: 24px; }
+    .score-card { background: #fff; border: 1px solid var(--line); border-radius: 13px; padding: 16px; }
+    .score-card span { display: block; color: var(--muted); font-size: 12px; font-weight: 700; }
+    .score-card strong { display: block; margin-top: 5px; font-size: 23px; }
+    .review-heading { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; margin: 26px 0 13px; }
+    .mistake-count { padding: 5px 9px; border-radius: 99px; background: var(--red-pale); color: var(--red); font-size: 12px; font-weight: 800; }
+    .mistake-card { margin-bottom: 10px; border: 1px solid #f0d2ce; border-radius: 13px; background: #fff; overflow: hidden; }
+    .mistake-card summary { cursor: pointer; list-style: none; padding: 15px 17px; display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+    .mistake-card summary::-webkit-details-marker { display: none; }
+    .mistake-card summary::after { content: "+"; color: var(--muted); font-size: 20px; line-height: 1; }
+    .mistake-card[open] summary::after { content: "−"; }
+    .mistake-title { display: flex; align-items: flex-start; gap: 10px; font-weight: 700; }
+    .mistake-title .question-number { background: var(--red-pale); color: var(--red); }
+    .mistake-detail { padding: 0 18px 17px 57px; color: var(--ink-soft); font-size: 13px; }
+    .answer-line { margin-top: 8px; }
+    .answer-line strong { color: var(--ink); }
+    .your-answer { color: var(--red); }
+    .correct-answer { color: var(--green); }
+    .success-card { padding: 25px; border: 1px solid #b9e5cd; border-radius: 14px; background: var(--green-pale); color: #145d3d; }
+    .success-card h3 { margin-bottom: 5px; }
+    .result-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 25px; }
+
+    @media (max-width: 640px) {
+      main { padding: 22px 12px 40px; }
+      .site-header { padding: 13px 14px; }
+      .header-tag { display: none; }
+      .test-intro { align-items: flex-start; flex-direction: column; }
+      .student-chip { width: 100%; }
+      .student-chip strong { max-width: 100%; }
+      .options-grid { grid-template-columns: 1fr; padding-left: 0; }
+      .tf-options { padding-left: 0; }
+      .question-card { padding: 15px; }
+      .question-title { margin-bottom: 12px; }
+      .score-layout { grid-template-columns: 1fr; text-align: center; }
+      .score-circle { width: 132px; height: 132px; }
+      .section-scores { grid-template-columns: 1fr; }
+      .score-card { padding: 13px 15px; }
+      .score-card strong { font-size: 20px; }
+      .drop-slot { min-width: 125px; }
+      .mistake-detail { padding-left: 17px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">U5</div>
+        <div>
+          <p class="brand-title">Vocabulary Assessment</p>
+          <p class="brand-subtitle">English · Unit 5: Student Life</p>
+        </div>
+      </div>
+      <div class="header-tag">30 questions · 30 points</div>
+    </div>
+  </header>
+
+  <main>
+    <section id="landingScreen" class="screen active" aria-labelledby="landingTitle">
+      <div class="hero-card">
+        <div class="hero-content">
+          <p class="eyebrow">Unit 5 assessment</p>
+          <h1 id="landingTitle">Vocabulary Check</h1>
+          <p class="hero-description">Student Life — check your understanding of the vocabulary from Unit 5. Read each question carefully and complete all three sections.</p>
+          <div class="stat-row" aria-label="Test information">
+            <span class="stat-pill"><strong>30</strong> questions</span>
+            <span class="stat-pill"><strong>3</strong> sections</span>
+            <span class="stat-pill"><strong>30</strong> points</span>
+          </div>
+          <form id="entryForm" class="entry-form" novalidate>
+            <label class="field-label" for="studentName">Your full name <span aria-hidden="true">*</span></label>
+            <input class="text-field" id="studentName" name="studentName" type="text" autocomplete="name" maxlength="100" placeholder="Enter your name" required />
+            <p class="form-error" id="nameError" aria-live="polite"></p>
+            <label class="field-label" for="studentClass" style="margin-top:14px;">Class <span class="muted" style="font-weight:500;">(optional)</span></label>
+            <input class="text-field" id="studentClass" name="studentClass" type="text" maxlength="60" placeholder="Enter your class" />
+            <div class="button-row">
+              <button class="btn btn-primary" id="startButton" type="submit" disabled>Start test <span aria-hidden="true">→</span></button>
+            </div>
+          </form>
+          <div class="instructions"><strong>Before you begin:</strong> Section A has multiple-choice questions. Section B has True/False statements. In Section C, drag each word from the word bank into the matching gap. You can also click a word and then click a gap.</div>
+        </div>
+      </div>
+      <p class="footer-note">Your score will be calculated automatically when you submit the test.</p>
+    </section>
+
+    <section id="testScreen" class="screen" aria-labelledby="testTitle">
+      <div class="test-intro">
+        <div>
+          <p class="eyebrow">Assessment in progress</p>
+          <h1 id="testTitle">Unit 5 Vocabulary Check</h1>
+          <p class="muted" style="margin:8px 0 0;">Answer all 30 questions. Each question is worth 1 point.</p>
+        </div>
+        <div class="student-chip"><span>Student</span><strong id="testStudentName">—</strong></div>
+      </div>
+      <div class="progress-panel" aria-live="polite">
+        <div class="progress-top"><span>Completion progress</span><strong id="progressText">0 of 30 answered</strong></div>
+        <div class="progress-track" role="progressbar" aria-label="Questions answered" aria-valuemin="0" aria-valuemax="30" aria-valuenow="0" id="progressBar"><div id="progressFill" class="progress-fill"></div></div>
+      </div>
+
+      <section class="section-block" aria-labelledby="sectionATitle">
+        <div class="section-heading">
+          <div class="section-letter" aria-hidden="true">A</div>
+          <div><h2 id="sectionATitle">Multiple Choice</h2><p>Questions 1–10 · Choose the best answer: A, B, C, or D.</p></div>
+        </div>
+        <div id="multipleChoiceList" class="question-list"></div>
+      </section>
+
+      <section class="section-block" aria-labelledby="sectionBTitle">
+        <div class="section-heading">
+          <div class="section-letter" aria-hidden="true">B</div>
+          <div><h2 id="sectionBTitle">True or False</h2><p>Questions 11–20 · Decide whether each statement is true or false.</p></div>
+        </div>
+        <div id="trueFalseList" class="question-list"></div>
+      </section>
+
+      <section class="section-block" aria-labelledby="sectionCTitle">
+        <div class="section-heading">
+          <div class="section-letter" aria-hidden="true">C</div>
+          <div><h2 id="sectionCTitle">Contextual Gap Fill</h2><p>Questions 21–30 · Complete each sentence using every word or phrase once.</p></div>
+        </div>
+        <p class="gap-instructions">Drag a word from the bank and drop it into a gap. On a touch screen, you can tap a word and then tap the gap. To remove an answer, click its gap when no word is selected. Each word can be used only once.</p>
+        <div class="bank-title"><span>Word bank</span><span id="bankCount" class="bank-count">10 words available</span></div>
+        <div id="wordBank" class="word-bank" aria-label="Draggable word bank"></div>
+        <p id="selectionHint" class="selection-hint" aria-live="polite">Select a word or drag it into a gap.</p>
+        <div id="gapFillList" class="gap-list"></div>
+        <div class="gap-actions"><button type="button" id="clearGapsButton" class="text-button">Clear all Section C answers</button></div>
+      </section>
+
+      <div class="submit-panel">
+        <div><h3>Ready to submit?</h3><p id="submitHint">You can submit even if some questions are unanswered.</p></div>
+        <button type="button" id="submitButton" class="btn btn-primary">Submit test <span aria-hidden="true">→</span></button>
+      </div>
+      <p class="footer-note">Check your answers before submitting. Your results and any mistakes will appear on the next page.</p>
+    </section>
+
+    <section id="resultScreen" class="screen" aria-labelledby="resultTitle">
+      <div class="result-hero">
+        <p class="eyebrow">Assessment complete</p>
+        <h1 id="resultTitle">Your Results</h1>
+        <div class="score-layout">
+          <div class="score-circle" aria-label="Final score"><strong id="scoreNumber">0/30</strong><span id="scorePercentage">0%</span></div>
+          <div class="result-summary">
+            <h2 id="resultGreeting">Well done.</h2>
+            <p id="resultMessage">Your test has been marked.</p>
+            <div class="result-meta"><span id="resultStudent">Student: —</span><span id="resultDate">—</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="section-scores" aria-label="Section scores">
+        <div class="score-card"><span>Section A · Multiple Choice</span><strong id="sectionAScore">0/10</strong></div>
+        <div class="score-card"><span>Section B · True or False</span><strong id="sectionBScore">0/10</strong></div>
+        <div class="score-card"><span>Section C · Gap Fill</span><strong id="sectionCScore">0/10</strong></div>
+      </div>
+      <div class="review-heading">
+        <div><p class="eyebrow" style="margin-bottom:6px;">Learn from your answers</p><h2>Mistake Review</h2></div>
+        <span id="mistakeCount" class="mistake-count">0 mistakes</span>
+      </div>
+      <div id="mistakeReview"></div>
+      <div class="result-actions">
+        <button type="button" id="retakeButton" class="btn btn-primary">Retake test</button>
+        <button type="button" id="printButton" class="btn btn-secondary">Print results</button>
+      </div>
+      <p class="footer-note">Retaking the test will clear your previous answers on this page.</p>
+    </section>
+  </main>
+
+  <script>
+    'use strict';
+
+    const multipleChoiceQuestions = [
+      { n: 1, text: 'The subjects and content taught in a course make up its ...', options: [['A', 'curriculum'], ['B', 'controversy'], ['C', 'findings'], ['D', 'resources']], answer: 'A' },
+      { n: 2, text: 'A long piece of academic writing based on research is often a ...', options: [['A', 'syllabus'], ['B', 'dissertation'], ['C', 'grade'], ['D', 'task']], answer: 'B' },
+      { n: 3, text: 'Money awarded to help a student pay for education is a ...', options: [['A', 'grant limit'], ['B', 'funding source'], ['C', 'scholarship'], ['D', 'result']], answer: 'C' },
+      { n: 4, text: 'If you are eligible for a scholarship, you ...', options: [['A', 'meet the conditions for it'], ['B', 'have already graduated'], ['C', 'cannot apply for it'], ['D', 'have failed an exam']], answer: 'A' },
+      { n: 5, text: 'A person who teaches at a university is often called a ...', options: [['A', 'tutor'], ['B', 'lecturer'], ['C', 'researcher'], ['D', 'graduate']], answer: 'B' },
+      { n: 6, text: 'To study something carefully and systematically to discover information is to ...', options: [['A', 'struggle'], ['B', 'overcome'], ['C', 'conduct'], ['D', 'research']], answer: 'D' },
+      { n: 7, text: 'The outline of the topics covered in a course is the ...', options: [['A', 'syllabus'], ['B', 'dissertation'], ['C', 'controversy'], ['D', 'scholarship']], answer: 'A' },
+      { n: 8, text: 'To complete a degree programme successfully is to ...', options: [['A', 'revise'], ['B', 'graduate'], ['C', 'consider'], ['D', 'organise']], answer: 'B' },
+      { n: 9, text: 'Study undertaken after a first university degree is ... study.', options: [['A', 'single-sex'], ['B', 'senior'], ['C', 'postgraduate'], ['D', 'mixed']], answer: 'C' },
+      { n: 10, text: 'The subject that a presentation focuses on is its ...', options: [['A', 'topic'], ['B', 'grant'], ['C', 'grade'], ['D', 'limit']], answer: 'A' }
+    ];
+
+    const trueFalseQuestions = [
+      { n: 11, text: 'A curriculum describes what is taught in a course or school.', answer: 'True' },
+      { n: 12, text: 'Homework is work that students complete only during lessons.', answer: 'False' },
+      { n: 13, text: 'A scholarship is money awarded to support a student\'s education.', answer: 'True' },
+      { n: 14, text: 'Research findings are the results or conclusions of an investigation.', answer: 'True' },
+      { n: 15, text: 'A lecturer teaches at a college or university.', answer: 'True' },
+      { n: 16, text: 'A dissertation is usually a long piece of academic writing based on research.', answer: 'True' },
+      { n: 17, text: 'Eligible means that someone does not meet the conditions for something.', answer: 'False' },
+      { n: 18, text: 'A syllabus gives an outline of what a course covers.', answer: 'True' },
+      { n: 19, text: 'To overcome a difficulty means to make it worse and give up.', answer: 'False' },
+      { n: 20, text: 'A nursery is a place where very young children may be cared for or educated.', answer: 'True' }
+    ];
+
+    const wordBankWords = ['assignment', 'concentrate', 'findings', 'funding', 'postgraduate', 'revise', 'resources', 'scholarship', 'topic', 'overcome'];
+    const gapQuestions = [
+      { n: 21, before: 'Before Friday, please submit your written', after: ' for the course.', answer: 'assignment' },
+      { n: 22, before: 'It was difficult to', after: ' on the lecture because construction outside was noisy.', answer: 'concentrate' },
+      { n: 23, before: 'The research', after: ' showed that regular practice improved students\' scores.', answer: 'findings' },
+      { n: 24, before: 'The project was delayed because it did not have enough', after: ' to pay for the work.', answer: 'funding' },
+      { n: 25, before: 'After earning a bachelor\'s degree, he applied for a', after: ' programme.', answer: 'postgraduate' },
+      { n: 26, before: 'I should', after: ' my notes before the exam so I remember the key ideas.', answer: 'revise' },
+      { n: 27, before: 'The teacher shared useful online', after: ', including articles, videos, and practice tasks.', answer: 'resources' },
+      { n: 28, before: 'She received a', after: ' that covered her tuition fees.', answer: 'scholarship' },
+      { n: 29, before: 'Our presentation\'s main', after: ' is how technology affects learning.', answer: 'topic' },
+      { n: 30, before: 'With support and practice, she managed to', after: ' her fear of speaking in class.', answer: 'overcome' }
+    ];
+
+    const state = {
+      studentName: '',
+      studentClass: '',
+      answers: {},
+      gapAnswers: {},
+      selectedWord: null,
+      result: null
+    };
+
+    const $ = (selector, root = document) => root.querySelector(selector);
+    const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+    }
+
+    function showScreen(screenId) {
+      $$('.screen').forEach(screen => {
+        const active = screen.id === screenId;
+        screen.classList.toggle('active', active);
+        screen.setAttribute('aria-hidden', String(!active));
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderMultipleChoice() {
+      $('#multipleChoiceList').innerHTML = multipleChoiceQuestions.map(q => `
+        <article class="question-card">
+          <div class="question-title"><span class="question-number">${q.n}</span><span>${escapeHtml(q.text)}</span></div>
+          <div class="options-grid" role="group" aria-label="Question ${q.n} answers">
+            ${q.options.map(([letter, text]) => `
+              <label class="option-label">
+                <input type="radio" name="q${q.n}" value="${letter}" />
+                <span><strong>${letter}.</strong> ${escapeHtml(text)}</span>
+              </label>`).join('')}
+          </div>
+        </article>`).join('');
+    }
+
+    function renderTrueFalse() {
+      $('#trueFalseList').innerHTML = trueFalseQuestions.map(q => `
+        <article class="question-card">
+          <div class="question-title"><span class="question-number">${q.n}</span><span>${escapeHtml(q.text)}</span></div>
+          <div class="tf-options" role="group" aria-label="Question ${q.n} answer">
+            ${['True', 'False'].map(value => `
+              <label class="option-label">
+                <input type="radio" name="q${q.n}" value="${value}" />
+                <span>${value}</span>
+              </label>`).join('')}
+          </div>
+        </article>`).join('');
+    }
+
+    function renderGapQuestions() {
+      $('#gapFillList').innerHTML = gapQuestions.map(q => `
+        <article class="gap-question">
+          <p class="gap-sentence"><span class="question-number">${q.n}</span><span>${escapeHtml(q.before)}</span>
+            <button type="button" class="drop-slot" data-q="${q.n}" aria-label="Answer for question ${q.n}" aria-describedby="selectionHint">Drop a word here</button>
+            <span>${escapeHtml(q.after.trimStart())}</span>
+          </p>
+        </article>`).join('');
+      renderGapState();
+    }
+
+    function renderWordBank() {
+      const usedWords = new Set(Object.values(state.gapAnswers));
+      const availableWords = wordBankWords.filter(word => !usedWords.has(word));
+      $('#bankCount').textContent = `${availableWords.length} ${availableWords.length === 1 ? 'word' : 'words'} available`;
+      if (availableWords.length === 0) {
+        $('#wordBank').innerHTML = '<span class="bank-empty">All words have been placed. You can still move or replace an answer.</span>';
+      } else {
+        $('#wordBank').innerHTML = availableWords.map(word => `
+          <button type="button" draggable="true" class="word-chip ${state.selectedWord === word ? 'selected' : ''}" data-word="${escapeHtml(word)}" aria-pressed="${state.selectedWord === word ? 'true' : 'false'}">${escapeHtml(word)}</button>`).join('');
+      }
+    }
+
+    function renderGapState() {
+      $$('.drop-slot').forEach(slot => {
+        const q = Number(slot.dataset.q);
+        const word = state.gapAnswers[q];
+        slot.textContent = word || 'Drop a word here';
+        slot.classList.toggle('has-word', Boolean(word));
+        slot.setAttribute('aria-label', word ? `Question ${q}: ${word}. Click to remove, or select another word to replace it.` : `Question ${q}: empty answer gap`);
+      });
+      renderWordBank();
+      updateProgress();
+    }
+
+    function assignWord(questionNumber, word) {
+      if (!wordBankWords.includes(word)) return;
+      const current = state.gapAnswers[questionNumber];
+      if (current === word) {
+        state.selectedWord = null;
+        $('#selectionHint').textContent = `${word} is already in question ${questionNumber}.`;
+        renderGapState();
+        return;
+      }
+      // Moving a word clears its old gap; replacing an answer returns the old word to the bank.
+      for (const [q, assignedWord] of Object.entries(state.gapAnswers)) {
+        if (assignedWord === word) delete state.gapAnswers[q];
+      }
+      state.gapAnswers[questionNumber] = word;
+      state.selectedWord = null;
+      $('#selectionHint').textContent = `Answer placed in question ${questionNumber}.`;
+      renderGapState();
+    }
+
+    function clearGap(questionNumber) {
+      if (state.gapAnswers[questionNumber]) {
+        delete state.gapAnswers[questionNumber];
+        $('#selectionHint').textContent = `Answer removed from question ${questionNumber}.`;
+        renderGapState();
+      }
+    }
+
+    function updateProgress() {
+      const countMC = multipleChoiceQuestions.filter(q => Boolean(state.answers[q.n])).length;
+      const countTF = trueFalseQuestions.filter(q => Boolean(state.answers[q.n])).length;
+      const countGaps = gapQuestions.filter(q => Boolean(state.gapAnswers[q.n])).length;
+      const total = countMC + countTF + countGaps;
+      $('#progressText').textContent = `${total} of 30 answered`;
+      $('#progressFill').style.width = `${(total / 30) * 100}%`;
+      $('#progressBar').setAttribute('aria-valuenow', String(total));
+      $('#submitHint').textContent = total === 30 ? 'All questions have an answer. Submit when you are ready.' : `${30 - total} ${30 - total === 1 ? 'question remains' : 'questions remain'} unanswered. You can still submit.`;
+    }
+
+    function startTest(event) {
+      event.preventDefault();
+      const name = $('#studentName').value.trim();
+      if (!name) {
+        $('#nameError').textContent = 'Please enter your name before starting the test.';
+        $('#studentName').focus();
+        return;
+      }
+      state.studentName = name;
+      state.studentClass = $('#studentClass').value.trim();
+      state.answers = {};
+      state.gapAnswers = {};
+      state.selectedWord = null;
+      state.result = null;
+      $('#testStudentName').textContent = state.studentName;
+      // Clear any controls in case the student has retaken the test.
+      $$('input[type="radio"]', $('#testScreen')).forEach(input => { input.checked = false; });
+      $('#selectionHint').textContent = 'Select a word or drag it into a gap.';
+      renderGapState();
+      updateProgress();
+      showScreen('testScreen');
+    }
+
+    function answerText(questionNumber, answer) {
+      if (answer === undefined || answer === null || answer === '') return 'Not answered';
+      if (questionNumber >= 1 && questionNumber <= 10) {
+        const q = multipleChoiceQuestions.find(item => item.n === questionNumber);
+        const option = q.options.find(item => item[0] === answer);
+        return option ? `${answer}. ${option[1]}` : String(answer);
+      }
+      return String(answer);
+    }
+
+    function getQuestionText(qNumber) {
+      if (qNumber <= 10) return multipleChoiceQuestions.find(q => q.n === qNumber).text;
+      if (qNumber <= 20) return trueFalseQuestions.find(q => q.n === qNumber).text;
+      const q = gapQuestions.find(item => item.n === qNumber);
+      return `${q.before} _____ ${q.after}`.replace(/\s+\./g, '.').replace(/\s+,/g, ',');
+    }
+
+    function markTest() {
+      const unanswered = 30 - (
+        multipleChoiceQuestions.filter(q => Boolean(state.answers[q.n])).length +
+        trueFalseQuestions.filter(q => Boolean(state.answers[q.n])).length +
+        gapQuestions.filter(q => Boolean(state.gapAnswers[q.n])).length
+      );
+      if (unanswered > 0 && !window.confirm(`You have ${unanswered} unanswered ${unanswered === 1 ? 'question' : 'questions'}. Unanswered questions receive 0 points. Submit anyway?`)) return;
+
+      const records = [];
+      multipleChoiceQuestions.forEach(q => {
+        const userAnswer = state.answers[q.n] || '';
+        const option = q.options.find(item => item[0] === q.answer);
+        records.push({ n: q.n, section: 'A', question: q.text, userAnswer, userDisplay: answerText(q.n, userAnswer), correctAnswer: q.answer, correctDisplay: `${q.answer}. ${option[1]}`, correct: userAnswer === q.answer });
+      });
+      trueFalseQuestions.forEach(q => {
+        const userAnswer = state.answers[q.n] || '';
+        records.push({ n: q.n, section: 'B', question: q.text, userAnswer, userDisplay: answerText(q.n, userAnswer), correctAnswer: q.answer, correctDisplay: q.answer, correct: userAnswer === q.answer });
+      });
+      gapQuestions.forEach(q => {
+        const userAnswer = state.gapAnswers[q.n] || '';
+        records.push({ n: q.n, section: 'C', question: `${q.before} _____ ${q.after}`.replace(/\s+\./g, '.').replace(/\s+,/g, ','), userAnswer, userDisplay: answerText(q.n, userAnswer), correctAnswer: q.answer, correctDisplay: q.answer, correct: userAnswer === q.answer });
+      });
+      const sectionScores = {
+        A: records.filter(r => r.section === 'A' && r.correct).length,
+        B: records.filter(r => r.section === 'B' && r.correct).length,
+        C: records.filter(r => r.section === 'C' && r.correct).length
+      };
+      const total = records.filter(r => r.correct).length;
+      state.result = { records, sectionScores, total, percentage: Math.round((total / 30) * 100), date: new Date() };
+      renderResults();
+      showScreen('resultScreen');
+    }
+
+    function renderResults() {
+      const result = state.result;
+      if (!result) return;
+      const { total, percentage, sectionScores } = result;
+      $('#scoreNumber').textContent = `${total}/30`;
+      $('#scorePercentage').textContent = `${percentage}%`;
+      $('#resultStudent').textContent = `Student: ${state.studentName}${state.studentClass ? ` · ${state.studentClass}` : ''}`;
+      $('#resultDate').textContent = result.date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+      $('#sectionAScore').textContent = `${sectionScores.A}/10`;
+      $('#sectionBScore').textContent = `${sectionScores.B}/10`;
+      $('#sectionCScore').textContent = `${sectionScores.C}/10`;
+      let greeting = 'Keep practising.';
+      let message = 'Review the answers below to see which vocabulary items need more practice.';
+      if (percentage === 100) { greeting = 'Excellent work, ' + state.studentName.split(/\s+/)[0] + '!'; message = 'You answered every question correctly. You have mastered this vocabulary check.'; }
+      else if (percentage >= 80) { greeting = 'Very good work, ' + state.studentName.split(/\s+/)[0] + '!'; message = 'You have a strong understanding of this vocabulary. Review the missed items below.'; }
+      else if (percentage >= 60) { greeting = 'Good effort, ' + state.studentName.split(/\s+/)[0] + '.'; message = 'You know some of the vocabulary well. Use the mistake review to strengthen the items you missed.'; }
+      else { greeting = 'Keep going, ' + state.studentName.split(/\s+/)[0] + '.'; message = 'Use the corrected answers below to revise the vocabulary, then try the test again.'; }
+      $('#resultGreeting').textContent = greeting;
+      $('#resultMessage').textContent = message;
+      // The ring's arc reflects the percentage while keeping a minimum contrast for low scores.
+      const circle = $('.score-circle');
+      circle.style.background = `conic-gradient(from 0deg, rgba(255,155,106,${Math.max(.35, percentage / 100)}) ${percentage * 3.6}deg, rgba(255,255,255,.06) ${percentage * 3.6}deg)`;
+
+      const mistakes = result.records.filter(record => !record.correct);
+      $('#mistakeCount').textContent = `${mistakes.length} ${mistakes.length === 1 ? 'mistake' : 'mistakes'}`;
+      if (mistakes.length === 0) {
+        $('#mistakeReview').innerHTML = '<div class="success-card"><h3>Perfect score — no mistakes.</h3><p style="margin:0;">All 30 answers are correct. There is nothing to review.</p></div>';
+      } else {
+        $('#mistakeReview').innerHTML = mistakes.map(record => `
+          <details class="mistake-card">
+            <summary>
+              <span class="mistake-title"><span class="question-number">${record.n}</span><span>${escapeHtml(record.question)}</span></span>
+            </summary>
+            <div class="mistake-detail">
+              <div class="answer-line"><strong>Your answer:</strong> <span class="your-answer">${escapeHtml(record.userDisplay)}</span></div>
+              <div class="answer-line"><strong>Correct answer:</strong> <span class="correct-answer">${escapeHtml(record.correctDisplay)}</span></div>
+            </div>
+          </details>`).join('');
+      }
+    }
+
+    function resetForRetake() {
+      state.answers = {};
+      state.gapAnswers = {};
+      state.selectedWord = null;
+      state.result = null;
+      $('#entryForm').reset();
+      $('#startButton').disabled = true;
+      $('#nameError').textContent = '';
+      $('#multipleChoiceList').innerHTML = '';
+      $('#trueFalseList').innerHTML = '';
+      $('#gapFillList').innerHTML = '';
+      renderMultipleChoice();
+      renderTrueFalse();
+      renderGapQuestions();
+      updateProgress();
+      $('#studentName').focus();
+      showScreen('landingScreen');
+    }
+
+    $('#studentName').addEventListener('input', () => {
+      const valid = Boolean($('#studentName').value.trim());
+      $('#startButton').disabled = !valid;
+      if (valid) $('#nameError').textContent = '';
+    });
+    $('#entryForm').addEventListener('submit', startTest);
+
+    $('#testScreen').addEventListener('change', event => {
+      const input = event.target;
+      if (input.matches('input[type="radio"]')) {
+        const questionNumber = Number(input.name.slice(1));
+        state.answers[questionNumber] = input.value;
+        updateProgress();
+      }
+    });
+
+    $('#wordBank').addEventListener('click', event => {
+      const chip = event.target.closest('[data-word]');
+      if (!chip) return;
+      state.selectedWord = chip.dataset.word;
+      $('#selectionHint').textContent = `Selected “${state.selectedWord}”. Now click a gap, or drag the word directly.`;
+      renderWordBank();
+    });
+    $('#wordBank').addEventListener('dragstart', event => {
+      const chip = event.target.closest('[data-word]');
+      if (!chip) return;
+      event.dataTransfer.setData('text/plain', chip.dataset.word);
+      event.dataTransfer.effectAllowed = 'move';
+      state.selectedWord = chip.dataset.word;
+      $('#selectionHint').textContent = `Move “${state.selectedWord}” to a gap.`;
+    });
+    $('#wordBank').addEventListener('dragend', () => {
+      state.selectedWord = null;
+      renderWordBank();
+    });
+    $('#gapFillList').addEventListener('dragover', event => {
+      const slot = event.target.closest('.drop-slot');
+      if (!slot) return;
+      event.preventDefault();
+      event.dataTransfer.dropEffect = 'move';
+      slot.classList.add('drag-over');
+    });
+    $('#gapFillList').addEventListener('dragleave', event => {
+      const slot = event.target.closest('.drop-slot');
+      if (slot && !slot.contains(event.relatedTarget)) slot.classList.remove('drag-over');
+    });
+    $('#gapFillList').addEventListener('drop', event => {
+      const slot = event.target.closest('.drop-slot');
+      if (!slot) return;
+      event.preventDefault();
+      slot.classList.remove('drag-over');
+      const word = event.dataTransfer.getData('text/plain');
+      assignWord(Number(slot.dataset.q), word);
+    });
+    $('#gapFillList').addEventListener('click', event => {
+      const slot = event.target.closest('.drop-slot');
+      if (!slot) return;
+      const q = Number(slot.dataset.q);
+      if (state.selectedWord) assignWord(q, state.selectedWord);
+      else clearGap(q);
+    });
+    $('#clearGapsButton').addEventListener('click', () => {
+      state.gapAnswers = {};
+      state.selectedWord = null;
+      $('#selectionHint').textContent = 'Section C answers cleared. Select or drag words into the gaps.';
+      renderGapState();
+    });
+    $('#submitButton').addEventListener('click', markTest);
+    $('#retakeButton').addEventListener('click', resetForRetake);
+    $('#printButton').addEventListener('click', () => window.print());
+
+    // Initialize the full test behind the landing page.
+    renderMultipleChoice();
+    renderTrueFalse();
+    renderGapQuestions();
+    updateProgress();
+  </script>
+  <style>
+    @media print {
+      body { background: #fff; }
+      .site-header, #landingScreen, #testScreen, .result-actions, .footer-note { display: none !important; }
+      #resultScreen { display: block !important; }
+      main { max-width: none; padding: 0; }
+      .result-hero { background: #fff; color: #182a45; border: 1px solid #dce4ee; box-shadow: none; }
+      .result-hero p, .result-meta span, .score-circle span { color: #40516a; }
+      .score-circle { border-color: #e15514; background: #fff !important; }
+      .score-circle strong, .result-summary h2 { color: #182a45; }
+      .mistake-card { break-inside: avoid; }
+      .mistake-card > summary::after { display: none; }
+      .mistake-card:not([open]) .mistake-detail { display: block; }
+    }
+  </style>
+</body>
+</html>
