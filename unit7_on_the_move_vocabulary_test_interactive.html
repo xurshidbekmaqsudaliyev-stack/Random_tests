@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#155e75" />
+<title>Unit 7: On the Move | Vocabulary Test</title>
+<style>
+  :root {
+    --ink: #152536;
+    --muted: #64748b;
+    --line: #dbe5ec;
+    --paper: #ffffff;
+    --bg: #f2f7fa;
+    --brand: #155e75;
+    --brand-dark: #10485a;
+    --brand-soft: #e4f4f7;
+    --accent: #e15514;
+    --good: #167647;
+    --good-bg: #e9f8ef;
+    --bad: #b42318;
+    --bad-bg: #fff0ee;
+    --shadow: 0 14px 45px rgba(19, 45, 67, .09);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); line-height: 1.5; }
+  button, input { font: inherit; }
+  button { cursor: pointer; }
+  .topbar { background: linear-gradient(115deg, #10485a, #155e75 65%, #1e7c8f); color: white; padding: 20px 24px; }
+  .topbar-inner { width: min(1040px, 100%); margin: 0 auto; display: flex; justify-content: space-between; gap: 16px; align-items: center; }
+  .eyebrow { text-transform: uppercase; letter-spacing: .12em; font-size: .75rem; font-weight: 800; opacity: .82; }
+  .brand-title { margin: 2px 0 0; font-size: clamp(1.18rem, 3vw, 1.55rem); font-weight: 800; }
+  .top-meta { text-align: right; font-size: .88rem; opacity: .9; white-space: nowrap; }
+  main { width: min(1040px, calc(100% - 28px)); margin: 30px auto 50px; }
+  .screen { display: none; animation: appear .2s ease-out; }
+  .screen.active { display: block; }
+  @keyframes appear { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+  .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); overflow: hidden; }
+  .hero { padding: clamp(25px, 5vw, 48px); }
+  .hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 34px; align-items: center; }
+  .pill { display: inline-flex; gap: 8px; align-items: center; border-radius: 999px; background: var(--brand-soft); color: var(--brand-dark); padding: 7px 12px; font-size: .8rem; font-weight: 800; }
+  h1 { margin: 15px 0 12px; line-height: 1.12; font-size: clamp(2rem, 5vw, 3.15rem); letter-spacing: -.04em; }
+  .intro { color: var(--muted); font-size: 1.05rem; max-width: 52ch; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 28px; }
+  .stat { background: #f7fafc; border: 1px solid var(--line); border-radius: 14px; padding: 14px 12px; }
+  .stat strong { display: block; font-size: 1.3rem; color: var(--brand); }
+  .stat span { color: var(--muted); font-size: .78rem; }
+  .form-card { background: #f8fbfc; border: 1px solid var(--line); border-radius: 18px; padding: 22px; }
+  .form-card h2 { margin: 0 0 6px; font-size: 1.2rem; }
+  .form-card p { margin: 0 0 18px; color: var(--muted); font-size: .9rem; }
+  label { display: block; margin: 14px 0 6px; font-size: .88rem; font-weight: 750; }
+  input[type="text"] { width: 100%; border: 1px solid #c7d4dd; border-radius: 11px; padding: 12px 13px; background: #fff; color: var(--ink); outline: none; }
+  input[type="text"]:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(21,94,117,.12); }
+  .hint { min-height: 19px; color: var(--bad); font-size: .8rem; margin: 6px 0 0; }
+  .btn { border: 0; border-radius: 12px; padding: 12px 17px; font-weight: 800; transition: transform .12s ease, background .12s ease; }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--brand); color: white; }
+  .btn-primary:hover:not(:disabled) { background: var(--brand-dark); }
+  .btn-secondary { color: var(--brand-dark); background: var(--brand-soft); border: 1px solid #c7e5eb; }
+  .btn-ghost { color: var(--muted); background: transparent; border: 1px solid var(--line); }
+  .btn:disabled { cursor: not-allowed; opacity: .45; }
+  .btn-full { width: 100%; margin-top: 16px; }
+  .instructions { display: grid; gap: 12px; margin: 23px 0 0; }
+  .instruction { display: flex; gap: 11px; align-items: flex-start; color: #405468; font-size: .9rem; }
+  .instruction-num { flex: 0 0 26px; height: 26px; border-radius: 8px; background: #edf4f8; color: var(--brand); display: grid; place-items: center; font-weight: 900; font-size: .8rem; }
+  .test-heading { padding: 24px 26px 20px; border-bottom: 1px solid var(--line); }
+  .test-heading-top { display:flex; align-items:flex-start; justify-content:space-between; gap: 16px; }
+  .test-heading h1 { margin: 0 0 5px; font-size: clamp(1.55rem, 3vw, 2rem); letter-spacing: -.025em; }
+  .candidate { color: var(--muted); font-size: .9rem; }
+  .counter { flex: 0 0 auto; background: var(--brand-soft); color: var(--brand-dark); padding: 7px 11px; border-radius: 10px; font-size: .85rem; font-weight: 800; }
+  .progress-wrap { height: 7px; background: #eaf0f4; border-radius: 99px; margin-top: 18px; overflow: hidden; }
+  .progress { height: 100%; background: linear-gradient(90deg, var(--brand), #31a5ac); width: 0%; transition: width .15s ease; }
+  .test-body { padding: 20px 26px 28px; }
+  .part { margin: 6px 0 27px; }
+  .part-title { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom: 13px; }
+  .part-title h2 { margin: 0; font-size: 1.08rem; }
+  .part-score { color: var(--muted); font-size: .8rem; font-weight: 750; }
+  .question { border: 1px solid var(--line); border-radius: 15px; padding: 16px; margin: 11px 0; background: #fff; }
+  .question.answered { border-color: #bfdde3; }
+  .q-top { display:flex; align-items:flex-start; gap: 10px; }
+  .q-number { background: #edf4f8; color: var(--brand-dark); font-size: .78rem; font-weight: 900; min-width: 31px; height: 29px; border-radius: 9px; display:grid; place-items:center; }
+  .q-text { font-weight: 650; flex: 1; }
+  .options { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; margin: 13px 0 0 41px; }
+  .option { border: 1px solid #d6e1e8; background: #fbfdfe; border-radius: 10px; padding: 10px 12px; text-align:left; color: var(--ink); display:flex; align-items:flex-start; gap: 9px; min-height: 44px; }
+  .option:hover { border-color: #85bbc6; background: #f6fcfd; }
+  .option.selected { border-color: var(--brand); background: var(--brand-soft); box-shadow: inset 0 0 0 1px var(--brand); }
+  .option-letter { flex: 0 0 23px; height:23px; display:grid; place-items:center; border-radius:7px; background:#eef2f6; font-size:.77rem; font-weight:900; }
+  .option.selected .option-letter { background: var(--brand); color:white; }
+  .wordbank { border: 1px dashed #a7cbd2; border-radius: 13px; padding: 13px; background: #f7fcfd; margin: 0 0 13px 41px; }
+  .wordbank-label { font-size: .79rem; font-weight: 850; color: var(--brand-dark); margin-bottom: 10px; }
+  .wordbank-items { display:flex; gap:8px; flex-wrap:wrap; }
+  .word-chip { background: white; color: var(--brand-dark); border: 1px solid #bcd8de; border-radius: 999px; padding: 7px 11px; font-size: .85rem; font-weight: 750; user-select: none; cursor: grab; }
+  .word-chip:focus { outline: 3px solid rgba(21,94,117,.2); }
+  .word-chip.used { opacity: .42; text-decoration: line-through; cursor: not-allowed; }
+  .gap-sentence { margin: 13px 0 0 41px; line-height: 2.1; }
+  .gap-slot { display:inline-flex; vertical-align:middle; justify-content:center; align-items:center; min-width: 125px; min-height: 35px; margin: 2px 4px; padding: 2px 10px; border: 1.5px dashed #80b4c0; border-radius: 8px; background: #f5fbfc; color: var(--brand-dark); font-size: .9rem; font-weight: 800; cursor:pointer; }
+  .gap-slot.filled { border-style:solid; background:var(--brand-soft); }
+  .gap-slot.drag-over { background:#d6f1f5; border-color:var(--brand); }
+  .gap-slot:focus { outline: 3px solid rgba(21,94,117,.18); }
+  .gap-help { color: var(--muted); font-size: .8rem; margin: 8px 0 0 41px; }
+  .test-footer { display:flex; justify-content:space-between; align-items:center; gap:12px; padding-top:18px; border-top:1px solid var(--line); }
+  .footer-note { color:var(--muted); font-size:.82rem; }
+  .result-hero { padding: 30px; background: linear-gradient(125deg, #10485a, #155e75); color: white; }
+  .result-hero h1 { font-size: clamp(1.9rem, 4vw, 2.7rem); margin: 8px 0; }
+  .result-sub { opacity: .85; margin:0; }
+  .score-row { display:flex; align-items:center; flex-wrap:wrap; gap:22px; margin-top:22px; }
+  .score-circle { width:112px; height:112px; border:7px solid rgba(255,255,255,.26); border-top-color: #fff; border-right-color:#fff; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .score-circle strong { font-size:1.9rem; line-height:1.05; }
+  .score-circle span { font-size:.76rem; opacity:.85; }
+  .score-extra { display:flex; gap:24px; }
+  .score-extra strong { display:block; font-size:1.5rem; }
+  .score-extra span { opacity:.8; font-size:.82rem; }
+  .result-content { padding: 25px 26px 30px; }
+  .result-content h2 { margin: 0 0 14px; font-size:1.25rem; }
+  .section-scores { display:grid; grid-template-columns: repeat(3,1fr); gap:11px; margin-bottom:28px; }
+  .section-score { border:1px solid var(--line); border-radius:13px; padding:14px; }
+  .section-score span { display:block; color:var(--muted); font-size:.8rem; }
+  .section-score strong { display:block; font-size:1.3rem; margin-top:4px; }
+  .review-summary { margin:0 0 16px; color:var(--muted); font-size:.9rem; }
+  .review-item { border:1px solid var(--line); border-radius:13px; padding:15px; margin:10px 0; }
+  .review-item.correct { border-color:#c7e8d4; background:#fbfffc; }
+  .review-item.incorrect { border-color:#f2c6c2; background:#fffdfd; }
+  .review-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
+  .review-question { font-weight:750; }
+  .status { font-size:.75rem; font-weight:900; border-radius:999px; padding:4px 9px; white-space:nowrap; }
+  .status.good { color:var(--good); background:var(--good-bg); }
+  .status.bad { color:var(--bad); background:var(--bad-bg); }
+  .review-answer { margin-top:10px; font-size:.9rem; color:#4a5b6d; }
+  .review-answer strong { color:var(--ink); }
+  .no-mistakes { border:1px solid #c7e8d4; border-radius:13px; padding:18px; background:var(--good-bg); color:var(--good); font-weight:700; }
+  .result-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+  .footnote { font-size:.77rem; color:var(--muted); margin-top:21px; }
+  @media (max-width: 760px) {
+    .topbar-inner { align-items:flex-start; }
+    .top-meta { white-space:normal; font-size:.78rem; }
+    main { margin-top: 15px; }
+    .hero-grid { grid-template-columns:1fr; }
+    .form-card { padding:19px; }
+    .test-heading, .test-body, .result-content { padding-left:16px; padding-right:16px; }
+    .options { grid-template-columns:1fr; margin-left:0; }
+    .wordbank, .gap-sentence, .gap-help { margin-left:0; }
+    .q-top { gap:8px; }
+    .test-footer { align-items:stretch; flex-direction:column; }
+    .test-footer .btn { width:100%; }
+    .section-scores { grid-template-columns:1fr; }
+    .score-row { gap:16px; }
+    .score-extra { gap:16px; }
+  }
+  @media print {
+    body { background:white; }
+    .topbar, #landing, #test-screen, .result-actions, .footnote { display:none !important; }
+    main { width:100%; margin:0; }
+    #result-screen { display:block !important; }
+    .panel { box-shadow:none; border:0; }
+    .result-hero { background:white; color:#152536; padding:0 0 20px; }
+    .result-sub, .score-extra span { opacity:1; }
+    .score-circle { border-color:#155e75; }
+    .result-item { break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div>
+      <div class="eyebrow">Vocabulary Assessment</div>
+      <div class="brand-title">Unit 7: On the Move</div>
+    </div>
+    <div class="top-meta">30 questions · 30 points<br/>Multiple choice &amp; gap fill</div>
+  </div>
+</header>
+<main>
+  <section id="landing" class="screen active">
+    <div class="panel hero">
+      <div class="hero-grid">
+        <div>
+          <span class="pill">UNIT 7 <span aria-hidden="true">/</span> ON THE MOVE</span>
+          <h1>Vocabulary Test</h1>
+          <p class="intro">Check your knowledge of travel, places, tourism, and movement. Answer all 30 questions and review your results at the end.</p>
+          <div class="stats">
+            <div class="stat"><strong>30</strong><span>Questions</span></div>
+            <div class="stat"><strong>30</strong><span>Total points</span></div>
+            <div class="stat"><strong>2</strong><span>Question formats</span></div>
+          </div>
+          <div class="instructions">
+            <div class="instruction"><span class="instruction-num">1</span><span>Enter your name to unlock the test. Class is optional.</span></div>
+            <div class="instruction"><span class="instruction-num">2</span><span>Choose an answer for multiple-choice questions. For gap-fill, drag a word to a gap or tap a word and then tap a gap.</span></div>
+            <div class="instruction"><span class="instruction-num">3</span><span>Submit your answers to see your score, section scores, and corrections.</span></div>
+          </div>
+        </div>
+        <form id="student-form" class="form-card" novalidate>
+          <h2>Student details</h2>
+          <p>Your name is required to begin the test.</p>
+          <label for="student-name">Full name <span aria-hidden="true" style="color:var(--bad)">*</span></label>
+          <input id="student-name" type="text" autocomplete="name" maxlength="100" placeholder="Enter your full name" required />
+          <div id="name-hint" class="hint" aria-live="polite"></div>
+          <label for="student-class">Class (optional)</label>
+          <input id="student-class" type="text" maxlength="60" placeholder="e.g. Group B2" />
+          <button id="start-button" class="btn btn-primary btn-full" type="submit" disabled>Start test <span aria-hidden="true">→</span></button>
+          <p style="margin:12px 0 0; font-size:.77rem; color:var(--muted)">Your answers are marked in this browser. No account or internet connection is required.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="test-screen" class="screen">
+    <div class="panel">
+      <div class="test-heading">
+        <div class="test-heading-top">
+          <div>
+            <h1>Unit 7: On the Move</h1>
+            <div id="candidate-line" class="candidate"></div>
+          </div>
+          <div id="answered-counter" class="counter" aria-live="polite">0 / 30 answered</div>
+        </div>
+        <div class="progress-wrap" aria-label="Test completion progress"><div id="progress" class="progress"></div></div>
+      </div>
+      <div class="test-body">
+        <div id="questions-container"></div>
+        <div class="test-footer">
+          <div class="footer-note">Each question is worth 1 point. You can change your answers before submitting.</div>
+          <button id="submit-button" class="btn btn-primary" type="button">Submit test and see results</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="result-screen" class="screen">
+    <div class="panel">
+      <div class="result-hero">
+        <div class="eyebrow">Test complete</div>
+        <h1 id="result-title">Your results</h1>
+        <p id="result-subtitle" class="result-sub"></p>
+        <div class="score-row">
+          <div class="score-circle"><strong id="score-value">0/30</strong><span>points</span></div>
+          <div class="score-extra">
+            <div><strong id="percentage-value">0%</strong><span>Percentage</span></div>
+            <div><strong id="correct-value">0</strong><span>Correct answers</span></div>
+            <div><strong id="incorrect-value">0</strong><span>To review</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="result-content">
+        <h2>Section scores</h2>
+        <div id="section-scores" class="section-scores"></div>
+        <h2>Review your answers</h2>
+        <p id="review-summary" class="review-summary"></p>
+        <div id="review-list"></div>
+        <div class="result-actions">
+          <button id="retake-button" class="btn btn-primary" type="button">Retake test</button>
+          <button id="print-button" class="btn btn-secondary" type="button">Print results</button>
+          <button id="back-button" class="btn btn-ghost" type="button">Back to landing page</button>
+        </div>
+        <p class="footnote">Your result is calculated from the answer key used in this interactive file. Results are not automatically sent to a teacher or saved to a server.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+(() => {
+  'use strict';
+  const questions = [
+    {id:1, section:'Part 1 - Multiple Choice', type:'mc', text:'Willing to try new and exciting things.', options:['Adventurous','Coastal','Diverse','Local'], answer:0},
+    {id:2, section:'Part 1 - Multiple Choice', type:'mc', text:'A place that people plan to visit.', options:['Peak','Destination','Effect','Community'], answer:1},
+    {id:3, section:'Part 1 - Multiple Choice', type:'mc', text:'Extremely impressive and beautiful, especially a view.', options:['Rough','Tough','Breathtaking','Polluted'], answer:2},
+    {id:4, section:'Part 1 - Multiple Choice', type:'mc', text:'Travel that aims to protect nature and support local people.', options:['Eco-tourism','Urban tourism','Luxurious accommodation','Public transport'], answer:0},
+    {id:5, section:'Part 1 - Multiple Choice', type:'mc', text:'A person who lives in a particular place, rather than just visits it.', options:['Tourist','Inhabitant','Travelling','Attraction'], answer:1},
+    {id:6, section:'Part 2 - Gap Fill', type:'gap', text:'Our hotel provides excellent ___, including a swimming pool, a gym and a laundry room.', bank:'bank1', answer:'facilities'},
+    {id:7, section:'Part 2 - Gap Fill', type:'gap', text:'Before leaving, I checked the ___ to see which museums we would visit each day.', bank:'bank1', answer:'itinerary'},
+    {id:8, section:'Part 2 - Gap Fill', type:'gap', text:'Please put your suitcases in the coach; all your ___ must fit in the storage area.', bank:'bank1', answer:'luggage'},
+    {id:9, section:'Part 2 - Gap Fill', type:'gap', text:'We booked ___ near the station because we needed somewhere to sleep each night.', bank:'bank1', answer:'accommodation'},
+    {id:10, section:'Part 2 - Gap Fill', type:'gap', text:'The climbers reached the ___ of the mountain just before sunrise.', bank:'bank1', answer:'peak'},
+    {id:11, section:'Part 3 - Multiple Choice', type:'mc', text:'Located beside the sea.', options:['Coastal','Mountainous','Urban','Rural'], answer:0},
+    {id:12, section:'Part 3 - Multiple Choice', type:'mc', text:'Describing a city with people and cultures from many countries.', options:['Quaint','Cosmopolitan','Unspoilt','Peaceful'], answer:1},
+    {id:13, section:'Part 3 - Multiple Choice', type:'mc', text:'Still natural and not damaged much by people.', options:['Polluted','Flexible','Unspoilt','Traditional'], answer:2},
+    {id:14, section:'Part 3 - Multiple Choice', type:'mc', text:'To change up and down over time, often unpredictably.', options:['Affect','Fluctuate','Travel','Trend'], answer:1},
+    {id:15, section:'Part 3 - Multiple Choice', type:'mc', text:'To have an influence on someone or something.', options:['Fluctuate','Effect','Affect','Journey'], answer:2},
+    {id:16, section:'Part 4 - Gap Fill', type:'gap', text:'We took public ___, including buses and trains, to get from the airport to our hotel.', bank:'bank2', answer:'transport'},
+    {id:17, section:'Part 4 - Gap Fill', type:'gap', text:'The small ___ had one school, one shop and only 250 residents.', bank:'bank2', answer:'village'},
+    {id:18, section:'Part 4 - Gap Fill', type:'gap', text:'From the train, we could see a beautiful ___ of green fields, hills and rivers.', bank:'bank2', answer:'landscape'},
+    {id:19, section:'Part 4 - Gap Fill', type:'gap', text:'The cabin was very ___; the nearest town was 50 kilometres away and there was no mobile signal.', bank:'bank2', answer:'remote'},
+    {id:20, section:'Part 4 - Gap Fill', type:'gap', text:'We chose a ___ area where there was little traffic, no loud music and very few people.', bank:'bank2', answer:'peaceful'},
+    {id:21, section:'Part 5 - Multiple Choice', type:'mc', text:'A place or event that people visit because it is interesting.', options:['Attraction','Accommodation','Luggage','Itinerary'], answer:0},
+    {id:22, section:'Part 5 - Multiple Choice', type:'mc', text:'Designed to cost as little as possible.', options:['Luxurious','Budget','Stunning','Foreign'], answer:1},
+    {id:23, section:'Part 5 - Multiple Choice', type:'mc', text:'Related to the countryside rather than a town or city.', options:['Urban','Cosmopolitan','Rural','Countryside'], answer:2},
+    {id:24, section:'Part 5 - Multiple Choice', type:'mc', text:'Very expensive and comfortable.', options:['Rough','Flexible','Picturesque','Luxurious'], answer:3},
+    {id:25, section:'Part 5 - Multiple Choice', type:'mc', text:'At check-in, a hotel may ask to see your passport for identification. What does this word mean?', options:['Proof of who you are','A plan for a trip','A popular trend','The highest point of a mountain'], answer:0},
+    {id:26, section:'Part 6 - Gap Fill', type:'gap', text:'We followed a ___ route beside the lake because it offered beautiful views at every turn.', bank:'bank3', answer:'scenic'},
+    {id:27, section:'Part 6 - Gap Fill', type:'gap', text:'The old town felt ___, with narrow streets, small old-fashioned houses and a tiny clock tower.', bank:'bank3', answer:'quaint'},
+    {id:28, section:'Part 6 - Gap Fill', type:'gap', text:'The river became ___ after waste from nearby factories entered the water.', bank:'bank3', answer:'polluted'},
+    {id:29, section:'Part 6 - Gap Fill', type:'gap', text:'Our schedule is ___, so we can change the order of activities if the weather gets worse.', bank:'bank3', answer:'flexible'},
+    {id:30, section:'Part 6 - Gap Fill', type:'gap', text:'The festival is a ___ event; local families have celebrated it in the same way for generations.', bank:'bank3', answer:'traditional'}
+  ];
+  const banks = {
+    bank1: ['accommodation','facilities','itinerary','luggage','peak'],
+    bank2: ['landscape','peaceful','remote','transport','village'],
+    bank3: ['flexible','polluted','quaint','scenic','traditional']
+  };
+  const state = { name:'', studentClass:'', answers:{}, selectedWord:null, activeBank:null, draggedWord:null };
+  const $ = (id) => document.getElementById(id);
+  const landing = $('landing'), testScreen = $('test-screen'), resultScreen = $('result-screen');
+  const escapeHtml = (s) => String(s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  function showScreen(screen) {
+    [landing, testScreen, resultScreen].forEach(el => el.classList.remove('active'));
+    screen.classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  function getAnsweredCount() {
+    return questions.filter(q => state.answers[q.id] !== undefined && state.answers[q.id] !== null && state.answers[q.id] !== '').length;
+  }
+  function updateProgress() {
+    const count = getAnsweredCount();
+    $('answered-counter').textContent = `${count} / ${questions.length} answered`;
+    $('progress').style.width = `${(count / questions.length) * 100}%`;
+    questions.forEach(q => {
+      const el = document.querySelector(`[data-question="${q.id}"]`);
+      if (el) el.classList.toggle('answered', state.answers[q.id] !== undefined && state.answers[q.id] !== null && state.answers[q.id] !== '');
+    });
+  }
+  function renderQuestions() {
+    const container = $('questions-container');
+    const sectionOrder = [...new Set(questions.map(q => q.section))];
+    container.innerHTML = sectionOrder.map((section) => {
+      const qs = questions.filter(q => q.section === section);
+      const gap = qs[0].type === 'gap';
+      let html = `<section class="part"><div class="part-title"><h2>${escapeHtml(section)}</h2><span class="part-score">${qs.length} points</span></div>`;
+      if (gap) {
+        const bank = qs[0].bank;
+        html += `<div class="wordbank" data-bank="${bank}"><div class="wordbank-label">WORD BANK — use each word once</div><div class="wordbank-items">${banks[bank].map(word => `<button type="button" class="word-chip" draggable="true" data-word="${escapeHtml(word)}" data-bank="${bank}" aria-label="Select word ${escapeHtml(word)}">${escapeHtml(word)}</button>`).join('')}</div></div>`;
+      }
+      html += qs.map(q => {
+        if (q.type === 'mc') {
+          return `<article class="question" data-question="${q.id}"><div class="q-top"><div class="q-number">${q.id}</div><div class="q-text">${escapeHtml(q.text)}</div></div><div class="options">${q.options.map((opt,i) => `<button type="button" class="option" data-q="${q.id}" data-option="${i}" aria-pressed="false"><span class="option-letter">${String.fromCharCode(65+i)}</span><span>${escapeHtml(opt)}</span></button>`).join('')}</div></article>`;
+        }
+        return `<article class="question" data-question="${q.id}"><div class="q-top"><div class="q-number">${q.id}</div><div class="q-text">Complete the sentence with one word from the box.</div></div><div class="gap-sentence">${escapeHtml(q.text).replace('___', `<button type="button" class="gap-slot" data-gap="${q.id}" data-bank="${q.bank}" aria-label="Answer for question ${q.id}">Choose word</button>`)}</div></article>`;
+      }).join('');
+      html += '</section>';
+      return html;
+    }).join('');
+    attachQuestionEvents();
+    restoreAnswers();
+    updateProgress();
+  }
+  function attachQuestionEvents() {
+    document.querySelectorAll('.option').forEach(btn => btn.addEventListener('click', () => {
+      const qid = Number(btn.dataset.q), option = Number(btn.dataset.option);
+      state.answers[qid] = option;
+      const siblings = document.querySelectorAll(`.option[data-q="${qid}"]`);
+      siblings.forEach(b => { const chosen = b === btn; b.classList.toggle('selected', chosen); b.setAttribute('aria-pressed', String(chosen)); });
+      updateProgress();
+    }));
+    document.querySelectorAll('.word-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const word = chip.dataset.word, bank = chip.dataset.bank;
+        if (isWordUsed(word, bank)) return;
+        state.selectedWord = word; state.activeBank = bank;
+        document.querySelectorAll(`.word-chip[data-bank="${bank}"]`).forEach(el => el.style.outline = el === chip ? '3px solid rgba(21,94,117,.22)' : '');
+        document.querySelectorAll(`.gap-slot[data-bank="${bank}"]`).forEach(slot => slot.style.boxShadow = '0 0 0 2px rgba(21,94,117,.08)');
+      });
+      chip.addEventListener('dragstart', (e) => {
+        const word = chip.dataset.word, bank = chip.dataset.bank;
+        if (isWordUsed(word, bank)) { e.preventDefault(); return; }
+        state.draggedWord = word; state.activeBank = bank;
+        e.dataTransfer.setData('text/plain', word);
+        e.dataTransfer.effectAllowed = 'move';
+      });
+      chip.addEventListener('dragend', () => {
+        state.draggedWord = null;
+        document.querySelectorAll('.gap-slot').forEach(s => s.classList.remove('drag-over'));
+      });
+    });
+    document.querySelectorAll('.gap-slot').forEach(slot => {
+      slot.addEventListener('click', () => {
+        const qid = Number(slot.dataset.gap), bank = slot.dataset.bank;
+        if (state.selectedWord && state.activeBank === bank && !isWordUsed(state.selectedWord, bank, qid)) {
+          placeWord(qid, state.selectedWord);
+          state.selectedWord = null; state.activeBank = null;
+          document.querySelectorAll('.word-chip').forEach(el => el.style.outline = '');
+          document.querySelectorAll('.gap-slot').forEach(el => el.style.boxShadow = '');
+        } else if (state.answers[qid]) {
+          delete state.answers[qid];
+          renderQuestions();
+        } else {
+          state.selectedWord = null; state.activeBank = bank;
+          document.querySelectorAll('.word-chip').forEach(el => el.style.outline = '');
+          slot.style.boxShadow = '0 0 0 3px rgba(21,94,117,.18)';
+        }
+      });
+      slot.addEventListener('dragover', e => {
+        if (state.activeBank === slot.dataset.bank) { e.preventDefault(); slot.classList.add('drag-over'); e.dataTransfer.dropEffect = 'move'; }
+      });
+      slot.addEventListener('dragleave', () => slot.classList.remove('drag-over'));
+      slot.addEventListener('drop', e => {
+        e.preventDefault(); slot.classList.remove('drag-over');
+        const word = e.dataTransfer.getData('text/plain') || state.draggedWord;
+        const bank = slot.dataset.bank;
+        if (word && state.activeBank === bank && !isWordUsed(word, bank, Number(slot.dataset.gap))) placeWord(Number(slot.dataset.gap), word);
+      });
+      slot.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && state.selectedWord) { e.preventDefault(); slot.click(); } });
+    });
+  }
+  function isWordUsed(word, bank, exceptQid = null) {
+    return questions.some(q => q.type === 'gap' && q.bank === bank && q.id !== exceptQid && state.answers[q.id] === word);
+  }
+  function placeWord(qid, word) {
+    const q = questions.find(x => x.id === qid);
+    if (!q || q.type !== 'gap' || !banks[q.bank].includes(word)) return;
+    if (isWordUsed(word, q.bank, qid)) return;
+    state.answers[qid] = word;
+    state.selectedWord = null;
+    renderQuestions();
+  }
+  function restoreAnswers() {
+    questions.forEach(q => {
+      const answer = state.answers[q.id];
+      if (answer === undefined) return;
+      if (q.type === 'mc') {
+        const btn = document.querySelector(`.option[data-q="${q.id}"][data-option="${answer}"]`);
+        if (btn) { btn.classList.add('selected'); btn.setAttribute('aria-pressed','true'); }
+      } else {
+        const slot = document.querySelector(`.gap-slot[data-gap="${q.id}"]`);
+        if (slot) { slot.textContent = answer; slot.classList.add('filled'); slot.setAttribute('aria-label', `Question ${q.id}, selected word ${answer}. Tap to remove.`); }
+      }
+    });
+    Object.entries(banks).forEach(([bank, words]) => words.forEach(word => {
+      const used = isWordUsed(word, bank);
+      const chip = document.querySelector(`.word-chip[data-bank="${bank}"][data-word="${CSS.escape(word)}"]`);
+      if (chip) { chip.classList.toggle('used', used); chip.disabled = used; chip.setAttribute('aria-disabled', String(used)); }
+    }));
+  }
+  function describeAnswer(q, value) {
+    if (value === undefined || value === null || value === '') return 'Not answered';
+    if (q.type === 'mc') return `${String.fromCharCode(65 + value)}. ${q.options[value]}`;
+    return value;
+  }
+  function correctAnswerText(q) {
+    return q.type === 'mc' ? `${String.fromCharCode(65 + q.answer)}. ${q.options[q.answer]}` : q.answer;
+  }
+  function isCorrect(q) { return q.type === 'mc' ? state.answers[q.id] === q.answer : state.answers[q.id] === q.answer; }
+  function submitTest() {
+    const unanswered = questions.length - getAnsweredCount();
+    if (unanswered > 0) {
+      const proceed = window.confirm(`You have ${unanswered} unanswered question${unanswered === 1 ? '' : 's'}. Unanswered questions will receive 0 points. Submit anyway?`);
+      if (!proceed) return;
+    }
+    const correct = questions.filter(isCorrect).length;
+    const percent = Math.round(correct / questions.length * 100);
+    $('result-title').textContent = `${state.name}'s results`;
+    $('result-subtitle').textContent = `${state.studentClass ? `Class: ${state.studentClass} · ` : ''}Unit 7: On the Move · ${new Date().toLocaleDateString(undefined, {year:'numeric', month:'long', day:'numeric'})}`;
+    $('score-value').textContent = `${correct}/30`;
+    $('percentage-value').textContent = `${percent}%`;
+    $('correct-value').textContent = correct;
+    $('incorrect-value').textContent = questions.length - correct;
+    const sections = [...new Set(questions.map(q => q.section))];
+    const scoreCategories = [
+      {name:'Multiple-choice sections', qs:questions.filter(q => q.type === 'mc')},
+      {name:'Gap-fill sections', qs:questions.filter(q => q.type === 'gap')},
+      ...sections.map(name => ({name, qs:questions.filter(q => q.section === name)}))
+    ].filter(item => item.qs.length && (item.name.includes('Multiple-choice sections') || item.name.includes('Gap-fill sections') || item.qs.length === 5));
+    $('section-scores').innerHTML = scoreCategories.map(item => {
+      const got = item.qs.filter(isCorrect).length;
+      return `<div class="section-score"><span>${escapeHtml(item.name)}</span><strong>${got} / ${item.qs.length}</strong></div>`;
+    }).join('');
+    const mistakes = questions.filter(q => !isCorrect(q));
+    $('review-summary').textContent = mistakes.length ? `${mistakes.length} question${mistakes.length === 1 ? '' : 's'} to review. Correct answers are shown for every question below.` : 'All answers are correct. There are no mistakes to review.';
+    $('review-list').innerHTML = mistakes.length ? mistakes.map(q => {
+      const ok = isCorrect(q);
+      return `<article class="review-item ${ok ? 'correct' : 'incorrect'}"><div class="review-head"><div class="review-question">${q.id}. ${escapeHtml(q.text.replace('___','_____'))}</div><span class="status ${ok ? 'good' : 'bad'}">${ok ? 'Correct' : 'Review'}</span></div><div class="review-answer"><div><strong>Your answer:</strong> ${escapeHtml(describeAnswer(q, state.answers[q.id]))}</div><div><strong>Correct answer:</strong> ${escapeHtml(correctAnswerText(q))}</div></div></article>`;
+    }).join('') : '<div class="no-mistakes">Excellent work. You answered all 30 questions correctly.</div>';
+    showScreen(resultScreen);
+  }
+
+  const nameInput = $('student-name');
+  const startButton = $('start-button');
+  function updateStartState() {
+    const valid = nameInput.value.trim().length > 0;
+    startButton.disabled = !valid;
+    $('name-hint').textContent = valid ? '' : (nameInput.value.length ? 'Please enter your name without only spaces.' : '');
+  }
+  nameInput.addEventListener('input', updateStartState);
+  $('student-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = nameInput.value.trim();
+    if (!name) { $('name-hint').textContent = 'Your name is required to start.'; nameInput.focus(); return; }
+    state.name = name;
+    state.studentClass = $('student-class').value.trim();
+    state.answers = {};
+    state.selectedWord = null; state.activeBank = null; state.draggedWord = null;
+    $('candidate-line').textContent = `${state.name}${state.studentClass ? ` · ${state.studentClass}` : ''}`;
+    renderQuestions();
+    showScreen(testScreen);
+  });
+  $('submit-button').addEventListener('click', submitTest);
+  $('retake-button').addEventListener('click', () => {
+    state.answers = {}; state.selectedWord = null; state.activeBank = null; state.draggedWord = null;
+    renderQuestions(); showScreen(testScreen);
+  });
+  $('print-button').addEventListener('click', () => window.print());
+  $('back-button').addEventListener('click', () => { nameInput.value = ''; $('student-class').value = ''; updateStartState(); showScreen(landing); });
+  updateStartState();
+})();
+</script>
+</body>
+</html>
