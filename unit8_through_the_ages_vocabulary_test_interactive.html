@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#155e75" />
+<title>Unit 8: Through the Ages | Vocabulary Test</title>
+<style>
+  :root {
+    --ink:#152536; --muted:#64748b; --line:#dbe5ec; --paper:#fff; --bg:#f2f7fa;
+    --brand:#155e75; --brand-dark:#10485a; --brand-soft:#e4f4f7; --accent:#e15514;
+    --good:#167647; --good-bg:#e9f8ef; --bad:#b42318; --bad-bg:#fff0ee;
+    --shadow:0 14px 45px rgba(19,45,67,.09);
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box} html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);line-height:1.5}
+  button,input{font:inherit} button{cursor:pointer}
+  .topbar{background:linear-gradient(115deg,#10485a,#155e75 65%,#1e7c8f);color:#fff;padding:20px 24px}
+  .topbar-inner{width:min(1040px,100%);margin:0 auto;display:flex;justify-content:space-between;gap:16px;align-items:center}
+  .eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.75rem;font-weight:800;opacity:.82}
+  .brand-title{margin:2px 0 0;font-size:clamp(1.18rem,3vw,1.55rem);font-weight:800}
+  .top-meta{text-align:right;font-size:.88rem;opacity:.9;white-space:nowrap}
+  main{width:min(1040px,calc(100% - 28px));margin:30px auto 50px}
+  .screen{display:none;animation:appear .2s ease-out}.screen.active{display:block}
+  @keyframes appear{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+  .panel{background:var(--paper);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
+  .hero{padding:clamp(25px,5vw,48px)}.hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:34px;align-items:center}
+  .pill{display:inline-flex;gap:8px;align-items:center;border-radius:999px;background:var(--brand-soft);color:var(--brand-dark);padding:7px 12px;font-size:.8rem;font-weight:800}
+  h1{margin:15px 0 12px;line-height:1.12;font-size:clamp(2rem,5vw,3.15rem);letter-spacing:-.04em}
+  .intro{color:var(--muted);font-size:1.05rem;max-width:52ch}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:28px}
+  .stat{background:#f7fafc;border:1px solid var(--line);border-radius:14px;padding:14px 12px}
+  .stat strong{display:block;font-size:1.3rem;color:var(--brand)}.stat span{color:var(--muted);font-size:.78rem}
+  .form-card{background:#f8fbfc;border:1px solid var(--line);border-radius:18px;padding:22px}
+  .form-card h2{margin:0 0 6px;font-size:1.2rem}.form-card p{margin:0 0 18px;color:var(--muted);font-size:.9rem}
+  label{display:block;margin:14px 0 6px;font-size:.88rem;font-weight:750}
+  input[type=text]{width:100%;border:1px solid #c7d4dd;border-radius:11px;padding:12px 13px;background:#fff;color:var(--ink);outline:none}
+  input[type=text]:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(21,94,117,.12)}
+  .hint{min-height:19px;color:var(--bad);font-size:.8rem;margin:6px 0 0}
+  .btn{border:0;border-radius:12px;padding:12px 17px;font-weight:800;transition:transform .12s ease,background .12s ease}
+  .btn:active{transform:translateY(1px)}.btn-primary{background:var(--brand);color:#fff}.btn-primary:hover:not(:disabled){background:var(--brand-dark)}
+  .btn-secondary{color:var(--brand-dark);background:var(--brand-soft);border:1px solid #c7e5eb}
+  .btn-ghost{color:var(--muted);background:transparent;border:1px solid var(--line)}.btn:disabled{cursor:not-allowed;opacity:.45}
+  .btn-full{width:100%;margin-top:16px}
+  .instructions{display:grid;gap:12px;margin:23px 0 0}
+  .instruction{display:flex;gap:11px;align-items:flex-start;color:#405468;font-size:.9rem}
+  .instruction-num{flex:0 0 26px;height:26px;border-radius:8px;background:#edf4f8;color:var(--brand);display:grid;place-items:center;font-weight:900;font-size:.8rem}
+  .test-heading{padding:24px 26px 20px;border-bottom:1px solid var(--line)}
+  .test-heading-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+  .test-heading h1{margin:0 0 5px;font-size:clamp(1.55rem,3vw,2rem);letter-spacing:-.025em}
+  .candidate{color:var(--muted);font-size:.9rem}.counter{flex:0 0 auto;background:var(--brand-soft);color:var(--brand-dark);padding:7px 11px;border-radius:10px;font-size:.85rem;font-weight:800}
+  .progress-wrap{height:7px;background:#eaf0f4;border-radius:99px;margin-top:18px;overflow:hidden}
+  .progress{height:100%;background:linear-gradient(90deg,var(--brand),#31a5ac);width:0%;transition:width .15s ease}
+  .test-body{padding:20px 26px 28px}.part{margin:6px 0 29px}
+  .part-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}
+  .part-title h2{margin:0;font-size:1.08rem}.part-score{color:var(--muted);font-size:.8rem;font-weight:750}
+  .question{border:1px solid var(--line);border-radius:15px;padding:16px;margin:11px 0;background:#fff}
+  .question.answered{border-color:#bfdde3}.q-top{display:flex;align-items:flex-start;gap:10px}
+  .q-number{background:#edf4f8;color:var(--brand-dark);font-size:.78rem;font-weight:900;min-width:31px;height:29px;border-radius:9px;display:grid;place-items:center}
+  .q-text{font-weight:650;flex:1}.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:13px 0 0 41px}
+  .option{border:1px solid #d6e1e8;background:#fbfdfe;border-radius:10px;padding:10px 12px;text-align:left;color:var(--ink);display:flex;align-items:flex-start;gap:9px;min-height:44px}
+  .option:hover{border-color:#85bbc6;background:#f6fcfd}.option.selected{border-color:var(--brand);background:var(--brand-soft);box-shadow:inset 0 0 0 1px var(--brand)}
+  .option-letter{flex:0 0 23px;height:23px;display:grid;place-items:center;border-radius:7px;background:#eef2f6;font-size:.77rem;font-weight:900}
+  .option.selected .option-letter{background:var(--brand);color:#fff}
+  .wordbank{border:1px dashed #a7cbd2;border-radius:13px;padding:13px;background:#f7fcfd;margin:0 0 13px 41px}
+  .wordbank-label{font-size:.79rem;font-weight:850;color:var(--brand-dark);margin-bottom:10px}
+  .wordbank-items{display:flex;gap:8px;flex-wrap:wrap}
+  .word-chip{background:#fff;color:var(--brand-dark);border:1px solid #bcd8de;border-radius:999px;padding:7px 11px;font-size:.85rem;font-weight:750;user-select:none;cursor:grab}
+  .word-chip:focus{outline:3px solid rgba(21,94,117,.2)}.word-chip.used{opacity:.42;text-decoration:line-through;cursor:not-allowed}
+  .word-chip.chosen{outline:3px solid rgba(21,94,117,.22);background:#e8f5f7}
+  .gap-sentence{margin:13px 0 0 41px;line-height:2.1}
+  .gap-slot{display:inline-flex;vertical-align:middle;justify-content:center;align-items:center;min-width:125px;min-height:35px;margin:2px 4px;padding:2px 10px;border:1.5px dashed #80b4c0;border-radius:8px;background:#f5fbfc;color:var(--brand-dark);font-size:.9rem;font-weight:800;cursor:pointer}
+  .gap-slot.filled{border-style:solid;background:var(--brand-soft)}.gap-slot.drag-over{background:#d6f1f5;border-color:var(--brand)}
+  .gap-slot:focus{outline:3px solid rgba(21,94,117,.18)}
+  .gap-help{color:var(--muted);font-size:.8rem;margin:8px 0 0 41px}
+  .test-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-top:18px;border-top:1px solid var(--line)}
+  .footer-note{color:var(--muted);font-size:.82rem}
+  .result-hero{padding:30px;background:linear-gradient(125deg,#10485a,#155e75);color:#fff}
+  .result-hero h1{font-size:clamp(1.9rem,4vw,2.7rem);margin:8px 0}.result-sub{opacity:.85;margin:0}
+  .score-row{display:flex;align-items:center;flex-wrap:wrap;gap:22px;margin-top:22px}
+  .score-circle{width:112px;height:112px;border:7px solid rgba(255,255,255,.26);border-top-color:#fff;border-right-color:#fff;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .score-circle strong{font-size:1.9rem;line-height:1.05}.score-circle span{font-size:.76rem;opacity:.85}
+  .score-extra{display:flex;gap:24px}.score-extra strong{display:block;font-size:1.5rem}.score-extra span{opacity:.8;font-size:.82rem}
+  .result-content{padding:25px 26px 30px}.result-content h2{margin:0 0 14px;font-size:1.25rem}
+  .section-scores{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-bottom:28px}
+  .section-score{border:1px solid var(--line);border-radius:13px;padding:14px}.section-score span{display:block;color:var(--muted);font-size:.8rem}
+  .section-score strong{display:block;font-size:1.3rem;margin-top:4px}.review-summary{margin:0 0 16px;color:var(--muted);font-size:.9rem}
+  .review-item{border:1px solid var(--line);border-radius:13px;padding:15px;margin:10px 0}
+  .review-item.incorrect{border-color:#f2c6c2;background:#fffdfd}
+  .review-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+  .review-question{font-weight:750}.status{font-size:.75rem;font-weight:900;border-radius:999px;padding:4px 9px;white-space:nowrap}
+  .status.bad{color:var(--bad);background:var(--bad-bg)}
+  .review-answer{margin-top:10px;font-size:.9rem;color:#4a5b6d}.review-answer strong{color:var(--ink)}
+  .no-mistakes{border:1px solid #c7e8d4;border-radius:13px;padding:18px;background:var(--good-bg);color:var(--good);font-weight:700}
+  .result-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.footnote{font-size:.77rem;color:var(--muted);margin-top:21px}
+  @media(max-width:760px){.topbar-inner{align-items:flex-start}.top-meta{white-space:normal;font-size:.78rem}main{margin-top:15px}.hero-grid{grid-template-columns:1fr}.form-card{padding:19px}.test-heading,.test-body,.result-content{padding-left:16px;padding-right:16px}.options{grid-template-columns:1fr;margin-left:0}.wordbank,.gap-sentence,.gap-help{margin-left:0}.q-top{gap:8px}.test-footer{align-items:stretch;flex-direction:column}.test-footer .btn{width:100%}.section-scores{grid-template-columns:1fr}.score-row{gap:16px}.score-extra{gap:16px}}
+  @media print{body{background:#fff}.topbar,#landing,#test-screen,.result-actions,.footnote{display:none!important}main{width:100%;margin:0}#result-screen{display:block!important}.panel{box-shadow:none;border:0}.result-hero{background:#fff;color:#152536;padding:0 0 20px}.result-sub,.score-extra span{opacity:1}.score-circle{border-color:#155e75}.review-item{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div><div class="eyebrow">Vocabulary Assessment</div><div class="brand-title">Unit 8: Through the Ages</div></div>
+    <div class="top-meta">30 questions · 30 points<br>Multiple choice &amp; contextual gap filling</div>
+  </div>
+</header>
+<main>
+  <section id="landing" class="screen active">
+    <div class="panel hero">
+      <div class="hero-grid">
+        <div>
+          <span class="pill">UNIT 8 <span aria-hidden="true">/</span> THROUGH THE AGES</span>
+          <h1>Vocabulary Test</h1>
+          <p class="intro">Check your knowledge of history, archaeology, time, and related vocabulary. Answer all 30 questions and review your results at the end.</p>
+          <div class="stats">
+            <div class="stat"><strong>30</strong><span>Questions</span></div>
+            <div class="stat"><strong>30</strong><span>Total points</span></div>
+            <div class="stat"><strong>2</strong><span>Question formats</span></div>
+          </div>
+          <div class="instructions">
+            <div class="instruction"><span class="instruction-num">1</span><span>Enter your name to unlock the test. Class is optional.</span></div>
+            <div class="instruction"><span class="instruction-num">2</span><span>Choose an answer for Questions 1–15. For Questions 16–30, drag a word into a gap or tap a word and then tap a gap. Use each word once within its word box.</span></div>
+            <div class="instruction"><span class="instruction-num">3</span><span>Submit your answers to see your score, section scores, and corrections.</span></div>
+          </div>
+        </div>
+        <form id="student-form" class="form-card" novalidate>
+          <h2>Student details</h2><p>Your name is required to begin the test.</p>
+          <label for="student-name">Full name <span aria-hidden="true" style="color:var(--bad)">*</span></label>
+          <input id="student-name" type="text" autocomplete="name" maxlength="100" placeholder="Enter your full name" required>
+          <div id="name-hint" class="hint" aria-live="polite"></div>
+          <label for="student-class">Class (optional)</label>
+          <input id="student-class" type="text" maxlength="60" placeholder="e.g. Group B2">
+          <button id="start-button" class="btn btn-primary btn-full" type="submit" disabled>Start test <span aria-hidden="true">→</span></button>
+          <p style="margin:12px 0 0;font-size:.77rem;color:var(--muted)">Your answers are marked in this browser. No account or internet connection is required.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section id="test-screen" class="screen">
+    <div class="panel">
+      <div class="test-heading">
+        <div class="test-heading-top">
+          <div><h1>Unit 8: Through the Ages</h1><div id="candidate-line" class="candidate"></div></div>
+          <div id="answered-counter" class="counter" aria-live="polite">0 / 30 answered</div>
+        </div>
+        <div class="progress-wrap" aria-label="Test completion progress"><div id="progress" class="progress"></div></div>
+      </div>
+      <div class="test-body">
+        <div id="questions-container"></div>
+        <div class="test-footer">
+          <div class="footer-note">Each question is worth 1 point. You can change your answers before submitting.</div>
+          <button id="submit-button" class="btn btn-primary" type="button">Submit test and see results</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="result-screen" class="screen">
+    <div class="panel">
+      <div class="result-hero">
+        <div class="eyebrow">Test complete</div><h1 id="result-title">Your results</h1><p id="result-subtitle" class="result-sub"></p>
+        <div class="score-row">
+          <div class="score-circle"><strong id="score-value">0/30</strong><span>points</span></div>
+          <div class="score-extra">
+            <div><strong id="percentage-value">0%</strong><span>Percentage</span></div>
+            <div><strong id="correct-value">0</strong><span>Correct answers</span></div>
+            <div><strong id="incorrect-value">0</strong><span>To review</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="result-content">
+        <h2>Section scores</h2><div id="section-scores" class="section-scores"></div>
+        <h2>Review your mistakes</h2><p id="review-summary" class="review-summary"></p><div id="review-list"></div>
+        <div class="result-actions">
+          <button id="retake-button" class="btn btn-primary" type="button">Retake test</button>
+          <button id="print-button" class="btn btn-secondary" type="button">Print results</button>
+          <button id="back-button" class="btn btn-ghost" type="button">Back to landing page</button>
+        </div>
+        <p class="footnote">Results are calculated using the answer key derived from the question wording and word boxes in the supplied PDF. Results are not automatically sent to a teacher or saved to a server.</p>
+      </div>
+    </div>
+  </section>
+</main>
+<script>
+(() => {
+  'use strict';
+  const banks = {
+    bank1: ['excavation', 'millennia', 'generation', 'the Middle Ages', 'pioneer'],
+    bank2: ['phase', 'prior to', 'ancient', 'span', 'in time'],
+    bank3: ['on time', 'save time', 'spend time', 'chronologically', 'formerly']
+  };
+  const sections = [
+    {id:'part-a', title:'Part A - Multiple Choice', subtitle:'Questions 1-15 · Choose the best answer.', ids:Array.from({length:15},(_,i)=>i+1)},
+    {id:'part-b1', title:'Part B - Gap Filling · Word Box 1', subtitle:'Questions 16-20 · Use each word once.', ids:[16,17,18,19,20], bank:'bank1'},
+    {id:'part-b2', title:'Part B - Gap Filling · Word Box 2', subtitle:'Questions 21-25 · Use each word once.', ids:[21,22,23,24,25], bank:'bank2'},
+    {id:'part-b3', title:'Part B - Gap Filling · Word Box 3', subtitle:'Questions 26-30 · Use each word once.', ids:[26,27,28,29,30], bank:'bank3'}
+  ];
+  const questions = [
+    {id:1,section:'part-a',type:'mc',text:'A person who studies objects and remains from past societies is an ...',options:['timeline','archaeologist','pioneer','generation'],answer:1},
+    {id:2,section:'part-a',type:'mc',text:'A period of one hundred years is a ...',options:['phase','era','century','decade'],answer:2},
+    {id:3,section:'part-a',type:'mc',text:'Facts or objects that help prove something are called ...',options:['excavation','nostalgia','generation','evidence'],answer:3},
+    {id:4,section:'part-a',type:'mc',text:'A chart that shows events in date order is a ...',options:['timeline','century','period','excavation'],answer:0},
+    {id:5,section:'part-a',type:'mc',text:'Something from the time before written records is ...',options:['punctual','prehistoric','historical','nostalgic'],answer:1},
+    {id:6,section:'part-a',type:'mc',text:'Arranged in the order events happened means ...',options:['imminent','time-consuming','chronological','consecutive'],answer:2},
+    {id:7,section:'part-a',type:'mc',text:'Expected to happen very soon means ...',options:['ancient','middle-aged','prior','imminent'],answer:3},
+    {id:8,section:'part-a',type:'mc',text:'Following one after another without a break means ...',options:['consecutive','nostalgic','chronological','punctual'],answer:0},
+    {id:9,section:'part-a',type:'mc',text:'To form a conclusion from clues is to ...',options:['span','infer','erode','predate'],answer:1},
+    {id:10,section:'part-a',type:'mc',text:'To gradually wear away rock or soil is to ...',options:['infer','predate','erode','span'],answer:2},
+    {id:11,section:'part-a',type:'mc',text:'To exist or happen before something else is to ...',options:['erode','span','infer','predate'],answer:3},
+    {id:12,section:'part-a',type:'mc',text:'Arriving at the agreed time means being ...',options:['punctual','ancient','nostalgic','imminent'],answer:0},
+    {id:13,section:'part-a',type:'mc',text:'If something takes a lot of time to finish, it is ...',options:['prehistoric','time-consuming','historical','consecutive'],answer:1},
+    {id:14,section:'part-a',type:'mc',text:'To stop noticing how much time has passed is to ...',options:['be on time','be in time','lose track of time','save time'],answer:2},
+    {id:15,section:'part-a',type:'mc',text:'After a particular event or time means ...',options:['formerly','chronologically','previously','subsequently'],answer:3},
+    {id:16,section:'part-b1',type:'gap',bank:'bank1',text:'During the ___, the team carefully dug to uncover buried walls and pottery.',answer:'excavation'},
+    {id:17,section:'part-b1',type:'gap',bank:'bank1',text:'The rock layers formed over several ___, so they record an extremely long period.',answer:'millennia'},
+    {id:18,section:'part-b1',type:'gap',bank:'bank1',text:'My grandmother, my parents, and I belong to different age groups; each is a different ___.',answer:'generation'},
+    {id:19,section:'part-b1',type:'gap',bank:'bank1',text:'The castle was built in medieval Europe, during a period often called ___.',answer:'the Middle Ages'},
+    {id:20,section:'part-b1',type:'gap',bank:'bank1',text:'She was a ___ in local archaeology because she was one of the first people to study the site.',answer:'pioneer'},
+    {id:21,section:'part-b2',type:'gap',bank:'bank2',text:'The project has three stages, and the final ___ is writing the report.',answer:'phase'},
+    {id:22,section:'part-b2',type:'gap',bank:'bank2',text:'All visitors must read the safety information ___ entering the excavation area.',answer:'prior to'},
+    {id:23,section:'part-b2',type:'gap',bank:'bank2',text:'The museum displayed an ___ coin that was more than two thousand years old.',answer:'ancient'},
+    {id:24,section:'part-b2',type:'gap',bank:'bank2',text:'The family records ___ four centuries, from 1600 to the present.',answer:'span'},
+    {id:25,section:'part-b2',type:'gap',bank:'bank2',text:'We arrived ___ to see the guide demonstrate how the old tool worked.',answer:'in time'},
+    {id:26,section:'part-b3',type:'gap',bank:'bank3',text:'The museum tour begins at 10:00, so please arrive ___.',answer:'on time'},
+    {id:27,section:'part-b3',type:'gap',bank:'bank3',text:'Using one digital list for all the dates will ___ when we organise the archive.',answer:'save time'},
+    {id:28,section:'part-b3',type:'gap',bank:'bank3',text:'Researchers must ___ examining the evidence rather than guessing.',answer:'spend time'},
+    {id:29,section:'part-b3',type:'gap',bank:'bank3',text:'The teacher asked the class to arrange the events ___, from earliest to latest.',answer:'chronologically'},
+    {id:30,section:'part-b3',type:'gap',bank:'bank3',text:'The building is a museum now, but it was ___ the town hall.',answer:'formerly'}
+  ];
+  const $ = id => document.getElementById(id);
+  const landing = $('landing'), testScreen = $('test-screen'), resultScreen = $('result-screen');
+  const state = {name:'', studentClass:'', answers:{}, selectedWord:null, dragging:null};
+  const escapeHtml = value => String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  function showScreen(target){[landing,testScreen,resultScreen].forEach(s=>s.classList.remove('active'));target.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+  function answeredCount(){return questions.filter(q=>state.answers[q.id]!==undefined && state.answers[q.id]!== '').length;}
+  function updateProgress(){const count=answeredCount();$('answered-counter').textContent=`${count} / 30 answered`;$('progress').style.width=`${count/30*100}%`;}
+  function isWordUsed(word,bank,exceptId=null){return questions.some(q=>q.type==='gap'&&q.bank===bank&&q.id!==exceptId&&state.answers[q.id]===word);}
+  function renderQuestion(q){
+    const answer=state.answers[q.id];
+    if(q.type==='mc'){
+      const options=q.options.map((option,index)=>`<button type="button" class="option ${answer===index?'selected':''}" data-q="${q.id}" data-option="${index}" aria-pressed="${answer===index}"><span class="option-letter">${String.fromCharCode(65+index)}</span><span>${escapeHtml(option)}</span></button>`).join('');
+      return `<article class="question ${answer!==undefined?'answered':''}"><div class="q-top"><span class="q-number">${q.id}</span><div class="q-text">${escapeHtml(q.text)}</div></div><div class="options">${options}</div></article>`;
+    }
+    const sentence=escapeHtml(q.text).replace('___',`<button type="button" class="gap-slot ${answer?'filled':''}" data-gap="${q.id}" data-bank="${q.bank}" aria-label="Answer for question ${q.id}">${answer?escapeHtml(answer):'Choose word'}</button>`);
+    return `<article class="question ${answer?'answered':''}"><div class="q-top"><span class="q-number">${q.id}</span><div class="q-text">Complete the sentence.</div></div><div class="gap-sentence">${sentence}</div></article>`;
+  }
+  function renderQuestions(){
+    $('questions-container').innerHTML=sections.map(section=>{
+      const qs=section.ids.map(id=>questions.find(q=>q.id===id));
+      const bank=section.bank?`<div class="wordbank"><div class="wordbank-label">Word box · Use each word once</div><div class="wordbank-items">${banks[section.bank].map(word=>{const used=isWordUsed(word,section.bank);const selected=state.selectedWord&&state.selectedWord.bank===section.bank&&state.selectedWord.word===word;return `<button type="button" class="word-chip ${used?'used':''} ${selected?'chosen':''}" draggable="${!used}" data-word="${escapeHtml(word)}" data-bank="${section.bank}" ${used?'disabled aria-disabled="true"':''}>${escapeHtml(word)}</button>`;}).join('')}</div></div>`:'';
+      return `<section class="part" id="${section.id}"><div class="part-title"><div><h2>${escapeHtml(section.title)}</h2><div class="candidate">${escapeHtml(section.subtitle)}</div></div><span class="part-score">${qs.length} points</span></div>${bank}${qs.map(renderQuestion).join('')}${section.bank?'<p class="gap-help">Drag a word to a gap, or tap a word and then tap its gap. Tap a filled gap to remove its answer.</p>':''}</section>`;
+    }).join('');
+    attachQuestionEvents();
+    updateProgress();
+  }
+  function attachQuestionEvents(){
+    document.querySelectorAll('.option').forEach(button=>button.addEventListener('click',()=>{
+      const qid=Number(button.dataset.q),option=Number(button.dataset.option);state.answers[qid]=option;
+      document.querySelectorAll(`.option[data-q="${qid}"]`).forEach(el=>{const chosen=el===button;el.classList.toggle('selected',chosen);el.setAttribute('aria-pressed',String(chosen));});
+      button.closest('.question').classList.add('answered');updateProgress();
+    }));
+    document.querySelectorAll('.word-chip').forEach(chip=>{
+      chip.addEventListener('click',()=>{const word=chip.dataset.word,bank=chip.dataset.bank;if(isWordUsed(word,bank))return;state.selectedWord={word,bank};document.querySelectorAll(`.word-chip[data-bank="${bank}"]`).forEach(el=>el.classList.toggle('chosen',el===chip));});
+      chip.addEventListener('dragstart',event=>{const word=chip.dataset.word,bank=chip.dataset.bank;if(isWordUsed(word,bank)){event.preventDefault();return;}state.dragging={word,bank};event.dataTransfer.setData('text/plain',JSON.stringify({word,bank}));event.dataTransfer.effectAllowed='move';});
+      chip.addEventListener('dragend',()=>{state.dragging=null;document.querySelectorAll('.gap-slot').forEach(slot=>slot.classList.remove('drag-over'));});
+    });
+    document.querySelectorAll('.gap-slot').forEach(slot=>{
+      slot.addEventListener('click',()=>{
+        const qid=Number(slot.dataset.gap),bank=slot.dataset.bank;
+        if(state.selectedWord&&state.selectedWord.bank===bank&&!isWordUsed(state.selectedWord.word,bank,qid)){
+          placeWord(qid,state.selectedWord.word);return;
+        }
+        if(state.answers[qid]!==undefined){delete state.answers[qid];state.selectedWord=null;renderQuestions();return;}
+        state.selectedWord=null;document.querySelectorAll('.word-chip').forEach(el=>el.classList.remove('chosen'));
+      });
+      slot.addEventListener('dragover',event=>{if(state.dragging&&state.dragging.bank===slot.dataset.bank){event.preventDefault();slot.classList.add('drag-over');event.dataTransfer.dropEffect='move';}});
+      slot.addEventListener('dragleave',()=>slot.classList.remove('drag-over'));
+      slot.addEventListener('drop',event=>{
+        event.preventDefault();slot.classList.remove('drag-over');let payload=null;
+        try{payload=JSON.parse(event.dataTransfer.getData('text/plain'));}catch(_){payload=state.dragging;}
+        const qid=Number(slot.dataset.gap),bank=slot.dataset.bank;
+        if(payload&&payload.bank===bank&&!isWordUsed(payload.word,bank,qid))placeWord(qid,payload.word);
+      });
+      slot.addEventListener('keydown',event=>{if((event.key==='Enter'||event.key===' ')&&state.selectedWord){event.preventDefault();slot.click();}});
+    });
+  }
+  function placeWord(qid,word){const q=questions.find(item=>item.id===qid);if(!q||q.type!=='gap'||!banks[q.bank].includes(word)||isWordUsed(word,q.bank,qid))return;state.answers[qid]=word;state.selectedWord=null;state.dragging=null;renderQuestions();}
+  function isCorrect(q){return state.answers[q.id]===q.answer;}
+  function describeAnswer(q,value){if(value===undefined||value===null||value==='')return'Not answered';if(q.type==='mc')return`${String.fromCharCode(65+value)}. ${q.options[value]}`;return value;}
+  function correctAnswerText(q){return q.type==='mc'?`${String.fromCharCode(65+q.answer)}. ${q.options[q.answer]}`:q.answer;}
+  function submitTest(){
+    const unanswered=questions.length-answeredCount();
+    if(unanswered>0&&!window.confirm(`You have ${unanswered} unanswered question${unanswered===1?'':'s'}. Unanswered questions will receive 0 points. Submit anyway?`))return;
+    const correct=questions.filter(isCorrect).length,percent=Math.round(correct/questions.length*100),mistakes=questions.filter(q=>!isCorrect(q));
+    $('result-title').textContent=`${state.name}'s results`;
+    $('result-subtitle').textContent=`${state.studentClass?`Class: ${state.studentClass} · `:''}Unit 8: Through the Ages · ${new Date().toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'})}`;
+    $('score-value').textContent=`${correct}/30`;$('percentage-value').textContent=`${percent}%`;$('correct-value').textContent=correct;$('incorrect-value').textContent=mistakes.length;
+    $('section-scores').innerHTML=sections.map(section=>{const qs=questions.filter(q=>q.section===section.id),got=qs.filter(isCorrect).length;return `<div class="section-score"><span>${escapeHtml(section.title)}</span><strong>${got} / ${qs.length}</strong></div>`;}).join('');
+    $('review-summary').textContent=mistakes.length?`${mistakes.length} question${mistakes.length===1?'':'s'} to review. Your answer and the correct answer are shown below.`:'All answers are correct. There are no mistakes to review.';
+    $('review-list').innerHTML=mistakes.length?mistakes.map(q=>`<article class="review-item incorrect"><div class="review-head"><div class="review-question">${q.id}. ${escapeHtml(q.text)}</div><span class="status bad">Review</span></div><div class="review-answer"><div><strong>Your answer:</strong> ${escapeHtml(describeAnswer(q,state.answers[q.id]))}</div><div><strong>Correct answer:</strong> ${escapeHtml(correctAnswerText(q))}</div></div></article>`).join(''):'<div class="no-mistakes">Excellent work. You answered all 30 questions correctly.</div>';
+    showScreen(resultScreen);
+  }
+  const nameInput=$('student-name'),startButton=$('start-button');
+  function updateStartState(){const valid=nameInput.value.trim().length>0;startButton.disabled=!valid;$('name-hint').textContent=valid?'':(nameInput.value.length?'Please enter your name without only spaces.':'');}
+  nameInput.addEventListener('input',updateStartState);
+  $('student-form').addEventListener('submit',event=>{event.preventDefault();const name=nameInput.value.trim();if(!name){$('name-hint').textContent='Your name is required to start.';nameInput.focus();return;}state.name=name;state.studentClass=$('student-class').value.trim();state.answers={};state.selectedWord=null;state.dragging=null;$('candidate-line').textContent=`${state.name}${state.studentClass?` · ${state.studentClass}`:''}`;renderQuestions();showScreen(testScreen);});
+  $('submit-button').addEventListener('click',submitTest);
+  $('retake-button').addEventListener('click',()=>{state.answers={};state.selectedWord=null;state.dragging=null;renderQuestions();showScreen(testScreen);});
+  $('print-button').addEventListener('click',()=>window.print());
+  $('back-button').addEventListener('click',()=>{nameInput.value='';$('student-class').value='';state.name='';state.studentClass='';state.answers={};updateStartState();showScreen(landing);});
+  updateStartState();
+})();
+</script>
+</body>
+</html>
