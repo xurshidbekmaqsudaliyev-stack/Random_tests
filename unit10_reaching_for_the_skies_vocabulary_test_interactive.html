@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#14233b" />
+<title>Unit 10 Vocabulary Test | Reaching for the Skies</title>
+<style>
+  :root {
+    --navy: #14233b;
+    --navy-2: #203653;
+    --accent: #e15514;
+    --accent-soft: #fff0e8;
+    --ink: #1d2939;
+    --muted: #667085;
+    --line: #e4e8ef;
+    --paper: #ffffff;
+    --canvas: #f4f6fa;
+    --green: #168653;
+    --green-bg: #eaf7f0;
+    --red: #c0392b;
+    --red-bg: #fff0ee;
+    --amber: #a15c00;
+    --amber-bg: #fff5df;
+    --shadow: 0 16px 44px rgba(20,35,59,.09);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--canvas); color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.5; }
+  button, input { font: inherit; }
+  button { cursor: pointer; }
+  .topbar { height: 8px; background: linear-gradient(90deg, var(--accent), #f49a58); }
+  .shell { width: min(100% - 32px, 980px); margin: 36px auto 64px; }
+  .brand { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px; color:var(--muted); font-size:.83rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; }
+  .brand-mark { display:flex; align-items:center; gap:10px; }
+  .brand-dot { width:11px; height:11px; border-radius:3px; background:var(--accent); transform:rotate(45deg); }
+  .brand-unit { color:var(--navy); }
+  .panel { background:var(--paper); border:1px solid var(--line); border-radius:22px; box-shadow:var(--shadow); overflow:hidden; }
+  .hero { padding: clamp(26px, 5vw, 52px); background: radial-gradient(circle at 93% 3%, rgba(225,85,20,.12), transparent 26%), linear-gradient(135deg, #fff 0%, #f9fbff 100%); }
+  .eyebrow { color:var(--accent); text-transform:uppercase; font-size:.76rem; letter-spacing:.13em; font-weight:800; }
+  h1 { margin:12px 0 8px; color:var(--navy); font-size:clamp(2rem, 5vw, 3.25rem); line-height:1.08; letter-spacing:-.045em; }
+  .subtitle { margin:0; color:var(--muted); font-size:1.05rem; }
+  .stats { display:flex; flex-wrap:wrap; gap:10px; margin:26px 0 30px; }
+  .stat { display:flex; align-items:center; gap:8px; border:1px solid var(--line); background:#fff; border-radius:999px; padding:8px 13px; color:#475467; font-size:.88rem; font-weight:650; }
+  .stat strong { color:var(--navy); }
+  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; max-width:650px; }
+  .field label { display:block; margin-bottom:7px; font-size:.87rem; font-weight:750; color:#344054; }
+  .field input { width:100%; border:1px solid #d0d5dd; border-radius:11px; padding:13px 14px; outline:none; background:#fff; transition:border .15s, box-shadow .15s; }
+  .field input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(225,85,20,.12); }
+  .field input::placeholder { color:#98a2b3; }
+  .primary, .secondary, .ghost { border:0; border-radius:11px; padding:13px 20px; font-weight:800; transition:transform .12s, opacity .12s, background .12s; }
+  .primary { background:var(--accent); color:white; box-shadow:0 5px 14px rgba(225,85,20,.2); }
+  .primary:hover:not(:disabled) { background:#c9480e; transform:translateY(-1px); }
+  .primary:disabled { opacity:.45; cursor:not-allowed; box-shadow:none; }
+  .secondary { background:var(--navy); color:#fff; }
+  .secondary:hover { background:var(--navy-2); }
+  .ghost { background:#eef1f5; color:#344054; }
+  .actions { display:flex; align-items:center; flex-wrap:wrap; gap:11px; margin-top:21px; }
+  .hint { margin:13px 0 0; color:var(--muted); font-size:.86rem; }
+  .instructions { margin-top:28px; padding:17px 18px; background:#f6f8fb; border:1px solid var(--line); border-radius:13px; color:#475467; font-size:.91rem; }
+  .instructions strong { color:var(--navy); }
+  .screen { display:none; }
+  .screen.active { display:block; }
+  .test-head { padding:20px 24px; border-bottom:1px solid var(--line); background:#fff; }
+  .test-head-row { display:flex; justify-content:space-between; align-items:center; gap:16px; }
+  .test-title { color:var(--navy); font-size:1.08rem; font-weight:850; }
+  .student-line { color:var(--muted); font-size:.85rem; margin-top:3px; }
+  .timer { display:flex; align-items:center; gap:9px; min-width:132px; justify-content:center; padding:9px 13px; border-radius:12px; background:#edf2f8; color:var(--navy); font-variant-numeric:tabular-nums; font-weight:900; font-size:1.08rem; }
+  .timer.warning { background:var(--amber-bg); color:var(--amber); }
+  .timer.danger { background:var(--red-bg); color:var(--red); animation:pulse 1.1s infinite; }
+  @keyframes pulse { 50% { opacity:.7; } }
+  .progress-wrap { height:7px; background:#edf0f4; }
+  .progress-bar { height:100%; width:0; background:var(--accent); transition:width .2s; }
+  .test-body { padding:26px clamp(18px, 4vw, 34px) 30px; }
+  .progress-label { display:flex; justify-content:space-between; gap:10px; margin-bottom:22px; color:var(--muted); font-size:.84rem; }
+  .part { margin:28px 0 18px; padding-bottom:10px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; gap:12px; align-items:end; }
+  .part:first-child { margin-top:0; }
+  .part h2 { margin:0; color:var(--navy); font-size:1.05rem; }
+  .part span { color:var(--muted); font-size:.8rem; white-space:nowrap; }
+  .question { padding:17px 0 18px; border-bottom:1px solid #eef0f3; }
+  .q-top { display:flex; gap:12px; align-items:flex-start; }
+  .q-number { flex:0 0 30px; height:30px; display:grid; place-items:center; border-radius:9px; color:var(--navy); background:#edf2f8; font-size:.82rem; font-weight:850; }
+  .q-text { padding-top:2px; font-weight:650; color:#27364b; }
+  .options { display:grid; grid-template-columns:1fr 1fr; gap:9px; margin:13px 0 0 42px; }
+  .option { display:flex; align-items:flex-start; gap:9px; min-height:45px; padding:10px 12px; border:1px solid var(--line); background:#fff; border-radius:10px; text-align:left; color:#344054; font-size:.92rem; }
+  .option:hover { border-color:#f0a17b; background:#fffaf7; }
+  .option.selected { border-color:var(--accent); background:var(--accent-soft); color:#91360f; box-shadow:inset 0 0 0 1px var(--accent); }
+  .option .letter { font-weight:900; color:var(--accent); }
+  .gap-line { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:12px 0 0 42px; color:#344054; }
+  .drop-slot { display:inline-flex; align-items:center; justify-content:center; min-width:125px; min-height:38px; padding:6px 11px; border:1.5px dashed #aab4c2; border-radius:9px; background:#f8fafc; color:#64748b; font-weight:700; font-size:.88rem; cursor:pointer; vertical-align:middle; }
+  .drop-slot.filled { border-style:solid; border-color:#f1a17d; background:var(--accent-soft); color:#91360f; }
+  .drop-slot.over { border-color:var(--accent); background:#ffe4d6; }
+  .bank { margin:17px 0 4px 42px; padding:13px; border:1px solid var(--line); border-radius:12px; background:#f8fafc; }
+  .bank-title { margin-bottom:9px; color:#667085; font-size:.76rem; font-weight:850; text-transform:uppercase; letter-spacing:.08em; }
+  .word-list { display:flex; flex-wrap:wrap; gap:8px; }
+  .word { padding:8px 12px; border:1px solid #d5dbe5; background:white; color:#344054; border-radius:9px; font-weight:750; font-size:.88rem; cursor:grab; user-select:none; touch-action:manipulation; }
+  .word:hover { border-color:var(--accent); }
+  .word.used { opacity:.35; cursor:not-allowed; text-decoration:line-through; }
+  .word.picked { border-color:var(--accent); background:var(--accent-soft); color:#91360f; box-shadow:0 0 0 2px rgba(225,85,20,.1); }
+  .test-footer { display:flex; justify-content:space-between; align-items:center; gap:14px; border-top:1px solid var(--line); padding:19px 24px; background:#fbfcfe; }
+  .footer-note { color:var(--muted); font-size:.83rem; }
+  .result-hero { padding:33px clamp(22px, 5vw, 42px); background:linear-gradient(135deg, var(--navy), #284462); color:#fff; }
+  .result-hero h1 { color:#fff; font-size:2.1rem; }
+  .result-hero p { color:#d4deea; margin:7px 0 0; }
+  .score-row { display:flex; align-items:center; flex-wrap:wrap; gap:24px; margin-top:25px; }
+  .score-circle { width:112px; height:112px; border:7px solid rgba(255,255,255,.25); border-top-color:#ff9b69; border-right-color:#ff9b69; border-radius:50%; display:grid; place-items:center; text-align:center; }
+  .score-circle strong { display:block; font-size:1.8rem; line-height:1.1; }
+  .score-circle span { font-size:.68rem; color:#d4deea; }
+  .score-summary strong { font-size:1.35rem; display:block; }
+  .score-summary span { color:#d4deea; }
+  .result-body { padding:26px clamp(18px, 4vw, 34px) 32px; }
+  .result-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:25px; }
+  .result-stat { border:1px solid var(--line); border-radius:12px; padding:14px; background:#fff; }
+  .result-stat span { display:block; color:var(--muted); font-size:.8rem; }
+  .result-stat strong { display:block; margin-top:3px; color:var(--navy); font-size:1.3rem; }
+  .result-section-title { color:var(--navy); font-size:1.1rem; margin:25px 0 13px; }
+  .review-item { border:1px solid var(--line); border-radius:12px; padding:15px; margin:10px 0; }
+  .review-item.correct { border-left:4px solid var(--green); }
+  .review-item.incorrect { border-left:4px solid var(--red); }
+  .review-q { font-weight:750; margin-bottom:9px; }
+  .review-line { display:flex; flex-wrap:wrap; gap:6px 20px; color:var(--muted); font-size:.87rem; }
+  .review-line strong { color:var(--ink); }
+  .correct-text { color:var(--green) !important; }
+  .wrong-text { color:var(--red) !important; }
+  .empty-review { padding:17px; color:var(--green); background:var(--green-bg); border-radius:11px; }
+  .time-notice { padding:12px 14px; border-radius:10px; background:var(--amber-bg); color:var(--amber); font-weight:750; margin-bottom:19px; }
+  .result-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:25px; }
+  .toast { position:fixed; left:50%; bottom:22px; transform:translate(-50%, 20px); opacity:0; pointer-events:none; padding:11px 16px; background:var(--navy); color:#fff; border-radius:10px; box-shadow:var(--shadow); font-size:.9rem; transition:.2s; z-index:10; max-width:calc(100% - 28px); text-align:center; }
+  .toast.show { opacity:1; transform:translate(-50%,0); }
+  .hidden { display:none !important; }
+  @media (max-width:650px) {
+    .shell { width:min(100% - 20px, 980px); margin:20px auto 38px; }
+    .brand { font-size:.72rem; }
+    .form-grid { grid-template-columns:1fr; }
+    .test-head { padding:16px; }
+    .test-head-row { align-items:flex-start; }
+    .timer { min-width:104px; padding:8px; font-size:.98rem; }
+    .options { grid-template-columns:1fr; margin-left:0; }
+    .gap-line, .bank { margin-left:0; }
+    .test-footer { padding:16px; align-items:flex-start; flex-direction:column; }
+    .test-footer .primary { width:100%; }
+    .result-stats { grid-template-columns:1fr 1fr; }
+  }
+  @media print {
+    body { background:#fff; }
+    .topbar, .brand, .result-actions, .toast { display:none !important; }
+    .shell { width:100%; margin:0; }
+    .panel { box-shadow:none; border:0; }
+    .result-hero { print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+    .review-item { break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<main class="shell">
+  <div class="brand">
+    <div class="brand-mark"><span class="brand-dot"></span><span class="brand-unit">Vocabulary Assessment</span></div>
+    <span>Unit 10 · Timed test</span>
+  </div>
+
+  <section id="landing" class="screen active panel">
+    <div class="hero">
+      <div class="eyebrow">Unit 10 · Vocabulary Test</div>
+      <h1>Reaching for<br>the Skies</h1>
+      <p class="subtitle">Test your understanding of space and exploration vocabulary.</p>
+      <div class="stats">
+        <div class="stat"><strong>30</strong> questions</div>
+        <div class="stat"><strong>30</strong> points</div>
+        <div class="stat"><strong>10:00</strong> time limit</div>
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label for="studentName">Student name *</label>
+          <input id="studentName" type="text" maxlength="60" placeholder="Enter your full name" autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="className">Class (optional)</label>
+          <input id="className" type="text" maxlength="40" placeholder="Enter your class" />
+        </div>
+      </div>
+      <div class="actions">
+        <button id="startBtn" class="primary" disabled>Start test <span aria-hidden="true">→</span></button>
+      </div>
+      <p class="hint">You must enter your name to start. The 10-minute timer begins as soon as you start the test.</p>
+      <div class="instructions"><strong>Before you begin:</strong> Questions 1–15 are multiple choice. Questions 16–30 are contextual gap-fill questions. Drag a word into a gap, or tap a word and then tap the gap. Each word can be used once in its own word bank. When the timer reaches zero, your answers will be submitted automatically.</div>
+    </div>
+  </section>
+
+  <section id="testScreen" class="screen panel">
+    <div class="test-head">
+      <div class="test-head-row">
+        <div>
+          <div class="test-title">Unit 10: Reaching for the Skies</div>
+          <div class="student-line" id="studentLine"></div>
+        </div>
+        <div id="timer" class="timer" role="timer" aria-live="off"><span aria-hidden="true">◷</span><span id="timerText">10:00</span></div>
+      </div>
+    </div>
+    <div class="progress-wrap"><div id="progressBar" class="progress-bar"></div></div>
+    <div class="test-body">
+      <div class="progress-label"><span id="progressText">0 of 30 answered</span><span>1 point per question</span></div>
+      <div id="questions"></div>
+    </div>
+    <div class="test-footer">
+      <div class="footer-note">Check your answers before submitting. Unanswered questions receive 0 points.</div>
+      <button id="submitBtn" class="primary">Submit test</button>
+    </div>
+  </section>
+
+  <section id="resultScreen" class="screen panel">
+    <div class="result-hero">
+      <div class="eyebrow" style="color:#ffb08a">Unit 10 · Test report</div>
+      <h1>Test completed</h1>
+      <p id="resultStudent"></p>
+      <div class="score-row">
+        <div class="score-circle"><div><strong id="scoreBig">0/30</strong><span>YOUR SCORE</span></div></div>
+        <div class="score-summary"><strong id="scoreMessage">Keep practising</strong><span id="percentageText">0% correct</span></div>
+      </div>
+    </div>
+    <div class="result-body">
+      <div id="timeNotice" class="time-notice hidden">Time is up. Your answers were submitted automatically.</div>
+      <div class="result-stats">
+        <div class="result-stat"><span>Multiple choice · Q1–15</span><strong id="mcScore">0/15</strong></div>
+        <div class="result-stat"><span>Gap filling · Q16–20</span><strong id="gap1Score">0/5</strong></div>
+        <div class="result-stat"><span>Word Box 2 · Q21–25</span><strong id="gap2Score">0/5</strong></div>
+        <div class="result-stat"><span>Word Box 3 · Q26–30</span><strong id="gap3Score">0/5</strong></div>
+      </div>
+      <h2 class="result-section-title">Review your answers</h2>
+      <div id="reviewList"></div>
+      <div class="result-actions">
+        <button id="printBtn" class="secondary">Print results</button>
+        <button id="retakeBtn" class="ghost">Retake test</button>
+      </div>
+    </div>
+  </section>
+</main>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+(() => {
+  'use strict';
+  const TIME_LIMIT_SECONDS = 10 * 60;
+
+  const multipleChoice = [
+    {n:1, q:'A person trained to travel and work in space is an ...', options:['explorer','satellite','simulator','astronaut'], answer:3},
+    {n:2, q:'A huge group of stars, gas, and dust held together by gravity is a ...', options:['galaxy','crater','planet','orbit'], answer:0},
+    {n:3, q:'A vehicle designed to travel beyond Earth’s atmosphere is a ...', options:['rocket fuel','spacecraft','satellite','simulator'], answer:1},
+    {n:4, q:'The path followed by an object around a planet or star is an ...', options:['surface','launch','orbit','horizon'], answer:2},
+    {n:5, q:'The force that pulls objects towards each other is ...', options:['radiation','weightlessness','debris','gravity'], answer:3},
+    {n:6, q:'A streak of light produced when space material burns in the atmosphere is a ...', options:['meteor','asteroid','crater','satellite'], answer:0},
+    {n:7, q:'Energy that travels as waves or particles is ...', options:['debris','radiation','gravity','gas'], answer:1},
+    {n:8, q:'Relating to the Moon means ...', options:['terrestrial','cosmic','lunar','solar'], answer:2},
+    {n:9, q:'Not suitable for people to live in means ...', options:['unmanned','universal','horizontal','uninhabitable'], answer:3},
+    {n:10, q:'Related to the Sun means ...', options:['solar','lunar','meteoric','toxic'], answer:0},
+    {n:11, q:'Operating without a person on board means ...', options:['extreme','unmanned','commercial','terrestrial'], answer:1},
+    {n:12, q:'To push or drive something forward is to ...', options:['rotate','float','propel','orbit'], answer:2},
+    {n:13, q:'To investigate a place in order to learn more about it is to ...', options:['orbit','sustain','acclimatise','explore'], answer:3},
+    {n:14, q:'To become used to a new environment is to ...', options:['acclimatise','colonise','simulate','undergo'], answer:0},
+    {n:15, q:'The condition of seeming to have no weight is ...', options:['atmosphere','weightlessness','gravity','radiation'], answer:1}
+  ];
+
+  const gapGroups = [
+    {title:'PART B · GAP FILLING · WORD BOX 1', start:16, words:['atmosphere','asteroid','debris','exploration','launch'], questions:[
+      {n:16, before:'The layer of gases surrounding Earth is its', after:'; it helps protect life on the planet.', answer:'atmosphere'},
+      {n:17, before:'Scientists tracked a rocky object travelling around the Sun; it was an', after:'.', answer:'asteroid'},
+      {n:18, before:'After the collision, small pieces of broken material floated near the spacecraft. The crew reported', after:'.', answer:'debris'},
+      {n:19, before:'The mission’s main purpose is the scientific', after:'of distant planets and moons.', answer:'exploration'},
+      {n:20, before:'The rocket cannot leave the ground until the team gives permission for', after:'.', answer:'launch'}
+    ]},
+    {title:'PART B · GAP FILLING · WORD BOX 2', start:21, words:['simulator','outer space','universal','toxic','horizontal'], questions:[
+      {n:21, before:'Before the flight, the astronaut practised emergencies in a training', after:'.', answer:'simulator'},
+      {n:22, before:'The crew left Earth’s atmosphere and entered', after:'.', answer:'outer space'},
+      {n:23, before:'The crew followed', after:'safety procedures that applied to every mission.', answer:'universal'},
+      {n:24, before:'The alarm warned the crew that a poisonous gas leak could be', after:'.', answer:'toxic'},
+      {n:25, before:'The instrument must stay level, not tilted, so it remains', after:'.', answer:'horizontal'}
+    ]},
+    {title:'PART B · GAP FILLING · WORD BOX 3', start:26, words:['float','rotate','sustain','colonise','undergo'], questions:[
+      {n:26, before:'In weightlessness, a pen can', after:'through the cabin if it is not secured.', answer:'float'},
+      {n:27, before:'Earth takes about 24 hours to', after:'once around its axis.', answer:'rotate'},
+      {n:28, before:'Solar panels help', after:'the space station’s power supply.', answer:'sustain'},
+      {n:29, before:'Some scientists wonder whether humans could one day', after:'Mars.', answer:'colonise'},
+      {n:30, before:'Before launch, the spacecraft must', after:'several safety checks.', answer:'undergo'}
+    ]}
+  ];
+
+  const answers = {};
+  const pickedByGroup = {};
+  let student = '';
+  let className = '';
+  let secondsLeft = TIME_LIMIT_SECONDS;
+  let deadline = 0;
+  let timerInterval = null;
+  let testSubmitted = false;
+  let toastTimeout = null;
+
+  const $ = id => document.getElementById(id);
+  const landing = $('landing');
+  const testScreen = $('testScreen');
+  const resultScreen = $('resultScreen');
+  const nameInput = $('studentName');
+  const classInput = $('className');
+  const startBtn = $('startBtn');
+  const timerText = $('timerText');
+  const timerBox = $('timer');
+
+  function showScreen(screen) {
+    [landing, testScreen, resultScreen].forEach(s => s.classList.remove('active'));
+    screen.classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  function showToast(message) {
+    const toast = $('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => toast.classList.remove('show'), 2300);
+  }
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  }
+  function renderTest() {
+    const root = $('questions');
+    let html = '<div class="part"><h2>PART A · MULTIPLE CHOICE</h2><span>Questions 1–15 · 15 points</span></div>';
+    multipleChoice.forEach(item => {
+      html += `<article class="question"><div class="q-top"><span class="q-number">${item.n}</span><div class="q-text">${escapeHtml(item.q)}</div></div><div class="options">`;
+      item.options.forEach((option, index) => {
+        const letter = String.fromCharCode(65 + index);
+        html += `<button type="button" class="option" data-q="${item.n}" data-answer="${index}" aria-pressed="false"><span class="letter">${letter})</span><span>${escapeHtml(option)}</span></button>`;
+      });
+      html += '</div></article>';
+    });
+    gapGroups.forEach((group, gi) => {
+      html += `<div class="part"><h2>${escapeHtml(group.title)}</h2><span>Questions ${group.start}–${group.start+4} · 5 points</span></div>`;
+      group.questions.forEach(q => {
+        html += `<article class="question"><div class="q-top"><span class="q-number">${q.n}</span><div class="q-text">Complete the sentence:</div></div><div class="gap-line"><span>${escapeHtml(q.before)}</span><button type="button" class="drop-slot" data-gap="${q.n}" data-group="${gi}" aria-label="Answer for question ${q.n}">Drop word here</button><span>${escapeHtml(q.after)}</span></div></article>`;
+      });
+      html += `<div class="bank"><div class="bank-title">Word bank ${gi+1} · Drag a word into a gap or tap to select</div><div class="word-list">`;
+      group.words.forEach((word, wi) => {
+        html += `<button type="button" draggable="true" class="word" data-word="${escapeHtml(word)}" data-group="${gi}" aria-pressed="false">${escapeHtml(word)}</button>`;
+      });
+      html += '</div></div>';
+    });
+    root.innerHTML = html;
+    root.querySelectorAll('.option').forEach(btn => btn.addEventListener('click', () => selectMC(btn)));
+    root.querySelectorAll('.word').forEach(word => {
+      word.addEventListener('dragstart', e => {
+        if (word.classList.contains('used') || testSubmitted) { e.preventDefault(); return; }
+        e.dataTransfer.setData('text/plain', JSON.stringify({word:word.dataset.word, group:Number(word.dataset.group)}));
+        e.dataTransfer.effectAllowed = 'move';
+      });
+      word.addEventListener('click', () => selectWord(word));
+    });
+    root.querySelectorAll('.drop-slot').forEach(slot => {
+      slot.addEventListener('dragover', e => { if (!testSubmitted) { e.preventDefault(); slot.classList.add('over'); } });
+      slot.addEventListener('dragleave', () => slot.classList.remove('over'));
+      slot.addEventListener('drop', e => {
+        e.preventDefault(); slot.classList.remove('over');
+        if (testSubmitted) return;
+        try { const data = JSON.parse(e.dataTransfer.getData('text/plain')); placeWord(data.word, data.group, Number(slot.dataset.gap), Number(slot.dataset.group)); } catch (_) { showToast('Please choose a word from the correct word bank.'); }
+      });
+      slot.addEventListener('click', () => placePickedWord(Number(slot.dataset.gap), Number(slot.dataset.group)));
+    });
+  }
+  function selectMC(button) {
+    if (testSubmitted) return;
+    const q = Number(button.dataset.q);
+    answers[q] = Number(button.dataset.answer);
+    document.querySelectorAll(`.option[data-q="${q}"]`).forEach(el => {
+      const selected = el === button;
+      el.classList.toggle('selected', selected);
+      el.setAttribute('aria-pressed', selected ? 'true' : 'false');
+    });
+    updateProgress();
+  }
+  function selectWord(button) {
+    if (testSubmitted || button.classList.contains('used')) return;
+    const group = Number(button.dataset.group);
+    document.querySelectorAll(`.word[data-group="${group}"]`).forEach(el => {
+      const selected = el === button;
+      el.classList.toggle('picked', selected);
+      el.setAttribute('aria-pressed', selected ? 'true' : 'false');
+    });
+    pickedByGroup[group] = button.dataset.word;
+    showToast(`Selected “${button.dataset.word}”. Now tap a gap in Word Box ${group+1}.`);
+  }
+  function placePickedWord(q, group) {
+    if (testSubmitted) return;
+    const word = pickedByGroup[group];
+    if (!word) { showToast('Tap a word from this word bank first.'); return; }
+    placeWord(word, group, q, group);
+  }
+  function placeWord(word, fromGroup, q, toGroup) {
+    if (testSubmitted) return;
+    if (fromGroup !== toGroup) { showToast('Use a word from the matching word bank.'); return; }
+    const group = gapGroups[toGroup];
+    if (!group || !group.words.includes(word)) return;
+    // Return any previous value in this gap to its bank by removing the answer mapping.
+    answers[q] = word;
+    document.querySelectorAll(`.drop-slot[data-gap="${q}"]`).forEach(slot => {
+      slot.textContent = word;
+      slot.classList.add('filled');
+    });
+    // A selected word is consumed once per bank; prior placement of the same word is moved.
+    document.querySelectorAll(`.word[data-group="${toGroup}"]`).forEach(el => {
+      const used = el.dataset.word === word;
+      el.classList.toggle('used', used);
+      el.classList.remove('picked');
+      el.setAttribute('aria-pressed', 'false');
+    });
+    delete pickedByGroup[toGroup];
+    // Keep the selected word reusable only by moving it, not duplicating it: clear it from any other gap.
+    group.questions.forEach(other => {
+      if (other.n !== q && answers[other.n] === word) {
+        delete answers[other.n];
+        const otherSlot = document.querySelector(`.drop-slot[data-gap="${other.n}"]`);
+        if (otherSlot) { otherSlot.textContent = 'Drop word here'; otherSlot.classList.remove('filled'); }
+      }
+    });
+    // Recompute used state after the move.
+    const placedWords = group.questions.map(item => answers[item.n]).filter(Boolean);
+    document.querySelectorAll(`.word[data-group="${toGroup}"]`).forEach(el => {
+      const used = placedWords.includes(el.dataset.word);
+      el.classList.toggle('used', used);
+      el.classList.remove('picked');
+      el.setAttribute('aria-pressed', 'false');
+    });
+    updateProgress();
+  }
+  function updateProgress() {
+    const answered = Object.keys(answers).filter(k => answers[k] !== undefined && answers[k] !== null && answers[k] !== '').length;
+    $('progressText').textContent = `${answered} of 30 answered`;
+    $('progressBar').style.width = `${(answered/30)*100}%`;
+  }
+  function formatTime(total) {
+    const minutes = Math.floor(total / 60).toString().padStart(2,'0');
+    const seconds = (total % 60).toString().padStart(2,'0');
+    return `${minutes}:${seconds}`;
+  }
+  function updateTimer() {
+    timerText.textContent = formatTime(secondsLeft);
+    timerBox.classList.toggle('warning', secondsLeft <= 120 && secondsLeft > 30);
+    timerBox.classList.toggle('danger', secondsLeft <= 30);
+  }
+  function startTimer() {
+    secondsLeft = TIME_LIMIT_SECONDS;
+    deadline = Date.now() + TIME_LIMIT_SECONDS * 1000;
+    updateTimer();
+    timerInterval = setInterval(() => {
+      secondsLeft = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+      updateTimer();
+      if (secondsLeft === 120) showToast('Two minutes remaining.');
+      if (secondsLeft === 30) showToast('30 seconds remaining. The test will submit automatically.');
+      if (secondsLeft <= 0) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        submitTest(true);
+      }
+    }, 250);
+  }
+  function startTest() {
+    student = nameInput.value.trim();
+    className = classInput.value.trim();
+    if (!student) { nameInput.focus(); return; }
+    Object.keys(answers).forEach(k => delete answers[k]);
+    Object.keys(pickedByGroup).forEach(k => delete pickedByGroup[k]);
+    testSubmitted = false;
+    $('studentLine').textContent = className ? `${student} · ${className}` : student;
+    renderTest();
+    updateProgress();
+    showScreen(testScreen);
+    startTimer();
+  }
+  function responseFor(q) {
+    if (q <= 15) {
+      const value = answers[q];
+      return value === undefined ? '' : `${String.fromCharCode(65 + value)}) ${multipleChoice[q-1].options[value]}`;
+    }
+    return answers[q] || '';
+  }
+  function questionData() {
+    const list = [];
+    multipleChoice.forEach(item => list.push({n:item.n, q:item.q, response:responseFor(item.n), correct:`${String.fromCharCode(65 + item.answer)}) ${item.options[item.answer]}`, isCorrect:answers[item.n] === item.answer, type:'Multiple choice'}));
+    gapGroups.forEach(group => group.questions.forEach(item => list.push({n:item.n, q:`${item.before} ______ ${item.after}`, response:responseFor(item.n), correct:item.answer, isCorrect:(answers[item.n] || '').toLowerCase() === item.answer.toLowerCase(), type:'Gap filling'})));
+    return list;
+  }
+  function submitTest(auto = false) {
+    if (testSubmitted) return;
+    const unanswered = 30 - Object.keys(answers).filter(k => answers[k] !== undefined && answers[k] !== null && answers[k] !== '').length;
+    if (!auto && unanswered > 0) {
+      const proceed = window.confirm(`You have ${unanswered} unanswered question${unanswered === 1 ? '' : 's'}. Submit your test now? Unanswered questions will receive 0 points.`);
+      if (!proceed) return;
+    }
+    testSubmitted = true;
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = null;
+    document.querySelectorAll('#questions button').forEach(btn => { btn.disabled = true; });
+    const data = questionData();
+    const score = data.filter(item => item.isCorrect).length;
+    const mc = data.filter(item => item.n <= 15 && item.isCorrect).length;
+    const g1 = data.filter(item => item.n >= 16 && item.n <= 20 && item.isCorrect).length;
+    const g2 = data.filter(item => item.n >= 21 && item.n <= 25 && item.isCorrect).length;
+    const g3 = data.filter(item => item.n >= 26 && item.n <= 30 && item.isCorrect).length;
+    const percent = Math.round(score / 30 * 100);
+    $('resultStudent').textContent = `${student}${className ? ' · ' + className : ''}`;
+    $('scoreBig').textContent = `${score}/30`;
+    $('percentageText').textContent = `${percent}% correct`;
+    $('scoreMessage').textContent = score >= 27 ? 'Excellent work' : score >= 21 ? 'Good work' : score >= 15 ? 'Keep building your vocabulary' : 'More practice will help';
+    $('mcScore').textContent = `${mc}/15`;
+    $('gap1Score').textContent = `${g1}/5`;
+    $('gap2Score').textContent = `${g2}/5`;
+    $('gap3Score').textContent = `${g3}/5`;
+    $('timeNotice').classList.toggle('hidden', !auto);
+    $('reviewList').innerHTML = data.map(item => {
+      const statusClass = item.isCorrect ? 'correct' : 'incorrect';
+      const status = item.isCorrect ? 'Correct' : (item.response ? 'Incorrect' : 'Not answered');
+      return `<div class="review-item ${statusClass}"><div class="review-q">${item.n}. ${escapeHtml(item.q)}</div><div class="review-line"><span>Your answer: <strong class="${item.isCorrect ? 'correct-text' : 'wrong-text'}">${item.response ? escapeHtml(item.response) : 'No answer'}</strong></span><span>Correct answer: <strong class="correct-text">${escapeHtml(item.correct)}</strong></span><span>${status}</span></div></div>`;
+    }).join('');
+    if (auto) $('timeNotice').classList.remove('hidden');
+    showScreen(resultScreen);
+  }
+
+  nameInput.addEventListener('input', () => { startBtn.disabled = !nameInput.value.trim(); });
+  startBtn.addEventListener('click', startTest);
+  nameInput.addEventListener('keydown', e => { if (e.key === 'Enter' && !startBtn.disabled) startTest(); });
+  $('submitBtn').addEventListener('click', () => submitTest(false));
+  $('printBtn').addEventListener('click', () => window.print());
+  $('retakeBtn').addEventListener('click', () => {
+    Object.keys(answers).forEach(k => delete answers[k]);
+    Object.keys(pickedByGroup).forEach(k => delete pickedByGroup[k]);
+    secondsLeft = TIME_LIMIT_SECONDS;
+    timerInterval = null;
+    testSubmitted = false;
+    nameInput.value = student;
+    classInput.value = className;
+    startBtn.disabled = !student;
+    showScreen(landing);
+  });
+
+  // Keep the first screen ready without starting the countdown before the student begins.
+  startBtn.disabled = true;
+})();
+</script>
+</body>
+</html>
