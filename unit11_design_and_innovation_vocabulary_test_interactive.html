@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#17324d">
+<title>Unit 11 | Design and Innovation - Interactive Vocabulary Test</title>
+<style>
+  :root {
+    --navy: #17324d;
+    --teal: #167c80;
+    --teal-dark: #11666a;
+    --ink: #1e293b;
+    --muted: #64748b;
+    --line: #dbe4ec;
+    --panel: #f5f8fb;
+    --white: #ffffff;
+    --green: #18794e;
+    --green-bg: #eaf7ef;
+    --red: #b42318;
+    --red-bg: #fff0ef;
+    --amber: #9a6700;
+    --amber-bg: #fff7df;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #f2f5f8;
+    color: var(--ink);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.55;
+  }
+  button, input { font: inherit; }
+  button { cursor: pointer; }
+  .topbar { background: var(--navy); color: white; padding: 22px 18px; }
+  .topbar-inner { width: min(100% - 24px, 1000px); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .brand { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; opacity: .82; font-weight: 750; }
+  .unit-title { font-size: clamp(20px, 3vw, 27px); font-weight: 800; margin: 2px 0 0; }
+  .top-tag { border: 1px solid rgba(255,255,255,.32); border-radius: 999px; padding: 6px 12px; font-size: 12px; white-space: nowrap; }
+  main { width: min(100% - 24px, 1000px); margin: 28px auto 44px; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+  .card { background: var(--white); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 10px 28px rgba(20, 43, 66, .055); }
+  .landing-card { max-width: 610px; margin: 42px auto; padding: clamp(24px, 5vw, 42px); }
+  .eyebrow { color: var(--teal); font-size: 12px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { color: var(--navy); font-size: clamp(25px, 4vw, 34px); line-height: 1.2; margin: 8px 0 12px; }
+  h2 { color: var(--navy); font-size: 22px; margin-bottom: 8px; }
+  .muted { color: var(--muted); }
+  .intro { margin-bottom: 24px; }
+  .form-grid { display: grid; gap: 15px; margin: 24px 0; }
+  .field label { display: block; font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+  .field input { display: block; width: 100%; padding: 13px 14px; border: 1px solid #cbd5e1; border-radius: 10px; outline: none; background: white; color: var(--ink); }
+  .field input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(22,124,128,.13); }
+  .field input[aria-invalid="true"] { border-color: var(--red); }
+  .error-text { color: var(--red); min-height: 20px; font-size: 13px; margin-top: 5px; }
+  .info-strip { display: flex; flex-wrap: wrap; gap: 9px; margin: 20px 0; }
+  .info-pill { display: inline-flex; align-items: center; gap: 7px; background: #eef5f8; color: #29465b; border-radius: 999px; padding: 7px 11px; font-size: 13px; font-weight: 700; }
+  .btn { border: 0; border-radius: 10px; padding: 12px 18px; font-weight: 750; transition: transform .12s ease, background .12s ease; }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { color: white; background: var(--teal); }
+  .btn-primary:hover { background: var(--teal-dark); }
+  .btn-primary:disabled { cursor: not-allowed; opacity: .45; }
+  .btn-secondary { color: var(--navy); background: #eaf0f5; }
+  .btn-secondary:hover { background: #dde7ef; }
+  .btn-danger { color: white; background: #a9322b; }
+  .btn-danger:hover { background: #8c2924; }
+  .btn-block { width: 100%; }
+  .test-shell { overflow: hidden; }
+  .test-toolbar { position: sticky; top: 0; z-index: 5; background: rgba(255,255,255,.97); border-bottom: 1px solid var(--line); padding: 16px clamp(15px, 3vw, 26px); backdrop-filter: blur(8px); }
+  .toolbar-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; }
+  .student-line { font-size: 14px; color: var(--muted); }
+  .student-line strong { color: var(--navy); }
+  .timer { display: flex; align-items: center; gap: 8px; color: var(--navy); font-weight: 850; font-variant-numeric: tabular-nums; font-size: 20px; background: #eef4f8; border-radius: 10px; padding: 7px 12px; min-width: 112px; justify-content: center; }
+  .timer.warning { color: var(--red); background: var(--red-bg); }
+  .progress-wrap { margin-top: 13px; display: flex; gap: 12px; align-items: center; }
+  .progress-track { flex: 1; height: 8px; background: #e7edf2; border-radius: 20px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 0%; background: var(--teal); border-radius: inherit; transition: width .2s ease; }
+  .progress-label { color: var(--muted); font-size: 12px; font-weight: 750; white-space: nowrap; }
+  .test-content { padding: clamp(17px, 3vw, 30px); }
+  .part-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-left: 5px solid var(--teal); background: #edf5f6; color: var(--navy); padding: 11px 14px; margin: 8px 0 16px; border-radius: 0 9px 9px 0; }
+  .part-heading strong { font-size: 14px; letter-spacing: .04em; }
+  .part-heading span { color: var(--muted); font-size: 12px; white-space: nowrap; }
+  .question-card { border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin: 0 0 12px; background: white; }
+  .question-prompt { font-weight: 650; margin: 0 0 12px; }
+  .q-number { display: inline-block; color: var(--teal-dark); font-weight: 850; margin-right: 5px; }
+  .options { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
+  .option { display: flex; align-items: flex-start; gap: 10px; border: 1px solid #e0e7ee; border-radius: 9px; padding: 10px 12px; cursor: pointer; background: #fbfcfd; min-height: 44px; }
+  .option:hover { border-color: #9cc7c8; background: #f6fbfb; }
+  .option:has(input:checked) { border-color: var(--teal); background: #edf8f7; box-shadow: inset 0 0 0 1px var(--teal); }
+  .option input { accent-color: var(--teal); margin-top: 4px; }
+  .option-letter { font-weight: 850; color: var(--teal-dark); min-width: 17px; }
+  .bank-card { border: 1px solid var(--line); border-radius: 13px; margin: 0 0 18px; overflow: hidden; }
+  .bank-head { background: #f2f6f9; padding: 13px 15px; border-bottom: 1px solid var(--line); }
+  .bank-title { color: var(--navy); font-weight: 800; font-size: 14px; }
+  .bank-note { color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .word-bank { padding: 12px 14px 5px; display: flex; flex-wrap: wrap; gap: 8px; min-height: 52px; }
+  .word-chip { border: 1px solid #b9d5d6; color: #145c60; background: #f1fbfa; border-radius: 999px; padding: 7px 12px; font-weight: 750; font-size: 13px; cursor: grab; user-select: none; }
+  .word-chip:hover { background: #e2f4f2; }
+  .word-chip.selected { outline: 3px solid rgba(22,124,128,.22); background: #d8f0ed; border-color: var(--teal); }
+  .word-chip.used { opacity: .35; text-decoration: line-through; cursor: not-allowed; }
+  .word-chip:disabled { cursor: not-allowed; }
+  .gap-list { padding: 7px 14px 14px; }
+  .gap-question { display: flex; align-items: center; flex-wrap: wrap; gap: 5px 7px; padding: 10px 0; border-bottom: 1px solid #edf1f4; }
+  .gap-question:last-child { border-bottom: 0; }
+  .gap-number { color: var(--teal-dark); font-weight: 850; min-width: 26px; }
+  .drop-slot { display: inline-flex; align-items: center; justify-content: center; min-width: 118px; max-width: 100%; min-height: 36px; padding: 5px 11px; border: 2px dashed #9bbfc0; border-radius: 8px; background: #f7fbfb; color: #527477; font-size: 13px; font-weight: 750; }
+  .drop-slot.filled { border-style: solid; background: #e7f6f3; color: #155e58; }
+  .drop-slot.drag-over { outline: 3px solid rgba(22,124,128,.18); border-color: var(--teal); background: #e4f5f4; }
+  .drop-slot:focus-visible, .word-chip:focus-visible, .btn:focus-visible { outline: 3px solid rgba(22,124,128,.35); outline-offset: 2px; }
+  .selection-hint { color: var(--muted); font-size: 12px; padding: 0 14px 12px; }
+  .test-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px clamp(17px, 3vw, 30px) 22px; border-top: 1px solid var(--line); background: #fbfcfd; }
+  .test-actions small { color: var(--muted); }
+  .result-card { padding: clamp(20px, 4vw, 34px); }
+  .result-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  .score-circle { width: 132px; height: 132px; border-radius: 50%; border: 8px solid #d8ece9; display: grid; place-content: center; text-align: center; flex: 0 0 auto; background: #f5fbfa; }
+  .score-number { color: var(--navy); font-size: 33px; line-height: 1; font-weight: 900; }
+  .score-denom { color: var(--muted); font-size: 12px; margin-top: 5px; }
+  .result-status { padding: 12px 14px; border-radius: 10px; background: var(--green-bg); color: var(--green); font-weight: 750; margin: 20px 0; }
+  .result-status.timeout { background: var(--amber-bg); color: var(--amber); }
+  .score-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; margin: 20px 0 28px; }
+  .score-tile { background: var(--panel); border: 1px solid var(--line); border-radius: 11px; padding: 12px; }
+  .score-tile strong { display: block; color: var(--navy); font-size: 20px; }
+  .score-tile span { color: var(--muted); font-size: 12px; }
+  .review-title { color: var(--navy); margin: 25px 0 12px; }
+  .review-item { border: 1px solid var(--line); border-radius: 11px; padding: 13px 14px; margin-bottom: 10px; }
+  .review-item.incorrect { border-left: 4px solid var(--red); }
+  .review-q { font-weight: 750; margin-bottom: 7px; }
+  .review-answers { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 7px; font-size: 13px; }
+  .your-answer { color: var(--red); background: var(--red-bg); border-radius: 7px; padding: 7px 9px; overflow-wrap: anywhere; }
+  .correct-answer { color: var(--green); background: var(--green-bg); border-radius: 7px; padding: 7px 9px; overflow-wrap: anywhere; }
+  .review-empty { background: var(--green-bg); color: var(--green); border-radius: 10px; padding: 14px; font-weight: 750; }
+  .result-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
+  .privacy-note { color: var(--muted); font-size: 12px; text-align: center; margin: 18px 0 0; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  @media (max-width: 650px) {
+    main { margin-top: 15px; }
+    .topbar { padding: 16px 12px; }
+    .topbar-inner { width: 100%; }
+    .top-tag { display: none; }
+    .options { grid-template-columns: 1fr; }
+    .score-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .review-answers { grid-template-columns: 1fr; }
+    .test-actions { align-items: stretch; flex-direction: column; }
+    .test-actions .btn { width: 100%; }
+    .result-top { align-items: center; }
+    .score-circle { width: 112px; height: 112px; }
+  }
+  @media print {
+    body { background: white; }
+    .topbar, #landingScreen, #testScreen, .result-actions, .privacy-note { display: none !important; }
+    main { width: 100%; margin: 0; }
+    #resultScreen { display: block !important; }
+    .result-card { box-shadow: none; border: 0; padding: 0; }
+    .review-item, .score-tile { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div>
+      <div class="brand">Vocabulary Assessment</div>
+      <div class="unit-title">Unit 11: Design and Innovation</div>
+    </div>
+    <div class="top-tag">30 questions · 30 points · 10 minutes</div>
+  </div>
+</header>
+<main>
+  <section id="landingScreen" class="screen active" aria-labelledby="landingTitle">
+    <div class="card landing-card">
+      <div class="eyebrow">Vocabulary test</div>
+      <h1 id="landingTitle">Design and Innovation</h1>
+      <p class="muted intro">Enter your details to begin. The test contains 30 questions and has a 10-minute time limit. Your answers will be submitted automatically when time runs out.</p>
+      <div class="info-strip">
+        <span class="info-pill">30 questions</span>
+        <span class="info-pill">30 points</span>
+        <span class="info-pill">10 minutes</span>
+      </div>
+      <form id="startForm" novalidate>
+        <div class="form-grid">
+          <div class="field">
+            <label for="studentName">Student name <span aria-hidden="true">*</span></label>
+            <input id="studentName" name="studentName" type="text" autocomplete="name" maxlength="80" placeholder="Enter your full name" required>
+            <div id="nameError" class="error-text" aria-live="polite"></div>
+          </div>
+          <div class="field">
+            <label for="className">Class (optional)</label>
+            <input id="className" name="className" type="text" maxlength="50" placeholder="Enter your class">
+          </div>
+        </div>
+        <button id="startButton" class="btn btn-primary btn-block" type="submit">Start test</button>
+      </form>
+      <p class="privacy-note">This test runs in your browser. Answers are not sent to a server.</p>
+    </div>
+  </section>
+
+  <section id="testScreen" class="screen" aria-label="Vocabulary test">
+    <div class="card test-shell">
+      <div class="test-toolbar">
+        <div class="toolbar-row">
+          <div class="student-line">Student: <strong id="activeStudent">—</strong><span id="activeClass"></span></div>
+          <div id="timer" class="timer" role="timer" aria-live="off"><span aria-hidden="true">◷</span><span id="timerText">10:00</span></div>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-track" role="progressbar" aria-label="Answered questions" aria-valuemin="0" aria-valuemax="30" aria-valuenow="0" id="progressTrack"><div id="progressFill" class="progress-fill"></div></div>
+          <div id="progressLabel" class="progress-label">0 / 30 answered</div>
+        </div>
+      </div>
+      <div id="testContent" class="test-content"></div>
+      <div class="test-actions">
+        <small id="selectionStatus" aria-live="polite">Choose an answer for each question. Use each word once in its word bank.</small>
+        <button id="submitButton" class="btn btn-primary" type="button">Submit test</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="resultScreen" class="screen" aria-labelledby="resultTitle">
+    <div class="card result-card">
+      <div class="result-top">
+        <div>
+          <div class="eyebrow">Test completed</div>
+          <h1 id="resultTitle">Your results</h1>
+          <p class="muted" id="resultStudent"></p>
+          <p class="muted" id="resultDate"></p>
+        </div>
+        <div class="score-circle" aria-label="Final score">
+          <div class="score-number" id="scoreNumber">0</div>
+          <div class="score-denom">out of 30</div>
+        </div>
+      </div>
+      <div id="resultStatus" class="result-status" role="status"></div>
+      <div class="score-grid" id="scoreGrid"></div>
+      <h2 class="review-title">Review your mistakes</h2>
+      <div id="mistakeReview"></div>
+      <div class="result-actions">
+        <button id="printButton" class="btn btn-secondary" type="button">Print results</button>
+        <button id="retakeButton" class="btn btn-primary" type="button">Retake test</button>
+      </div>
+      <p class="privacy-note">Your result is displayed locally in this browser and is not automatically sent to your teacher.</p>
+    </div>
+  </section>
+</main>
+<script>
+'use strict';
+
+const TIME_LIMIT_SECONDS = 10 * 60;
+
+const multipleChoice = [
+  { id: 1, prompt: 'The vertical space through which an elevator moves is a ...', options: ['platform', 'balcony', 'lift shaft', 'staircase'], answer: 'C' },
+  { id: 2, prompt: 'A very tall building with many floors is a ...', options: ['cottage', 'residence', 'quarry', 'skyscraper'], answer: 'D' },
+  { id: 3, prompt: 'A strong metal made mainly from iron is ...', options: ['steel', 'timber', 'concrete', 'brick'], answer: 'A' },
+  { id: 4, prompt: 'A person who lives in or uses a building is an ...', options: ['landmark', 'occupant', 'engineer', 'inventor'], answer: 'B' },
+  { id: 5, prompt: 'A place where stone is dug from the ground is a ...', options: ['storage', 'ceiling', 'quarry', 'platform'], answer: 'C' },
+  { id: 6, prompt: 'A small house, often in the countryside, is a ...', options: ['skyscraper', 'building frame', 'residence', 'cottage'], answer: 'D' },
+  { id: 7, prompt: 'Using new ideas or methods is ...', options: ['innovative', 'conventional', 'cramped', 'domestic'], answer: 'A' },
+  { id: 8, prompt: 'Having plenty of fresh air and space means ...', options: ['internal', 'airy', 'ornate', 'disposable'], answer: 'B' },
+  { id: 9, prompt: 'Made in large quantities by machines means ...', options: ['state-of-the-art', 'traditional', 'mass-produced', 'prefabricated'], answer: 'C' },
+  { id: 10, prompt: 'Using the newest and most advanced technology means ...', options: ['old-fashioned', 'conventional', 'typical', 'state-of-the-art'], answer: 'D' },
+  { id: 11, prompt: 'Having several floors means ...', options: ['multi-storey', 'single-storey', 'curved', 'cosy'], answer: 'A' },
+  { id: 12, prompt: 'Designed to serve a practical purpose means ...', options: ['cramped', 'functional', 'futuristic', 'ornate'], answer: 'B' },
+  { id: 13, prompt: 'To make a process operate by machines with little human control is to ...', options: ['condemn', 'occupy', 'automate', 'decorate'], answer: 'C' },
+  { id: 14, prompt: 'To pull down or destroy a building is to ...', options: ['renovate', 'maintain', 'support', 'demolish'], answer: 'D' },
+  { id: 15, prompt: 'To lift something heavy using a crane or ropes is to ...', options: ['hoist', 'haul', 'trigger', 'devise'], answer: 'A' }
+];
+
+const gapBanks = [
+  {
+    id: 'bank1', title: 'Word bank 1 · Questions 16–20',
+    words: ['concrete', 'engineering', 'innovation', 'balcony', 'storage'],
+    questions: [
+      { id: 16, before: 'Workers poured', after: 'for the foundations so the building would have a strong base.', answer: 'concrete' },
+      { id: 17, before: 'The bridge required careful', after: 'to make sure it could carry heavy traffic safely.', answer: 'engineering' },
+      { id: 18, before: 'The self-adjusting windows were an important', after: 'because they reduced energy use.', answer: 'innovation' },
+      { id: 19, before: 'We stepped onto the', after: 'to look down at the garden below.', answer: 'balcony' },
+      { id: 20, before: 'The apartment has extra', after: 'under the staircase for boxes and tools.', answer: 'storage' }
+    ]
+  },
+  {
+    id: 'bank2', title: 'Word bank 2 · Questions 21–25',
+    words: ['spacious', 'cramped', 'prefabricated', 'curved', 'ultra-modern'],
+    questions: [
+      { id: 21, before: 'The new classroom is', after: ', with enough room for every student to move comfortably.', answer: 'spacious' },
+      { id: 22, before: 'The old office felt', after: 'because too many desks had been placed in the small room.', answer: 'cramped' },
+      { id: 23, before: 'The walls were', after: ', made in a factory and assembled at the building site.', answer: 'prefabricated' },
+      { id: 24, before: 'The architect designed a', after: 'roof with no sharp corners.', answer: 'curved' },
+      { id: 25, before: 'The new tower looks', after: ', with smart systems and a striking contemporary style.', answer: 'ultra-modern' }
+    ]
+  },
+  {
+    id: 'bank3', title: 'Word bank 3 · Questions 26–30',
+    words: ['construct', 'renovate', 'maintain', 'trigger', 'occupy'],
+    questions: [
+      { id: 26, before: 'The company will', after: 'a new bridge across the river.', answer: 'construct' },
+      { id: 27, before: 'The owners plan to', after: 'the old cottage by repairing the roof and updating the kitchen.', answer: 'renovate' },
+      { id: 28, before: 'Technicians must', after: 'the elevator regularly so it continues to work safely.', answer: 'maintain' },
+      { id: 29, before: 'Smoke from a fire can', after: 'the alarm and alert everyone in the building.', answer: 'trigger' },
+      { id: 30, before: 'The family will', after: 'the apartment as soon as the repairs are finished.', answer: 'occupy' }
+    ]
+  }
+];
+
+const allGapQuestions = gapBanks.flatMap(bank => bank.questions.map(q => ({ ...q, bank: bank.id })));
+const allQuestions = [...multipleChoice, ...allGapQuestions];
+const state = {
+  studentName: '', className: '', answers: {}, selectedWord: null,
+  deadline: null, timerInterval: null, started: false, finished: false,
+  submissionReason: 'manual'
+};
+
+const $ = (selector) => document.querySelector(selector);
+const landingScreen = $('#landingScreen');
+const testScreen = $('#testScreen');
+const resultScreen = $('#resultScreen');
+const testContent = $('#testContent');
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+}
+
+function showScreen(screen) {
+  [landingScreen, testScreen, resultScreen].forEach(el => el.classList.remove('active'));
+  screen.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'instant' });
+}
+
+function renderMultipleChoice() {
+  return multipleChoice.map(q => `
+    <article class="question-card" id="question-${q.id}">
+      <p class="question-prompt"><span class="q-number">${q.id}.</span>${escapeHtml(q.prompt)}</p>
+      <div class="options">
+        ${q.options.map((option, index) => {
+          const letter = String.fromCharCode(65 + index);
+          return `<label class="option"><input type="radio" name="q${q.id}" value="${letter}" data-qid="${q.id}"><span class="option-letter">${letter})</span><span>${escapeHtml(option)}</span></label>`;
+        }).join('')}
+      </div>
+    </article>`).join('');
+}
+
+function renderGapBank(bank) {
+  return `
+    <section class="bank-card" aria-labelledby="${bank.id}-title">
+      <div class="bank-head">
+        <div class="bank-title" id="${bank.id}-title">${escapeHtml(bank.title)}</div>
+        <div class="bank-note">Drag a word into a gap, or tap a word and then tap its gap. Use each word once in this box.</div>
+      </div>
+      <div class="word-bank" data-bank="${bank.id}">
+        ${bank.words.map(word => `<button class="word-chip" type="button" draggable="true" data-bank="${bank.id}" data-word="${escapeHtml(word)}">${escapeHtml(word)}</button>`).join('')}
+      </div>
+      <div class="selection-hint" id="${bank.id}-hint">Select a word to place it in an empty gap.</div>
+      <div class="gap-list">
+        ${bank.questions.map(q => `
+          <div class="gap-question" id="question-${q.id}">
+            <span class="gap-number">${q.id}.</span>
+            <span>${escapeHtml(q.before)}</span>
+            <button class="drop-slot" type="button" data-qid="${q.id}" data-bank="${bank.id}" aria-label="Answer for question ${q.id}">Drop here</button>
+            <span>${escapeHtml(q.after)}</span>
+          </div>`).join('')}
+      </div>
+    </section>`;
+}
+
+function renderTest() {
+  testContent.innerHTML = `
+    <div class="part-heading"><strong>PART A · MULTIPLE CHOICE</strong><span>Questions 1–15 · 15 points</span></div>
+    ${renderMultipleChoice()}
+    <div class="part-heading"><strong>PART B · GAP FILLING</strong><span>Questions 16–30 · 15 points</span></div>
+    ${gapBanks.map(renderGapBank).join('')}
+  `;
+  updateGapUI();
+  updateProgress();
+}
+
+function countAnswered() {
+  return allQuestions.reduce((count, q) => count + (state.answers[q.id] ? 1 : 0), 0);
+}
+
+function updateProgress() {
+  const count = countAnswered();
+  $('#progressFill').style.width = `${(count / 30) * 100}%`;
+  $('#progressLabel').textContent = `${count} / 30 answered`;
+  $('#progressTrack').setAttribute('aria-valuenow', String(count));
+}
+
+function isWordUsed(bankId, word, exceptQuestionId = null) {
+  return allGapQuestions.some(q => q.bank === bankId && q.id !== exceptQuestionId && state.answers[q.id] === word);
+}
+
+function updateGapUI() {
+  testContent.querySelectorAll('.word-chip').forEach(chip => {
+    const bank = chip.dataset.bank;
+    const word = chip.dataset.word;
+    const used = isWordUsed(bank, word);
+    chip.disabled = used;
+    chip.classList.toggle('used', used);
+    chip.classList.toggle('selected', !!state.selectedWord && state.selectedWord.bank === bank && state.selectedWord.word === word);
+    chip.setAttribute('aria-pressed', String(!!state.selectedWord && state.selectedWord.bank === bank && state.selectedWord.word === word));
+  });
+  testContent.querySelectorAll('.drop-slot').forEach(slot => {
+    const answer = state.answers[slot.dataset.qid];
+    slot.textContent = answer || 'Drop here';
+    slot.classList.toggle('filled', !!answer);
+    slot.setAttribute('aria-label', `Answer for question ${slot.dataset.qid}: ${answer || 'empty'}. ${answer ? 'Tap to remove the answer.' : 'Tap to place the selected word.'}`);
+  });
+  gapBanks.forEach(bank => {
+    const hint = $(`#${bank.id}-hint`);
+    if (hint) {
+      if (state.selectedWord?.bank === bank.id) hint.textContent = `Selected: ${state.selectedWord.word}. Now tap an empty gap in this word bank.`;
+      else if (state.selectedWord) hint.textContent = `A word from another box is selected. Select a word from this box to answer these questions.`;
+      else hint.textContent = 'Select a word to place it in an empty gap.';
+    }
+  });
+}
+
+function setSelectionStatus(message) {
+  $('#selectionStatus').textContent = message;
+}
+
+function handleWordSelection(chip) {
+  if (chip.disabled || state.finished) return;
+  const bank = chip.dataset.bank;
+  const word = chip.dataset.word;
+  if (state.selectedWord?.bank === bank && state.selectedWord?.word === word) {
+    state.selectedWord = null;
+  } else {
+    state.selectedWord = { bank, word };
+  }
+  updateGapUI();
+  if (state.selectedWord) setSelectionStatus(`Selected “${word}”. Tap a gap in ${bank.replace('bank', 'word bank ')}.`);
+  else setSelectionStatus('Word selection cleared.');
+}
+
+function placeWord(questionId, bankId, word) {
+  if (state.finished) return;
+  const q = allGapQuestions.find(item => item.id === Number(questionId));
+  if (!q || q.bank !== bankId) return;
+  if (isWordUsed(bankId, word, Number(questionId))) {
+    setSelectionStatus(`“${word}” is already being used in this word bank.`);
+    return;
+  }
+  state.answers[questionId] = word;
+  state.selectedWord = null;
+  updateGapUI();
+  updateProgress();
+  setSelectionStatus(`Answer saved for question ${questionId}.`);
+}
+
+function handleSlotClick(slot) {
+  if (state.finished) return;
+  const qid = Number(slot.dataset.qid);
+  const bank = slot.dataset.bank;
+  if (state.answers[qid]) {
+    const removedWord = state.answers[qid];
+    delete state.answers[qid];
+    state.selectedWord = null;
+    updateGapUI();
+    updateProgress();
+    setSelectionStatus(`Removed “${removedWord}” from question ${qid}. It is available in the word bank again.`);
+    return;
+  }
+  if (!state.selectedWord) {
+    setSelectionStatus('Select a word from the matching word bank first.');
+    return;
+  }
+  if (state.selectedWord.bank !== bank) {
+    setSelectionStatus('That word belongs to a different word bank. Use the matching bank for this gap.');
+    return;
+  }
+  placeWord(qid, bank, state.selectedWord.word);
+}
+
+function formatTime(totalSeconds) {
+  const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+  const seconds = (totalSeconds % 60).toString().padStart(2, '0');
+  return `${minutes}:${seconds}`;
+}
+
+function updateTimer() {
+  if (!state.started || state.finished || !state.deadline) return;
+  const remaining = Math.max(0, Math.ceil((state.deadline - Date.now()) / 1000));
+  $('#timerText').textContent = formatTime(remaining);
+  $('#timer').classList.toggle('warning', remaining <= 60);
+  if (remaining <= 0) finishTest('timeout');
+}
+
+function startTimer() {
+  state.deadline = Date.now() + TIME_LIMIT_SECONDS * 1000;
+  $('#timerText').textContent = formatTime(TIME_LIMIT_SECONDS);
+  $('#timer').classList.remove('warning');
+  state.timerInterval = window.setInterval(updateTimer, 200);
+}
+
+function stopTimer() {
+  if (state.timerInterval !== null) {
+    window.clearInterval(state.timerInterval);
+    state.timerInterval = null;
+  }
+}
+
+function startTest() {
+  const nameInput = $('#studentName');
+  const name = nameInput.value.trim();
+  if (!name) {
+    nameInput.setAttribute('aria-invalid', 'true');
+    $('#nameError').textContent = 'Please enter your name before starting the test.';
+    nameInput.focus();
+    return;
+  }
+  state.studentName = name;
+  state.className = $('#className').value.trim();
+  state.answers = {};
+  state.selectedWord = null;
+  state.finished = false;
+  state.started = true;
+  state.submissionReason = 'manual';
+  $('#activeStudent').textContent = state.studentName;
+  $('#activeClass').textContent = state.className ? ` · ${state.className}` : '';
+  renderTest();
+  showScreen(testScreen);
+  startTimer();
+}
+
+function getQuestionText(q) {
+  if ('prompt' in q) return q.prompt;
+  return `${q.before} _____ ${q.after}`;
+}
+
+function getDisplayedAnswer(q, answer) {
+  if (!answer) return 'Not answered';
+  if ('options' in q) {
+    const index = answer.charCodeAt(0) - 65;
+    return `${answer}) ${q.options[index] || ''}`;
+  }
+  return answer;
+}
+
+function calculateResults() {
+  let total = 0;
+  const sections = [
+    { title: 'Part A · Multiple choice', questions: multipleChoice },
+    { title: 'Word bank 1 · Q16–20', questions: gapBanks[0].questions },
+    { title: 'Word bank 2 · Q21–25', questions: gapBanks[1].questions },
+    { title: 'Word bank 3 · Q26–30', questions: gapBanks[2].questions }
+  ];
+  const scores = sections.map(section => {
+    const score = section.questions.reduce((sum, q) => sum + (state.answers[q.id] === q.answer ? 1 : 0), 0);
+    total += score;
+    return { title: section.title, score, max: section.questions.length };
+  });
+  const mistakes = allQuestions.filter(q => state.answers[q.id] !== q.answer);
+  return { total, scores, mistakes };
+}
+
+function finishTest(reason) {
+  if (state.finished || !state.started) return;
+  state.finished = true;
+  state.submissionReason = reason;
+  stopTimer();
+  state.selectedWord = null;
+  const results = calculateResults();
+  renderResults(results, reason);
+  showScreen(resultScreen);
+}
+
+function renderResults(results, reason) {
+  $('#scoreNumber').textContent = String(results.total);
+  $('#resultStudent').textContent = `Student: ${state.studentName}${state.className ? ` · Class: ${state.className}` : ''}`;
+  $('#resultDate').textContent = `Submitted: ${new Date().toLocaleString()}`;
+  const status = $('#resultStatus');
+  if (reason === 'timeout') {
+    status.textContent = 'Time is up. Your answers were automatically submitted.';
+    status.classList.add('timeout');
+  } else {
+    status.textContent = `You answered ${countAnswered()} out of 30 questions. Your test has been submitted.`;
+    status.classList.remove('timeout');
+  }
+  $('#scoreGrid').innerHTML = results.scores.map(section => `
+    <div class="score-tile"><strong>${section.score}/${section.max}</strong><span>${escapeHtml(section.title)}</span></div>
+  `).join('');
+
+  const review = $('#mistakeReview');
+  if (results.mistakes.length === 0) {
+    review.innerHTML = '<div class="review-empty">Excellent. You answered every question correctly.</div>';
+  } else {
+    review.innerHTML = results.mistakes.map(q => `
+      <article class="review-item incorrect">
+        <div class="review-q"><span class="q-number">${q.id}.</span>${escapeHtml(getQuestionText(q))}</div>
+        <div class="review-answers">
+          <div class="your-answer"><strong>Your answer:</strong> ${escapeHtml(getDisplayedAnswer(q, state.answers[q.id]))}</div>
+          <div class="correct-answer"><strong>Correct answer:</strong> ${escapeHtml(getDisplayedAnswer(q, q.answer))}</div>
+        </div>
+      </article>
+    `).join('');
+    const summary = document.createElement('p');
+    summary.className = 'muted';
+    summary.textContent = `${results.mistakes.length} question${results.mistakes.length === 1 ? '' : 's'} incorrect or unanswered.`;
+    review.prepend(summary);
+  }
+}
+
+function submitManually() {
+  if (state.finished) return;
+  const unanswered = 30 - countAnswered();
+  const message = unanswered > 0
+    ? `You have ${unanswered} unanswered question${unanswered === 1 ? '' : 's'}. Submit your test now?`
+    : 'Are you sure you want to submit your test?';
+  if (window.confirm(message)) finishTest('manual');
+}
+
+function resetTest() {
+  stopTimer();
+  state.studentName = '';
+  state.className = '';
+  state.answers = {};
+  state.selectedWord = null;
+  state.deadline = null;
+  state.started = false;
+  state.finished = false;
+  state.submissionReason = 'manual';
+  $('#startForm').reset();
+  $('#nameError').textContent = '';
+  $('#studentName').removeAttribute('aria-invalid');
+  $('#timer').classList.remove('warning');
+  $('#timerText').textContent = '10:00';
+  showScreen(landingScreen);
+}
+
+$('#startForm').addEventListener('submit', event => {
+  event.preventDefault();
+  startTest();
+});
+$('#studentName').addEventListener('input', () => {
+  if ($('#studentName').value.trim()) {
+    $('#studentName').removeAttribute('aria-invalid');
+    $('#nameError').textContent = '';
+  }
+});
+$('#submitButton').addEventListener('click', submitManually);
+$('#printButton').addEventListener('click', () => window.print());
+$('#retakeButton').addEventListener('click', resetTest);
+
+testContent.addEventListener('change', event => {
+  const input = event.target.closest('input[type="radio"][data-qid]');
+  if (!input || state.finished) return;
+  state.answers[input.dataset.qid] = input.value;
+  updateProgress();
+});
+
+testContent.addEventListener('click', event => {
+  const chip = event.target.closest('.word-chip');
+  if (chip) {
+    handleWordSelection(chip);
+    return;
+  }
+  const slot = event.target.closest('.drop-slot');
+  if (slot) handleSlotClick(slot);
+});
+
+testContent.addEventListener('dragstart', event => {
+  const chip = event.target.closest('.word-chip');
+  if (!chip || chip.disabled || state.finished) {
+    event.preventDefault();
+    return;
+  }
+  event.dataTransfer.effectAllowed = 'copy';
+  event.dataTransfer.setData('text/plain', JSON.stringify({ bank: chip.dataset.bank, word: chip.dataset.word }));
+});
+
+testContent.addEventListener('dragover', event => {
+  const slot = event.target.closest('.drop-slot');
+  if (!slot || state.finished) return;
+  event.preventDefault();
+  slot.classList.add('drag-over');
+  event.dataTransfer.dropEffect = 'copy';
+});
+
+testContent.addEventListener('dragleave', event => {
+  const slot = event.target.closest('.drop-slot');
+  if (slot) slot.classList.remove('drag-over');
+});
+
+testContent.addEventListener('drop', event => {
+  const slot = event.target.closest('.drop-slot');
+  if (!slot || state.finished) return;
+  event.preventDefault();
+  slot.classList.remove('drag-over');
+  try {
+    const payload = JSON.parse(event.dataTransfer.getData('text/plain'));
+    if (payload.bank !== slot.dataset.bank) {
+      setSelectionStatus('Use a word from the matching word bank for this gap.');
+      return;
+    }
+    placeWord(slot.dataset.qid, payload.bank, payload.word);
+  } catch (_error) {
+    setSelectionStatus('That word could not be placed. Please select it again.');
+  }
+});
+
+// The deadline is based on the clock, not interval ticks, so background tabs do not gain extra time.
+window.addEventListener('focus', updateTimer);
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) updateTimer();
+});
+</script>
+</body>
+</html>
