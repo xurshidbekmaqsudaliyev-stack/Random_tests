@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#172554">
+<title>Unit 12 | Information Technology — Vocabulary Test</title>
+<style>
+  :root {
+    --navy: #172554;
+    --blue: #2563eb;
+    --blue-light: #eff6ff;
+    --ink: #172033;
+    --muted: #64748b;
+    --line: #e2e8f0;
+    --surface: #ffffff;
+    --page: #f4f7fb;
+    --green: #15803d;
+    --green-bg: #f0fdf4;
+    --red: #b91c1c;
+    --red-bg: #fef2f2;
+    --amber: #b45309;
+    --amber-bg: #fffbeb;
+    --shadow: 0 12px 34px rgba(15, 23, 42, .08);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--page); color: var(--ink);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.55;
+  }
+  button, input { font: inherit; }
+  button { cursor: pointer; }
+  .app-shell { width: min(980px, calc(100% - 32px)); margin: 34px auto 56px; }
+  .brand-row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; }
+  .brand { display:flex; align-items:center; gap:10px; color:var(--navy); font-weight:800; letter-spacing:.02em; }
+  .brand-mark { width:36px; height:36px; display:grid; place-items:center; border-radius:11px; background:var(--navy); color:white; font-size:17px; }
+  .unit-label { color:var(--muted); font-size:.82rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+  .screen { display:none; }
+  .screen.active { display:block; }
+  .panel { background:var(--surface); border:1px solid var(--line); border-radius:22px; box-shadow:var(--shadow); }
+  .landing { max-width:650px; margin:44px auto; padding:clamp(26px, 5vw, 48px); }
+  .eyebrow { color:var(--blue); font-size:.78rem; letter-spacing:.12em; text-transform:uppercase; font-weight:800; margin:0 0 10px; }
+  h1 { margin:0; color:var(--navy); font-size:clamp(2rem, 5vw, 3rem); line-height:1.1; letter-spacing:-.04em; }
+  .subtitle { color:var(--muted); margin:12px 0 26px; font-size:1.04rem; }
+  .test-facts { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:24px 0 28px; }
+  .fact { background:#f8fafc; border:1px solid var(--line); border-radius:14px; padding:14px 12px; }
+  .fact strong { display:block; color:var(--navy); font-size:1.35rem; }
+  .fact span { color:var(--muted); font-size:.82rem; }
+  .field-label { display:block; font-size:.9rem; font-weight:750; margin:0 0 7px; }
+  .text-field { width:100%; border:1.5px solid #cbd5e1; border-radius:12px; padding:13px 14px; color:var(--ink); background:white; outline:none; transition:border .15s, box-shadow .15s; }
+  .text-field:focus { border-color:var(--blue); box-shadow:0 0 0 4px rgba(37,99,235,.12); }
+  .field-help { color:var(--muted); font-size:.8rem; margin:6px 0 0; }
+  .primary-btn, .secondary-btn { border:0; border-radius:12px; padding:13px 19px; font-weight:800; transition:transform .12s, background .12s; }
+  .primary-btn { background:var(--blue); color:white; width:100%; margin-top:22px; box-shadow:0 7px 15px rgba(37,99,235,.18); }
+  .primary-btn:hover { background:#1d4ed8; transform:translateY(-1px); }
+  .primary-btn:disabled { opacity:.45; cursor:not-allowed; transform:none; }
+  .secondary-btn { background:#eaf0f8; color:var(--navy); }
+  .secondary-btn:hover { background:#dbe6f4; }
+  .instructions { background:var(--blue-light); border:1px solid #bfdbfe; border-radius:14px; padding:14px 16px; color:#1e3a8a; font-size:.9rem; margin-top:20px; }
+  .instructions strong { display:block; margin-bottom:3px; }
+
+  .test-header { padding:20px 22px; margin-bottom:16px; }
+  .test-headline { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+  .test-headline h2 { margin:0; color:var(--navy); font-size:1.3rem; }
+  .student-line { color:var(--muted); font-size:.88rem; margin-top:3px; }
+  .timer { min-width:116px; text-align:center; border-radius:14px; padding:9px 13px; background:#eff6ff; border:1px solid #bfdbfe; color:#1e40af; }
+  .timer.urgent { background:var(--red-bg); border-color:#fecaca; color:var(--red); animation:pulse 1s infinite; }
+  .timer-label { display:block; font-size:.68rem; text-transform:uppercase; font-weight:800; letter-spacing:.1em; }
+  .timer-value { font-size:1.35rem; font-weight:900; font-variant-numeric:tabular-nums; letter-spacing:.04em; }
+  @keyframes pulse { 50% { box-shadow:0 0 0 5px rgba(185,28,28,.08); } }
+  .progress-wrap { margin-top:17px; }
+  .progress-meta { display:flex; justify-content:space-between; color:var(--muted); font-size:.8rem; margin-bottom:7px; }
+  .progress-track { height:8px; background:#e8edf5; border-radius:30px; overflow:hidden; }
+  .progress-fill { height:100%; width:0%; background:linear-gradient(90deg,#2563eb,#60a5fa); border-radius:30px; transition:width .2s; }
+  .test-instruction { color:var(--muted); font-size:.9rem; margin:0 0 14px; }
+  .group-card { padding:21px 22px 18px; margin-bottom:16px; }
+  .group-heading { display:flex; align-items:center; gap:10px; margin:0 0 4px; color:var(--navy); font-size:1.08rem; }
+  .group-number { display:grid; place-items:center; width:28px; height:28px; border-radius:9px; background:var(--blue-light); color:var(--blue); font-size:.85rem; font-weight:900; }
+  .group-caption { color:var(--muted); font-size:.82rem; margin:0 0 14px 38px; }
+  .word-bank { border:1px dashed #93c5fd; background:#f8fbff; border-radius:13px; padding:12px 14px; margin:0 0 16px; }
+  .word-bank-title { font-size:.72rem; color:#1d4ed8; font-weight:900; text-transform:uppercase; letter-spacing:.1em; margin-bottom:8px; }
+  .word-list { display:flex; flex-wrap:wrap; gap:8px; }
+  .word-chip { display:inline-flex; align-items:center; padding:5px 10px; border:1px solid #dbeafe; border-radius:999px; background:white; color:#1e3a8a; font-size:.88rem; font-weight:650; }
+  .question-list { display:grid; gap:12px; }
+  .question-row { display:grid; grid-template-columns:32px minmax(0,1fr); gap:10px; align-items:start; padding:10px 0; border-bottom:1px solid #edf1f6; }
+  .question-row:last-child { border-bottom:0; padding-bottom:2px; }
+  .q-number { display:grid; place-items:center; width:29px; height:29px; border-radius:9px; background:#f1f5f9; color:#475569; font-size:.83rem; font-weight:850; margin-top:2px; }
+  .sentence { font-size:.97rem; line-height:2.25; }
+  .answer-input { display:inline-block; vertical-align:middle; width:min(230px, 52vw); max-width:100%; min-width:130px; margin:0 4px; padding:5px 9px; border:0; border-bottom:2px solid #93a3b8; border-radius:5px 5px 0 0; background:#f8fafc; color:var(--ink); text-align:center; outline:none; font-weight:700; line-height:1.5; }
+  .answer-input:focus { border-bottom-color:var(--blue); background:#eff6ff; box-shadow:0 2px 0 rgba(37,99,235,.08); }
+  .answer-input.filled { border-bottom-color:#64748b; background:#f1f5f9; }
+  .bottom-actions { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:16px 2px; }
+  .answered-note { color:var(--muted); font-size:.88rem; }
+  .submit-btn { background:var(--navy); color:white; border:0; border-radius:12px; padding:13px 22px; font-weight:850; }
+  .submit-btn:hover { background:#243b75; }
+  .warning-note { display:none; background:var(--amber-bg); color:#92400e; border:1px solid #fde68a; padding:11px 14px; border-radius:12px; margin:0 0 12px; font-size:.87rem; }
+
+  .results { padding:clamp(22px, 4vw, 36px); }
+  .result-top { text-align:center; padding-bottom:22px; border-bottom:1px solid var(--line); }
+  .result-icon { width:58px; height:58px; display:grid; place-items:center; background:var(--green-bg); color:var(--green); border-radius:18px; font-size:1.8rem; margin:0 auto 12px; }
+  .result-top h2 { color:var(--navy); margin:0; font-size:1.8rem; }
+  .result-student { color:var(--muted); margin:5px 0 16px; }
+  .score-line { display:flex; align-items:baseline; justify-content:center; gap:7px; }
+  .score-big { color:var(--navy); font-size:3rem; line-height:1; font-weight:950; letter-spacing:-.05em; }
+  .score-total { color:var(--muted); font-size:1rem; font-weight:700; }
+  .score-percent { display:inline-block; margin-top:9px; border-radius:999px; background:var(--blue-light); color:#1d4ed8; padding:5px 12px; font-weight:850; font-size:.88rem; }
+  .result-summary { color:var(--muted); font-size:.87rem; margin:12px 0 0; }
+  .group-results { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:22px 0; }
+  .group-result { border:1px solid var(--line); border-radius:13px; padding:12px; background:#fbfdff; }
+  .group-result span { display:block; color:var(--muted); font-size:.76rem; }
+  .group-result strong { color:var(--navy); font-size:1.2rem; }
+  .review-title { color:var(--navy); margin:24px 0 10px; font-size:1.12rem; }
+  .review-list { display:grid; gap:9px; }
+  .review-item { border:1px solid var(--line); border-radius:12px; padding:12px 14px; }
+  .review-item.correct { background:var(--green-bg); border-color:#bbf7d0; }
+  .review-item.incorrect { background:var(--red-bg); border-color:#fecaca; }
+  .review-topline { display:flex; justify-content:space-between; gap:10px; align-items:center; font-size:.85rem; font-weight:850; }
+  .status-correct { color:var(--green); }
+  .status-incorrect { color:var(--red); }
+  .review-question { margin:5px 0; font-size:.9rem; }
+  .review-answer { font-size:.86rem; }
+  .review-answer strong { color:var(--navy); }
+  .result-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:24px; }
+  .result-actions button { flex:1; min-width:150px; }
+  .footer-note { text-align:center; color:#94a3b8; font-size:.76rem; margin:20px 0 0; }
+  @media (max-width:600px) {
+    .app-shell { width:min(100% - 20px, 980px); margin:17px auto 32px; }
+    .brand-row { margin-bottom:12px; }
+    .landing { margin:18px auto; padding:23px 19px; }
+    .test-facts { gap:7px; }
+    .fact { padding:10px 8px; }
+    .fact strong { font-size:1.15rem; }
+    .fact span { font-size:.73rem; }
+    .test-header { padding:16px; }
+    .test-headline { align-items:center; }
+    .timer { min-width:100px; padding:7px 9px; }
+    .timer-value { font-size:1.2rem; }
+    .group-card { padding:17px 14px; }
+    .group-caption { margin-left:0; }
+    .sentence { font-size:.93rem; }
+    .answer-input { width:min(190px, 55vw); min-width:112px; font-size:.9rem; }
+    .bottom-actions { align-items:stretch; flex-direction:column; }
+    .submit-btn { width:100%; }
+    .group-results { gap:7px; }
+    .group-result { padding:10px 8px; }
+    .group-result span { font-size:.68rem; }
+  }
+  @media print {
+    body { background:white; }
+    .app-shell { width:100%; margin:0; }
+    .brand-row, .result-actions, .footer-note { display:none !important; }
+    .panel { box-shadow:none; border:0; }
+    #landingScreen, #testScreen { display:none !important; }
+    #resultScreen { display:block !important; }
+  }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <div class="brand-row">
+    <div class="brand"><span class="brand-mark">12</span><span>VOCABULARY CHECK</span></div>
+    <div class="unit-label">Unit 12 · Information Technology</div>
+  </div>
+
+  <main>
+    <section id="landingScreen" class="screen active">
+      <div class="panel landing">
+        <p class="eyebrow">Vocabulary assessment</p>
+        <h1>Information Technology</h1>
+        <p class="subtitle">Unit 12 · Contextual Gap Fill</p>
+        <div class="test-facts">
+          <div class="fact"><strong>15</strong><span>Questions</span></div>
+          <div class="fact"><strong>15</strong><span>Marks</span></div>
+          <div class="fact"><strong>10:00</strong><span>Time limit</span></div>
+        </div>
+        <label class="field-label" for="studentName">Student name <span style="color:#dc2626">*</span></label>
+        <input id="studentName" class="text-field" type="text" maxlength="70" placeholder="Enter your full name" autocomplete="name" required>
+        <p class="field-help">You must enter your name to begin the test.</p>
+        <label class="field-label" for="studentClass" style="margin-top:17px">Class (optional)</label>
+        <input id="studentClass" class="text-field" type="text" maxlength="40" placeholder="Enter your class">
+        <button id="startBtn" class="primary-btn" disabled>Start test <span aria-hidden="true">→</span></button>
+        <div class="instructions">
+          <strong>Instructions</strong>
+          Type the correct word or phrase from each word bank directly into the gap. Use every item once in its group. Spelling matters. The test will be submitted automatically when the 10-minute timer reaches zero.
+        </div>
+      </div>
+    </section>
+
+    <section id="testScreen" class="screen">
+      <div class="panel test-header">
+        <div class="test-headline">
+          <div>
+            <h2>Unit 12 · Information Technology</h2>
+            <div id="studentLine" class="student-line"></div>
+          </div>
+          <div id="timerBox" class="timer" role="timer" aria-live="off">
+            <span class="timer-label">Time remaining</span>
+            <span id="timerValue" class="timer-value">10:00</span>
+          </div>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-meta"><span>Answer progress</span><span id="progressText">0 / 15 answered</span></div>
+          <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+        </div>
+      </div>
+      <p class="test-instruction">Complete each sentence by typing one item from the word bank into the gap. Each word or phrase should be used once in its group.</p>
+      <div id="questionGroups"></div>
+      <div id="incompleteWarning" class="warning-note">Some questions are blank. You can submit now; unanswered questions will receive zero marks.</div>
+      <div class="bottom-actions">
+        <span id="answeredNote" class="answered-note">15 questions · 1 mark each</span>
+        <button id="submitBtn" class="submit-btn">Submit test</button>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="screen">
+      <div class="panel results">
+        <div class="result-top">
+          <div class="result-icon" id="resultIcon">✓</div>
+          <p class="eyebrow" style="margin-bottom:6px">Unit 12 · Information Technology</p>
+          <h2 id="resultHeading">Test completed</h2>
+          <p id="resultStudent" class="result-student"></p>
+          <div class="score-line"><span id="scoreBig" class="score-big">0</span><span class="score-total">/ 15 marks</span></div>
+          <span id="scorePercent" class="score-percent">0%</span>
+          <p id="resultSummary" class="result-summary"></p>
+        </div>
+        <div id="groupResults" class="group-results"></div>
+        <h3 class="review-title">Answer review</h3>
+        <p class="test-instruction" style="margin-top:-4px">Review your responses and compare them with the correct answers.</p>
+        <div id="reviewList" class="review-list"></div>
+        <div class="result-actions">
+          <button id="printBtn" class="secondary-btn">Print results</button>
+          <button id="retakeBtn" class="primary-btn" style="margin:0">Retake test</button>
+        </div>
+      </div>
+      <p class="footer-note">Unit 12 Vocabulary Test · Information Technology</p>
+    </section>
+  </main>
+</div>
+
+<script>
+(() => {
+  'use strict';
+
+  const DURATION_SECONDS = 10 * 60;
+  const groups = [
+    {
+      title: 'Word Bank 1',
+      words: ['patent', 'monitor', 'program', 'memory', 'connection'],
+      questions: [
+        { number: 16, before: 'The invention was protected by a ', after: ', so other companies could not copy it legally.', answer: 'patent' },
+        { number: 17, before: 'The designer checked the colours on a large ', after: ' before printing the poster.', answer: 'monitor' },
+        { number: 18, before: 'The new ', after: ' sorts the information into clear folders.', answer: 'program' },
+        { number: 19, before: 'The tablet has limited ', after: ', so we deleted some old files.', answer: 'memory' },
+        { number: 20, before: 'The video call stopped when our Internet ', after: ' failed.', answer: 'connection' }
+      ]
+    },
+    {
+      title: 'Word Bank 2',
+      words: ['the Internet', 'wireless connection', 'portable', 'dated', 'digital'],
+      questions: [
+        { number: 21, before: 'Students searched ', after: ' for reliable sources for their project.', answer: 'the Internet' },
+        { number: 22, before: 'The printer uses a ', after: ' and does not need to be plugged into the laptop.', answer: 'wireless connection' },
+        { number: 23, before: 'Because it is ', after: ', the speaker can be carried from room to room.', answer: 'portable' },
+        { number: 24, before: 'The website looks ', after: '; its layout has not changed for ten years.', answer: 'dated' },
+        { number: 25, before: 'The library now keeps a ', after: ' copy of every newspaper.', answer: 'digital' }
+      ]
+    },
+    {
+      title: 'Word Bank 3',
+      words: ['access', 'connect', 'display', 'revolutionise', 'specialise'],
+      questions: [
+        { number: 26, before: 'Only registered users can ', after: ' the private course materials.', answer: 'access' },
+        { number: 27, before: 'Please ', after: ' the cable to the screen before turning it on.', answer: 'connect' },
+        { number: 28, before: 'The monitor will ', after: ' the final score after the test.', answer: 'display' },
+        { number: 29, before: 'Smartphones have helped ', after: ' the way people communicate.', answer: 'revolutionise' },
+        { number: 30, before: 'The company plans to ', after: ' in software for hospitals.', answer: 'specialise' }
+      ]
+    }
+  ];
+
+  const allQuestions = groups.flatMap((group, groupIndex) =>
+    group.questions.map(q => ({ ...q, groupIndex, groupTitle: group.title }))
+  );
+
+  const $ = id => document.getElementById(id);
+  const landingScreen = $('landingScreen');
+  const testScreen = $('testScreen');
+  const resultScreen = $('resultScreen');
+  let studentName = '';
+  let studentClass = '';
+  let deadline = 0;
+  let timerInterval = null;
+  let submitted = false;
+  let autoSubmitted = false;
+
+  function showScreen(screen) {
+    [landingScreen, testScreen, resultScreen].forEach(el => el.classList.remove('active'));
+    screen.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, ch => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[ch]);
+  }
+
+  function renderQuestions() {
+    const container = $('questionGroups');
+    container.innerHTML = groups.map((group, groupIndex) => `
+      <section class="panel group-card" aria-labelledby="groupTitle${groupIndex}">
+        <h3 id="groupTitle${groupIndex}" class="group-heading"><span class="group-number">${groupIndex + 1}</span>${group.title} · Questions ${group.questions[0].number}–${group.questions[group.questions.length - 1].number}</h3>
+        <p class="group-caption">Use each item once in this group.</p>
+        <div class="word-bank">
+          <div class="word-bank-title">Word bank</div>
+          <div class="word-list">${group.words.map(word => `<span class="word-chip">${escapeHtml(word)}</span>`).join('')}</div>
+        </div>
+        <div class="question-list">
+          ${group.questions.map(q => `
+            <div class="question-row">
+              <span class="q-number">${q.number}</span>
+              <label class="sentence" for="answer${q.number}">
+                ${escapeHtml(q.before)}<input id="answer${q.number}" class="answer-input" type="text" inputmode="text" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="50" aria-label="Answer for question ${q.number}" placeholder="Type answer">${escapeHtml(q.after)}
+              </label>
+            </div>
+          `).join('')}
+        </div>
+      </section>
+    `).join('');
+
+    document.querySelectorAll('.answer-input').forEach(input => {
+      input.addEventListener('input', () => {
+        input.classList.toggle('filled', input.value.trim().length > 0);
+        updateProgress();
+      });
+    });
+  }
+
+  function updateProgress() {
+    const inputs = allQuestions.map(q => $('answer' + q.number));
+    const count = inputs.filter(input => input && input.value.trim() !== '').length;
+    $('progressText').textContent = `${count} / 15 answered`;
+    $('progressFill').style.width = `${(count / 15) * 100}%`;
+    $('answeredNote').textContent = `${count} of 15 questions answered`;
+  }
+
+  function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60).toString().padStart(2, '0');
+    const secs = (seconds % 60).toString().padStart(2, '0');
+    return `${mins}:${secs}`;
+  }
+
+  function updateTimer() {
+    if (submitted) return;
+    const remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+    $('timerValue').textContent = formatTime(remaining);
+    $('timerBox').classList.toggle('urgent', remaining <= 60);
+    if (remaining <= 0) submitTest(true);
+  }
+
+  function startTest() {
+    const name = $('studentName').value.trim();
+    if (!name) {
+      $('studentName').focus();
+      return;
+    }
+    studentName = name;
+    studentClass = $('studentClass').value.trim();
+    submitted = false;
+    autoSubmitted = false;
+    deadline = Date.now() + DURATION_SECONDS * 1000;
+    $('studentLine').textContent = `Student: ${studentName}${studentClass ? ' · Class: ' + studentClass : ''}`;
+    renderQuestions();
+    updateProgress();
+    showScreen(testScreen);
+    updateTimer();
+    clearInterval(timerInterval);
+    timerInterval = setInterval(updateTimer, 250);
+  }
+
+  function normalizeAnswer(value) {
+    return String(value || '').trim().toLocaleLowerCase().replace(/\s+/g, ' ');
+  }
+
+  function gradeAnswers() {
+    const usedByGroup = groups.map(() => new Set());
+    return allQuestions.map(q => {
+      const response = $('answer' + q.number).value.trim();
+      const normalized = normalizeAnswer(response);
+      const expected = normalizeAnswer(q.answer);
+      let correct = false;
+      if (normalized && normalized === expected && !usedByGroup[q.groupIndex].has(expected)) {
+        correct = true;
+        usedByGroup[q.groupIndex].add(expected);
+      }
+      return { ...q, response, correct };
+    });
+  }
+
+  function submitTest(isAutomatic = false) {
+    if (submitted) return;
+    if (!isAutomatic) {
+      const unanswered = allQuestions.filter(q => !$('answer' + q.number).value.trim()).length;
+      if (unanswered > 0) {
+        $('incompleteWarning').style.display = 'block';
+        const ok = window.confirm(`You have ${unanswered} unanswered question${unanswered === 1 ? '' : 's'}. Submit your test anyway?`);
+        if (!ok) return;
+      }
+    }
+    submitted = true;
+    autoSubmitted = isAutomatic;
+    clearInterval(timerInterval);
+    const graded = gradeAnswers();
+    renderResults(graded);
+    showScreen(resultScreen);
+  }
+
+  function renderResults(graded) {
+    const score = graded.filter(item => item.correct).length;
+    const percentage = Math.round((score / 15) * 100);
+    $('resultHeading').textContent = autoSubmitted ? 'Time is up — test submitted' : 'Test completed';
+    $('resultIcon').textContent = autoSubmitted ? '⏱' : '✓';
+    $('resultStudent').textContent = `${studentName}${studentClass ? ' · ' + studentClass : ''}`;
+    $('scoreBig').textContent = score;
+    $('scorePercent').textContent = `${percentage}%`;
+    $('resultSummary').textContent = autoSubmitted
+      ? 'Your answers were submitted automatically when the 10-minute time limit expired.'
+      : 'Your answers have been marked. Review each response below.';
+
+    $('groupResults').innerHTML = groups.map((group, index) => {
+      const groupItems = graded.filter(item => item.groupIndex === index);
+      const groupScore = groupItems.filter(item => item.correct).length;
+      return `<div class="group-result"><span>${escapeHtml(group.title)}</span><strong>${groupScore} / 5</strong></div>`;
+    }).join('');
+
+    $('reviewList').innerHTML = graded.map(item => `
+      <article class="review-item ${item.correct ? 'correct' : 'incorrect'}">
+        <div class="review-topline">
+          <span>Question ${item.number}</span>
+          <span class="${item.correct ? 'status-correct' : 'status-incorrect'}">${item.correct ? 'Correct · 1 mark' : 'Incorrect · 0 marks'}</span>
+        </div>
+        <p class="review-question">${escapeHtml(item.before)}<strong>______</strong>${escapeHtml(item.after)}</p>
+        <div class="review-answer">Your answer: <strong>${item.response ? escapeHtml(item.response) : 'Not answered'}</strong></div>
+        ${item.correct ? '' : `<div class="review-answer">Correct answer: <strong>${escapeHtml(item.answer)}</strong></div>`}
+      </article>
+    `).join('');
+  }
+
+  function resetTest() {
+    clearInterval(timerInterval);
+    submitted = false;
+    autoSubmitted = false;
+    deadline = 0;
+    $('studentName').value = studentName;
+    $('studentClass').value = studentClass;
+    $('incompleteWarning').style.display = 'none';
+    $('timerBox').classList.remove('urgent');
+    $('timerValue').textContent = '10:00';
+    showScreen(landingScreen);
+  }
+
+  $('studentName').addEventListener('input', () => {
+    $('startBtn').disabled = $('studentName').value.trim().length === 0;
+  });
+  $('studentName').addEventListener('keydown', event => {
+    if (event.key === 'Enter' && !$('startBtn').disabled) startTest();
+  });
+  $('startBtn').addEventListener('click', startTest);
+  $('submitBtn').addEventListener('click', () => submitTest(false));
+  $('retakeBtn').addEventListener('click', resetTest);
+  $('printBtn').addEventListener('click', () => window.print());
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && testScreen.classList.contains('active') && !submitted) updateTimer();
+  });
+
+  // Initial state: students cannot start without a name.
+  $('startBtn').disabled = true;
+})();
+</script>
+</body>
+</html>
