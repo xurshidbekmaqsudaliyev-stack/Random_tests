@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#17243b" />
+  <title>Quantifiers | Diagnostic Grammar Test</title>
+  <style>
+    :root {
+      --ink: #17243b;
+      --muted: #667085;
+      --paper: #f5f6f8;
+      --card: #ffffff;
+      --line: #e4e8ef;
+      --accent: #e15514;
+      --accent-dark: #b9420d;
+      --accent-soft: #fff0e9;
+      --navy-soft: #edf1f7;
+      --green: #16794b;
+      --green-soft: #e8f6ef;
+      --red: #bd3434;
+      --red-soft: #fff0f0;
+      --amber: #97630a;
+      --amber-soft: #fff7e5;
+      --shadow: 0 18px 55px rgba(23, 36, 59, .09);
+      --radius: 20px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .topbar {
+      height: 68px;
+      background: var(--ink);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 max(22px, calc((100vw - 1120px) / 2));
+    }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 750; letter-spacing: -.02em; }
+    .brand-mark {
+      width: 34px; height: 34px; border-radius: 10px; background: var(--accent);
+      display: grid; place-items: center; font-size: 17px; font-weight: 850;
+    }
+    .topbar-label { color: #c5ccda; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+    main { width: min(100% - 36px, 930px); margin: 38px auto 72px; }
+    .screen { display: none; animation: rise .3s ease both; }
+    .screen.active { display: block; }
+    @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Landing */
+    .hero {
+      position: relative; overflow: hidden; border-radius: 26px; background: var(--ink); color: white;
+      padding: clamp(30px, 6vw, 58px); box-shadow: var(--shadow);
+    }
+    .hero::after {
+      content: ""; position: absolute; width: 290px; height: 290px; border: 1px solid rgba(255,255,255,.12);
+      border-radius: 50%; right: -80px; top: -100px; box-shadow: 0 0 0 35px rgba(255,255,255,.025), 0 0 0 75px rgba(255,255,255,.02);
+      pointer-events: none;
+    }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: #ffb18b; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .13em; }
+    .eyebrow-dot { width: 7px; height: 7px; background: #ff8a52; border-radius: 50%; }
+    h1 { margin: 17px 0 13px; max-width: 650px; font-size: clamp(34px, 6vw, 54px); line-height: 1.05; letter-spacing: -.045em; }
+    .hero-copy { color: #d0d6e1; max-width: 620px; font-size: 16px; margin: 0; }
+    .hero-bottom { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; position: relative; z-index: 1; }
+    .meta-chip { display: inline-flex; align-items: center; gap: 8px; padding: 9px 13px; border-radius: 999px; background: rgba(255,255,255,.09); color: #eef1f7; font-size: 13px; }
+    .meta-chip strong { color: white; }
+    .landing-grid { display: grid; grid-template-columns: 1.3fr .9fr; gap: 18px; margin-top: 20px; }
+    .panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; box-shadow: 0 5px 20px rgba(23,36,59,.035); }
+    .panel h2 { margin: 0 0 10px; font-size: 17px; letter-spacing: -.02em; }
+    .panel p { color: var(--muted); margin: 0; font-size: 14px; }
+    .info-list { margin: 16px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+    .info-list li { display: flex; gap: 10px; align-items: flex-start; color: #344054; font-size: 14px; }
+    .check-icon { width: 21px; height: 21px; flex: 0 0 21px; border-radius: 7px; display: grid; place-items: center; color: var(--accent); background: var(--accent-soft); font-size: 12px; font-weight: 900; }
+    .name-label { display: block; font-size: 13px; font-weight: 700; margin: 18px 0 7px; }
+    .name-input { width: 100%; border: 1px solid #d6dce6; padding: 13px 14px; border-radius: 11px; background: #fff; outline: none; color: var(--ink); }
+    .name-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(225,85,20,.12); }
+    .primary-btn, .secondary-btn {
+      border: 0; border-radius: 12px; padding: 13px 19px; font-weight: 750; transition: .18s ease;
+    }
+    .primary-btn { color: #fff; background: var(--accent); box-shadow: 0 7px 16px rgba(225,85,20,.2); }
+    .primary-btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+    .secondary-btn { color: var(--ink); background: #edf0f5; }
+    .secondary-btn:hover { background: #e1e6ee; }
+    .start-btn { width: 100%; margin-top: 15px; display: flex; justify-content: center; align-items: center; gap: 10px; }
+    .fine-print { margin-top: 11px !important; font-size: 12px !important; text-align: center; }
+
+    /* Test */
+    .test-header { display: flex; justify-content: space-between; align-items: center; gap: 18px; margin-bottom: 18px; }
+    .test-heading h1 { color: var(--ink); font-size: 28px; margin: 0 0 4px; letter-spacing: -.035em; }
+    .test-heading p { color: var(--muted); margin: 0; font-size: 14px; }
+    .timer {
+      min-width: 116px; display: flex; align-items: center; justify-content: center; gap: 9px; padding: 11px 14px;
+      border-radius: 13px; background: var(--navy-soft); color: var(--ink); font-size: 17px; font-weight: 850; font-variant-numeric: tabular-nums;
+      border: 1px solid #dfe5ee;
+    }
+    .timer.warning { background: var(--amber-soft); border-color: #f2d99c; color: var(--amber); }
+    .timer.urgent { background: var(--red-soft); border-color: #f2c5c5; color: var(--red); animation: pulse 1s infinite; }
+    @keyframes pulse { 50% { opacity: .7; } }
+    .progress-card { background: white; border: 1px solid var(--line); border-radius: 15px; padding: 15px 18px; margin-bottom: 17px; }
+    .progress-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--muted); font-size: 12px; font-weight: 650; margin-bottom: 9px; }
+    .progress-track { height: 7px; border-radius: 999px; background: #edf0f4; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; background: var(--accent); border-radius: inherit; transition: width .2s ease; }
+    .test-note { margin: 0 0 17px; padding: 12px 15px; border-radius: 12px; background: #fff8f3; border: 1px solid #ffdfd0; color: #84401f; font-size: 13px; }
+    .section-label { margin: 25px 2px 12px; display: flex; align-items: center; gap: 10px; color: #667085; font-size: 12px; font-weight: 850; text-transform: uppercase; letter-spacing: .1em; }
+    .section-label::after { content: ""; height: 1px; background: var(--line); flex: 1; }
+    .question-card { background: white; border: 1px solid var(--line); border-radius: 16px; padding: 20px; margin-bottom: 12px; transition: border .15s ease, box-shadow .15s ease; }
+    .question-card:focus-within { border-color: #f0b49a; box-shadow: 0 0 0 3px rgba(225,85,20,.06); }
+    .q-top { display: flex; align-items: flex-start; gap: 12px; }
+    .q-number { width: 30px; height: 30px; display: grid; place-items: center; flex: 0 0 30px; border-radius: 9px; background: var(--navy-soft); color: #475467; font-size: 12px; font-weight: 850; }
+    .q-text { margin: 2px 0 0; font-weight: 700; font-size: 15px; letter-spacing: -.01em; }
+    .options { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 9px; margin: 16px 0 0 42px; }
+    .option { display: flex; align-items: center; gap: 9px; min-height: 43px; padding: 9px 11px; border: 1px solid #e3e7ed; border-radius: 10px; background: #fff; cursor: pointer; color: #344054; font-size: 13px; transition: .15s ease; }
+    .option:hover { border-color: #e7a184; background: #fffaf7; }
+    .option.selected { border-color: var(--accent); background: var(--accent-soft); color: #8b3512; font-weight: 700; }
+    .option input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+    .radio-dot { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid #aab3c1; flex: 0 0 16px; display: grid; place-items: center; }
+    .option.selected .radio-dot { border-color: var(--accent); }
+    .option.selected .radio-dot::after { content: ""; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; }
+    .option-letter { color: #98a2b3; font-weight: 800; min-width: 13px; }
+    .option.selected .option-letter { color: var(--accent-dark); }
+    .submit-wrap { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-top: 22px; padding: 19px; background: white; border: 1px solid var(--line); border-radius: 16px; }
+    .submit-hint { color: var(--muted); font-size: 13px; }
+
+    /* Results */
+    .result-hero { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 20px; padding: 28px; background: var(--ink); color: white; border-radius: 22px; box-shadow: var(--shadow); }
+    .result-hero h1 { font-size: 30px; margin: 0 0 7px; }
+    .result-hero p { color: #cbd3df; margin: 0; font-size: 14px; }
+    .score-ring { width: 112px; height: 112px; border-radius: 50%; border: 7px solid rgba(255,255,255,.2); display: grid; place-items: center; text-align: center; background: rgba(255,255,255,.05); }
+    .score-ring strong { display: block; font-size: 30px; line-height: 1.1; }
+    .score-ring span { display: block; color: #cbd3df; font-size: 11px; margin-top: 3px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 11px; margin: 16px 0 22px; }
+    .stat { padding: 16px; background: white; border: 1px solid var(--line); border-radius: 14px; }
+    .stat strong { display: block; font-size: 23px; letter-spacing: -.04em; }
+    .stat span { display: block; color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .diagnostic-panel { background: white; border: 1px solid var(--line); border-radius: 17px; padding: 21px; margin-bottom: 21px; }
+    .diagnostic-panel h2 { margin: 0 0 4px; font-size: 17px; }
+    .diagnostic-panel > p { margin: 0 0 17px; font-size: 13px; color: var(--muted); }
+    .area-row { display: grid; grid-template-columns: 175px 1fr 44px; align-items: center; gap: 12px; margin: 12px 0; font-size: 13px; }
+    .area-name { font-weight: 650; color: #344054; }
+    .area-track { height: 8px; background: #edf0f4; border-radius: 999px; overflow: hidden; }
+    .area-fill { height: 100%; background: var(--accent); border-radius: inherit; }
+    .area-score { text-align: right; color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12px; }
+    .review-title-row { display: flex; align-items: end; justify-content: space-between; gap: 15px; margin: 24px 2px 12px; }
+    .review-title-row h2 { margin: 0; font-size: 21px; letter-spacing: -.03em; }
+    .review-title-row p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+    .filter-row { display: flex; flex-wrap: wrap; gap: 7px; }
+    .filter-btn { border: 1px solid #dfe4eb; background: white; color: #475467; padding: 7px 11px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+    .filter-btn.active { background: var(--ink); border-color: var(--ink); color: white; }
+    .review-card { background: white; border: 1px solid var(--line); border-radius: 16px; padding: 19px; margin-bottom: 11px; }
+    .review-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .review-q { display: flex; gap: 11px; align-items: flex-start; }
+    .review-q strong { display: block; font-size: 14px; line-height: 1.45; }
+    .status { padding: 5px 9px; border-radius: 999px; font-size: 11px; font-weight: 800; white-space: nowrap; }
+    .status.correct { background: var(--green-soft); color: var(--green); }
+    .status.incorrect { background: var(--red-soft); color: var(--red); }
+    .status.unknown { background: var(--amber-soft); color: var(--amber); }
+    .answer-line { display: flex; flex-wrap: wrap; gap: 8px 17px; margin: 13px 0; color: #475467; font-size: 12px; }
+    .answer-line b { color: var(--ink); }
+    .explanation { padding: 12px 14px; border-radius: 11px; background: #f6f8fb; color: #475467; font-size: 13px; margin: 10px 0; }
+    .explanation.good { background: var(--green-soft); color: #155d3c; }
+    .explanation.bad { background: var(--red-soft); color: #8e2929; }
+    .explanation strong { color: inherit; }
+    details.option-analysis { margin-top: 12px; border-top: 1px solid #edf0f4; padding-top: 11px; }
+    details.option-analysis summary { cursor: pointer; color: #475467; font-weight: 750; font-size: 12px; }
+    .why-list { display: grid; gap: 8px; margin-top: 11px; }
+    .why-item { display: grid; grid-template-columns: 25px 1fr; gap: 8px; font-size: 12px; color: #667085; }
+    .why-item b { color: var(--ink); }
+    .why-key { color: var(--accent-dark); font-weight: 850; }
+    .results-actions { display: flex; justify-content: center; gap: 10px; margin: 26px 0 0; }
+    .hidden { display: none !important; }
+    .footer-note { text-align: center; color: #98a2b3; font-size: 11px; margin: 26px 0 0; }
+
+    @media (max-width: 700px) {
+      main { width: min(100% - 24px, 930px); margin: 20px auto 45px; }
+      .topbar { height: 58px; padding: 0 15px; }
+      .topbar-label { font-size: 10px; }
+      .landing-grid { grid-template-columns: 1fr; }
+      .hero { border-radius: 20px; }
+      .test-header { align-items: flex-start; }
+      .test-heading h1 { font-size: 24px; }
+      .timer { min-width: 100px; font-size: 15px; padding: 10px; }
+      .question-card { padding: 16px; }
+      .options { margin-left: 0; grid-template-columns: 1fr; }
+      .submit-wrap { align-items: stretch; flex-direction: column; }
+      .submit-wrap .primary-btn { width: 100%; }
+      .result-hero { grid-template-columns: 1fr auto; padding: 21px; }
+      .result-hero h1 { font-size: 25px; }
+      .score-ring { width: 88px; height: 88px; border-width: 6px; }
+      .score-ring strong { font-size: 24px; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .area-row { grid-template-columns: 112px 1fr 38px; gap: 8px; }
+      .review-title-row { align-items: flex-start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">Q</div><span>Grammar Check</span></div>
+    <div class="topbar-label">Diagnostic assessment</div>
+  </header>
+
+  <main>
+    <section id="landing" class="screen active">
+      <div class="hero">
+        <div class="eyebrow"><span class="eyebrow-dot"></span> Test · Teach · Test</div>
+        <h1>How well do you use quantifiers?</h1>
+        <p class="hero-copy">A short diagnostic test to find out which quantifiers you can already use and which ones need more practice. Answer independently. It is completely fine to choose “I do not know”.</p>
+        <div class="hero-bottom">
+          <div class="meta-chip"><strong>26</strong> questions</div>
+          <div class="meta-chip"><strong>5:00</strong> minutes</div>
+          <div class="meta-chip">Instant explanations</div>
+        </div>
+      </div>
+      <div class="landing-grid">
+        <div class="panel">
+          <h2>What will this test check?</h2>
+          <p>The questions cover the main quantifier groups and subject–verb agreement.</p>
+          <ul class="info-list">
+            <li><span class="check-icon">✓</span><span><b>Total amounts:</b> all, both, each and every</span></li>
+            <li><span class="check-icon">✓</span><span><b>Large amounts:</b> most, much, many, a lot of and plenty of</span></li>
+            <li><span class="check-icon">✓</span><span><b>Small amounts:</b> some, a little, little, a few, few and several</span></li>
+            <li><span class="check-icon">✓</span><span><b>Zero / two-item amounts:</b> any, no, none, either and neither</span></li>
+            <li><span class="check-icon">✓</span><span><b>Verb forms:</b> singular and plural agreement</span></li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h2>Before you begin</h2>
+          <p>You have five minutes. Your answers will be submitted automatically when the timer reaches zero.</p>
+          <label class="name-label" for="studentName">Student name <span style="font-weight:400;color:#98a2b3">(optional)</span></label>
+          <input class="name-input" id="studentName" type="text" maxlength="60" placeholder="Enter your name" autocomplete="name" />
+          <button class="primary-btn start-btn" id="startBtn" type="button">Start test <span aria-hidden="true">→</span></button>
+          <p class="fine-print">No answers are shown until you submit the test.</p>
+        </div>
+      </div>
+      <p class="footer-note">Diagnostic use only · Your results help identify what to practise next.</p>
+    </section>
+
+    <section id="test" class="screen">
+      <div class="test-header">
+        <div class="test-heading"><h1>Quantifiers test</h1><p id="studentGreeting">Choose the best answer for each question.</p></div>
+        <div class="timer" id="timer"><span aria-hidden="true">◷</span><span id="timeDisplay">05:00</span></div>
+      </div>
+      <div class="progress-card">
+        <div class="progress-top"><span>YOUR PROGRESS</span><span id="progressText">0 of 26 answered</span></div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+      <p class="test-note"><b>Remember:</b> Choose “I do not know” whenever you are unsure. This is a diagnostic test, so do not guess just to get a point.</p>
+      <form id="testForm">
+        <div id="questionsContainer"></div>
+        <div class="submit-wrap">
+          <div class="submit-hint"><b id="remainingText">26 questions remaining.</b><br />You can submit before the timer runs out.</div>
+          <button class="primary-btn" type="submit">Submit answers <span aria-hidden="true">→</span></button>
+        </div>
+      </form>
+    </section>
+
+    <section id="results" class="screen">
+      <div class="result-hero">
+        <div><div class="eyebrow"><span class="eyebrow-dot"></span> Test complete</div><h1 id="resultTitle">Your results</h1><p id="resultSubtitle">Review your answers and see what to focus on next.</p></div>
+        <div class="score-ring"><div><strong id="scorePercent">0%</strong><span id="scoreFraction">0 / 26 correct</span></div></div>
+      </div>
+      <div class="stats-grid">
+        <div class="stat"><strong id="correctStat">0</strong><span>Correct answers</span></div>
+        <div class="stat"><strong id="incorrectStat">0</strong><span>Incorrect answers</span></div>
+        <div class="stat"><strong id="unknownStat">0</strong><span>“I do not know”</span></div>
+        <div class="stat"><strong id="unansweredStat">0</strong><span>Not answered</span></div>
+      </div>
+      <div class="diagnostic-panel">
+        <h2>Grammar area breakdown</h2>
+        <p>Use these results to decide which areas need teaching and practice.</p>
+        <div id="areaBreakdown"></div>
+      </div>
+      <div class="review-title-row">
+        <div><h2>Answer review</h2><p>Each question includes an explanation of the correct answer and the alternatives.</p></div>
+        <div class="filter-row" aria-label="Filter answer review">
+          <button type="button" class="filter-btn active" data-filter="all">All</button>
+          <button type="button" class="filter-btn" data-filter="incorrect">Needs review</button>
+          <button type="button" class="filter-btn" data-filter="correct">Correct</button>
+        </div>
+      </div>
+      <div id="reviewContainer"></div>
+      <div class="results-actions">
+        <button class="secondary-btn" type="button" id="backTopBtn">Back to top ↑</button>
+        <button class="primary-btn" type="button" id="retakeBtn">Retake test ↻</button>
+      </div>
+      <p class="footer-note">A low score is useful diagnostic information. Focus the teaching stage on the areas with the most errors.</p>
+    </section>
+  </main>
+
+  <script>
+    const questions = [
+      { id: 1, area: 'Total amounts', section: 'Part A · Choose the correct quantifier', text: '_____ students in my class have student cards.', answer: 'A', options: [
+        ['A', 'All', 'All is used with a plural countable noun: “All students”.'],
+        ['B', 'Every', 'Every is followed by a singular countable noun: “Every student”, not “Every students”.'],
+        ['C', 'Each', 'Each must be followed by a singular noun: “each student”, not “each students”.']
+      ]},
+      { id: 2, area: 'Total amounts', section: 'Part A · Choose the correct quantifier', text: 'I have two sisters. _____ of them live abroad.', answer: 'A', options: [
+        ['A', 'Both', 'Both means the two people together. “Both of them” is the correct structure.'],
+        ['B', 'Every', 'Every cannot be followed by the pronoun “them”. Use “every” before a singular noun, for example “every sister”.'],
+        ['C', 'Much', 'Much is used with uncountable nouns and cannot refer to two people.']
+      ]},
+      { id: 3, area: 'Total amounts', section: 'Part A · Choose the correct quantifier', text: '_____ student must bring a pen to the lesson.', answer: 'A', options: [
+        ['A', 'Every', 'Every refers to all members of a group individually and is followed by a singular countable noun: “every student”.'],
+        ['B', 'All', 'All is not normally placed directly before a singular countable noun. Say “all students” or “all of the students”.'],
+        ['C', 'Both', 'Both is used for two people or things, but the sentence refers to each student in the group.']
+      ]},
+      { id: 4, area: 'Total amounts', section: 'Part A · Choose the correct quantifier', text: '_____ of the students has a different answer.', answer: 'A', options: [
+        ['A', 'Each', 'Each of + plural noun/pronoun takes a singular verb. “Each of the students has” is correct.'],
+        ['B', 'Every', 'Every cannot be followed by “of”. Use “each of the students” or “every student”.'],
+        ['C', 'All', 'All of the students normally takes a plural verb: “All of the students have”.']
+      ]},
+      { id: 5, area: 'Large amounts', section: 'Part A · Choose the correct quantifier', text: 'How _____ money do you need?', answer: 'A', options: [
+        ['A', 'much', 'Money is uncountable, so use “how much”.'],
+        ['B', 'many', 'Many is used with countable plural nouns, such as “many coins” or “many dollars”.']
+      ]},
+      { id: 6, area: 'Large amounts', section: 'Part A · Choose the correct quantifier', text: 'How _____ chairs are there in the classroom?', answer: 'B', options: [
+        ['A', 'much', 'Much is used with uncountable nouns. “Chairs” is a countable plural noun.'],
+        ['B', 'many', 'Chairs can be counted individually, so “how many chairs” is correct.']
+      ]},
+      { id: 7, area: 'Large amounts', section: 'Part A · Choose the correct quantifier', text: '_____ of the people in the room were tired.', answer: 'A', options: [
+        ['A', 'Most', 'Most means the majority of a group. “Most of the people” is a correct structure.'],
+        ['B', 'Much', 'Much is used with uncountable nouns, not the plural countable noun “people”.'],
+        ['C', 'Every', 'Every cannot be followed by “of the people” in this structure. Also, it would take a singular noun and verb.']
+      ]},
+      { id: 8, area: 'Large amounts', section: 'Part A · Choose the correct quantifier', text: 'There are _____ books in the library.', answer: 'A', options: [
+        ['A', 'a lot of', 'A lot of can be used with plural countable nouns and uncountable nouns. “A lot of books” is correct.'],
+        ['B', 'much', 'Much is used with uncountable nouns, not plural countable “books”.'],
+        ['C', 'every', 'Every must be followed by a singular countable noun: “every book”.']
+      ]},
+      { id: 9, area: 'Large amounts', section: 'Part A · Choose the correct quantifier', text: "We have _____ time, so we don't need to hurry.", answer: 'A', options: [
+        ['A', 'plenty of', 'Plenty of means more than enough. It is used with uncountable nouns such as “time”.'],
+        ['B', 'many', 'Many is used with countable plural nouns, not uncountable “time”.'],
+        ['C', 'few', 'Few is used with countable plural nouns and means not many. It does not fit the positive meaning here.']
+      ]},
+      { id: 10, area: 'Small amounts', section: 'Part A · Choose the correct quantifier', text: 'I need _____ information about the course.', answer: 'A', options: [
+        ['A', 'some', 'Some can be used with uncountable nouns, including “information”.'],
+        ['B', 'a few', 'A few is used with countable plural nouns, such as “a few facts”. “Information” is uncountable.'],
+        ['C', 'several', 'Several is used with countable plural nouns, such as “several details”. “Information” is uncountable.']
+      ]},
+      { id: 11, area: 'Small amounts', section: 'Part A · Choose the correct quantifier', text: "I have _____ friends here, and I am happy because I have some people to spend time with.", answer: 'A', options: [
+        ['A', 'a few', 'A few means a small number, but enough to be positive. That matches “so I don’t feel lonely”.'],
+        ['B', 'few', 'Few has a negative meaning: not many, or fewer than expected. It does not fit the positive result in this context.'],
+        ['C', 'little', 'Little is used with uncountable nouns, not countable plural “friends”.']
+      ]},
+      { id: 12, area: 'Small amounts', section: 'Part A · Choose the correct quantifier', text: 'Very _____ people came to the meeting; almost nobody attended.', answer: 'A', options: [
+        ['A', 'Few', 'Few means not many and suggests fewer people than expected. This explains why the room was almost empty.'],
+        ['B', 'A few', 'A few means some people. It has a more positive meaning and does not naturally explain an almost empty room here.'],
+        ['C', 'A little', 'A little is used with uncountable nouns, not plural countable “people”.']
+      ]},
+      { id: 13, area: 'Small amounts', section: 'Part A · Choose the correct quantifier', text: 'Add _____ sugar to your tea.', answer: 'A', options: [
+        ['A', 'a little', 'Sugar is uncountable. A little means a small amount and is used with uncountable nouns.'],
+        ['B', 'a few', 'A few is used with countable plural nouns, not uncountable “sugar”.'],
+        ['C', 'several', 'Several is used with countable plural nouns, such as “several teaspoons”.']
+      ]},
+      { id: 14, area: 'Small amounts', section: 'Part A · Choose the correct quantifier', text: 'There is _____ milk left; we cannot make a cup of tea.', answer: 'A', options: [
+        ['A', 'little', 'Little is used with uncountable nouns and suggests that there is not enough. This matches the second part of the sentence.'],
+        ['B', 'a little', 'A little means a small amount, but it presents the amount more positively. The sentence says there is not enough milk.'],
+        ['C', 'a few', 'A few is used with countable plural nouns, not uncountable “milk”.']
+      ]},
+      { id: 15, area: 'Small amounts', section: 'Part A · Choose the correct quantifier', text: 'There are _____ parks in this area.', answer: 'A', options: [
+        ['A', 'several', 'Several means more than two but not a large number. It is used with plural countable nouns such as “parks”.'],
+        ['B', 'much', 'Much is used with uncountable nouns, not plural countable “parks”.'],
+        ['C', 'a little', 'A little is used with uncountable nouns, not plural countable “parks”.']
+      ]},
+      { id: 16, area: 'Small amounts', section: 'Part A · Choose the correct quantifier', text: 'We stayed in Bukhara for _____ days (exactly two).', answer: 'A', options: [
+        ['A', 'a couple of', 'A couple of means two. “A couple of days” is the correct expression.'],
+        ['B', 'much', 'Much is used with uncountable nouns. “Days” is a countable plural noun.'],
+        ['C', 'any', 'Any is common in questions and negative statements. It does not express the exact number two here.']
+      ]},
+      { id: 17, area: 'Zero / two-item amounts', section: 'Part A · Choose the correct quantifier', text: 'Do you have _____ questions?', answer: 'A', options: [
+        ['A', 'any', 'Any is commonly used in questions with plural countable nouns and uncountable nouns.'],
+        ['B', 'much', 'Much is used with uncountable nouns, but “questions” is a countable plural noun.'],
+        ['C', 'none of', 'None of must be followed by a determiner or pronoun, for example “none of the questions”. It cannot be placed directly before “questions” here.']
+      ]},
+      { id: 18, area: 'Zero / two-item amounts', section: 'Part A · Choose the correct quantifier', text: 'There is _____ bread left. We need to buy some.', answer: 'A', options: [
+        ['A', 'no', 'No is followed directly by a noun and means zero: “no bread”.'],
+        ['B', 'none of', 'None of must be followed by a determiner or pronoun, such as “none of the bread”.'],
+        ['C', 'any', 'Any is normally used in questions and negative statements. In a positive statement, use “some” or “there is bread”.']
+      ]},
+      { id: 19, area: 'Zero / two-item amounts', section: 'Part A · Choose the correct quantifier', text: '_____ of the two answers is correct. They are both wrong.', answer: 'A', options: [
+        ['A', 'Neither', 'Neither means not one and not the other of two. “Neither of the two answers” matches “They are both wrong”.'],
+        ['B', 'Either', 'Either means one or the other of two. It does not mean that both answers are wrong.'],
+        ['C', 'All', 'All means the whole group. It does not express “not one and not the other” when talking about two alternatives.']
+      ]},
+      { id: 20, area: 'Zero / two-item amounts', section: 'Part A · Choose the correct quantifier', text: "You can choose _____ of these two books. I don't mind which one.", answer: 'A', options: [
+        ['A', 'either', 'Either means one or the other of two. The speaker does not mind which single book is chosen.'],
+        ['B', 'neither', 'Neither means not one and not the other, so it would mean that the student cannot choose either book.'],
+        ['C', 'all', 'All refers to the whole group, not one choice from two alternatives.']
+      ]},
+      { id: 21, area: 'Zero / two-item amounts', section: 'Part A · Choose the correct quantifier', text: '_____ of them came to class, so the room was empty.', answer: 'A', options: [
+        ['A', 'None', 'None of them means not one person came. “None” can be followed by “of + pronoun”.'],
+        ['B', 'No', 'No cannot be followed by “of” or a pronoun. Use “no students came” or “none of them came”.'],
+        ['C', 'Every', 'Every cannot be used with a pronoun such as “them”. Use “every student” instead.']
+      ]},
+      { id: 22, area: 'Verb agreement', section: 'Part B · Choose the correct verb form', text: 'Each of the students _____ a notebook.', answer: 'A', options: [
+        ['A', 'has', 'Each is grammatically singular, so it takes a singular verb: “Each ... has”.'],
+        ['B', 'have', 'Have is a plural verb. The noun “students” is plural, but the subject of the sentence is “each”, which is singular.']
+      ]},
+      { id: 23, area: 'Verb agreement', section: 'Part B · Choose the correct verb form', text: 'Both of my parents _____ in a school.', answer: 'A', options: [
+        ['A', 'work', 'Both refers to two people together and takes a plural verb: “Both ... work”.'],
+        ['B', 'works', 'Works is a singular verb. Both refers to two people, so the plural verb “work” is required.']
+      ]},
+      { id: 24, area: 'Verb agreement', section: 'Part B · Choose the correct verb form', text: 'A lot of water _____ wasted every day.', answer: 'A', options: [
+        ['A', 'is', 'Water is uncountable and takes a singular verb. Therefore, “A lot of water is wasted” is correct.'],
+        ['B', 'are', 'Are is a plural verb. The noun “water” is uncountable and grammatically singular.']
+      ]},
+      { id: 25, area: 'Verb agreement', section: 'Part B · Choose the correct verb form', text: 'Most of the students _____ ready for the test.', answer: 'B', options: [
+        ['A', 'is', 'Is is singular. “Students” is a plural countable noun, so the verb should be plural.'],
+        ['B', 'are', 'Most of + plural countable noun normally takes a plural verb: “Most of the students are”.']
+      ]},
+      { id: 26, area: 'Verb agreement', section: 'Part B · Choose the correct verb form', text: 'Neither answer _____ correct.', answer: 'A', options: [
+        ['A', 'is', 'Neither is singular in this structure, and “answer” is singular. The singular verb “is” is correct.'],
+        ['B', 'are', 'Are is plural. Here, “neither answer” refers to not one of the two answers, so use the singular verb “is”.']
+      ]}
+    ];
+
+    const areaOrder = [
+      ['Total amounts', 'All · both · each · every', 1, 4],
+      ['Large amounts', 'Most · much · many · a lot of · plenty of', 5, 9],
+      ['Small amounts', 'Some · a little · little · a few · few · several', 10, 16],
+      ['Zero / two-item amounts', 'Any · no · none · either · neither', 17, 21],
+      ['Verb agreement', 'Singular and plural verb forms', 22, 26]
+    ];
+
+    let answers = {};
+    let secondsLeft = 300;
+    let timerInterval = null;
+    let finished = false;
+    let studentName = '';
+    let activeFilter = 'all';
+
+    const $ = (id) => document.getElementById(id);
+    const escapeHtml = (value) => String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
+      $(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderQuestions() {
+      const container = $('questionsContainer');
+      let lastSection = '';
+      container.innerHTML = questions.map(q => {
+        let sectionHeading = '';
+        if (q.section !== lastSection) {
+          sectionHeading = `<div class="section-label">${escapeHtml(q.section)}</div>`;
+          lastSection = q.section;
+        }
+        const options = q.options.map(([key, label]) => optionMarkup(q, key, label)).join('') + optionMarkup(q, 'IDK', 'I do not know');
+        return `${sectionHeading}<article class="question-card" id="question-${q.id}">
+          <div class="q-top"><div class="q-number">${q.id}</div><p class="q-text">${escapeHtml(q.text)}</p></div>
+          <div class="options" role="radiogroup" aria-label="Question ${q.id}">${options}</div>
+        </article>`;
+      }).join('');
+      container.querySelectorAll('input[type="radio"]').forEach(input => input.addEventListener('change', onAnswerChange));
+      updateProgress();
+    }
+
+    function optionMarkup(q, key, label) {
+      const checked = answers[q.id] === key;
+      const letter = key === 'IDK' ? '?' : key;
+      return `<label class="option ${checked ? 'selected' : ''}">
+        <input type="radio" name="q${q.id}" value="${key}" ${checked ? 'checked' : ''} />
+        <span class="radio-dot" aria-hidden="true"></span><span class="option-letter">${letter}</span><span>${escapeHtml(label)}</span>
+      </label>`;
+    }
+
+    function onAnswerChange(event) {
+      const input = event.target;
+      const id = Number(input.name.slice(1));
+      answers[id] = input.value;
+      const card = input.closest('.question-card');
+      card.querySelectorAll('.option').forEach(option => option.classList.remove('selected'));
+      input.closest('.option').classList.add('selected');
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const count = Object.keys(answers).length;
+      $('progressText').textContent = `${count} of ${questions.length} answered`;
+      $('progressFill').style.width = `${count / questions.length * 100}%`;
+      const remaining = questions.length - count;
+      $('remainingText').textContent = remaining === 0 ? 'All questions answered.' : `${remaining} question${remaining === 1 ? '' : 's'} remaining.`;
+    }
+
+    function startTest() {
+      studentName = $('studentName').value.trim();
+      answers = {};
+      secondsLeft = 300;
+      finished = false;
+      $('studentGreeting').textContent = studentName ? `Good luck, ${studentName}. Choose the best answer for each question.` : 'Choose the best answer for each question.';
+      renderQuestions();
+      updateTimerDisplay();
+      showScreen('test');
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        secondsLeft -= 1;
+        updateTimerDisplay();
+        if (secondsLeft <= 0) {
+          clearInterval(timerInterval);
+          finishTest(true);
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(secondsLeft / 60).toString().padStart(2, '0');
+      const secs = (secondsLeft % 60).toString().padStart(2, '0');
+      $('timeDisplay').textContent = `${mins}:${secs}`;
+      const timer = $('timer');
+      timer.classList.toggle('warning', secondsLeft <= 120 && secondsLeft > 30);
+      timer.classList.toggle('urgent', secondsLeft <= 30);
+    }
+
+    function finishTest(autoSubmitted = false) {
+      if (finished) return;
+      finished = true;
+      clearInterval(timerInterval);
+      const correct = questions.filter(q => answers[q.id] === q.answer).length;
+      const unknown = questions.filter(q => answers[q.id] === 'IDK').length;
+      const unanswered = questions.filter(q => !answers[q.id]).length;
+      const incorrect = questions.length - correct - unknown - unanswered;
+      const percent = Math.round(correct / questions.length * 100);
+      $('resultTitle').textContent = studentName ? `${studentName}'s results` : 'Your results';
+      $('resultSubtitle').textContent = autoSubmitted ? 'Time is up. Your answers have been submitted automatically.' : 'Your answers have been submitted. Review the explanations below.';
+      $('scorePercent').textContent = `${percent}%`;
+      $('scoreFraction').textContent = `${correct} / ${questions.length} correct`;
+      $('correctStat').textContent = correct;
+      $('incorrectStat').textContent = incorrect;
+      $('unknownStat').textContent = unknown;
+      $('unansweredStat').textContent = unanswered;
+      renderAreaBreakdown();
+      renderReview();
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.filter === 'all'));
+      activeFilter = 'all';
+      showScreen('results');
+    }
+
+    function renderAreaBreakdown() {
+      $('areaBreakdown').innerHTML = areaOrder.map(([name, subtitle, start, end]) => {
+        const qs = questions.filter(q => q.id >= start && q.id <= end);
+        const score = qs.filter(q => answers[q.id] === q.answer).length;
+        const pct = score / qs.length * 100;
+        return `<div class="area-row"><div class="area-name" title="${escapeHtml(subtitle)}">${escapeHtml(name)}</div><div class="area-track"><div class="area-fill" style="width:${pct}%"></div></div><div class="area-score">${score}/${qs.length}</div></div>`;
+      }).join('');
+    }
+
+    function getStatus(q) {
+      const response = answers[q.id];
+      if (!response) return 'unanswered';
+      if (response === 'IDK') return 'unknown';
+      return response === q.answer ? 'correct' : 'incorrect';
+    }
+
+    function renderReview() {
+      const container = $('reviewContainer');
+      const filtered = questions.filter(q => {
+        const status = getStatus(q);
+        if (activeFilter === 'all') return true;
+        if (activeFilter === 'correct') return status === 'correct';
+        return status !== 'correct';
+      });
+      if (!filtered.length) {
+        container.innerHTML = '<div class="panel"><p>No questions in this filter.</p></div>';
+        return;
+      }
+      container.innerHTML = filtered.map(q => {
+        const status = getStatus(q);
+        const response = answers[q.id];
+        const selectedOption = q.options.find(o => o[0] === response);
+        const correctOption = q.options.find(o => o[0] === q.answer);
+        const statusText = status === 'correct' ? 'Correct' : status === 'unknown' ? 'Not sure' : status === 'unanswered' ? 'Not answered' : 'Incorrect';
+        const yourText = response === 'IDK' ? 'I do not know' : selectedOption ? `${selectedOption[0]}. ${selectedOption[1]}` : 'No answer';
+        let personalExplanation = '';
+        if (status === 'correct') {
+          personalExplanation = `<div class="explanation good"><strong>Why your answer is correct:</strong> ${escapeHtml(correctOption[2])}</div>`;
+        } else if (status === 'unknown') {
+          personalExplanation = `<div class="explanation"><strong>You selected “I do not know”.</strong> This is recorded as no demonstrated knowledge for this item, not as a guessed answer. The correct answer is <b>${q.answer}. ${escapeHtml(correctOption[1])}</b>. ${escapeHtml(correctOption[2])}</div>`;
+        } else if (status === 'unanswered') {
+          personalExplanation = `<div class="explanation"><strong>No answer was selected.</strong> The correct answer is <b>${q.answer}. ${escapeHtml(correctOption[1])}</b>. ${escapeHtml(correctOption[2])}</div>`;
+        } else {
+          personalExplanation = `<div class="explanation bad"><strong>Why your answer is incorrect:</strong> ${escapeHtml(selectedOption[2])}</div><div class="explanation good"><strong>Why the correct answer is correct:</strong> ${escapeHtml(correctOption[2])}</div>`;
+        }
+        const whyRows = q.options.map(([key, label, why]) => `<div class="why-item"><div class="why-key">${key}.</div><div><b>${escapeHtml(label)}:</b> ${escapeHtml(why)}</div></div>`).join('');
+        return `<article class="review-card" data-status="${status}">
+          <div class="review-head"><div class="review-q"><div class="q-number">${q.id}</div><strong>${escapeHtml(q.text)}</strong></div><span class="status ${status === 'correct' ? 'correct' : status === 'unknown' || status === 'unanswered' ? 'unknown' : 'incorrect'}">${statusText}</span></div>
+          <div class="answer-line"><span>Your answer: <b>${escapeHtml(yourText)}</b></span><span>Correct answer: <b>${q.answer}. ${escapeHtml(correctOption[1])}</b></span></div>
+          ${personalExplanation}
+          <details class="option-analysis"><summary>Why each option is correct or incorrect</summary><div class="why-list">${whyRows}<div class="why-item"><div class="why-key">?</div><div><b>I do not know:</b> This is a valid diagnostic choice when you are unsure, but it does not demonstrate that you can use the grammar point yet.</div></div></div></details>
+        </article>`;
+      }).join('');
+    }
+
+    $('startBtn').addEventListener('click', startTest);
+    $('testForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      finishTest(false);
+    });
+    $('retakeBtn').addEventListener('click', () => {
+      showScreen('landing');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    $('backTopBtn').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.addEventListener('click', () => {
+      activeFilter = btn.dataset.filter;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b === btn));
+      renderReview();
+    }));
+  </script>
+</body>
+</html>
