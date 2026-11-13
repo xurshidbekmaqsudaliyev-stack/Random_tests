@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#172554">
+<title>Unit 14 — Urbanisation | Vocabulary Test</title>
+<style>
+  :root {
+    --navy: #172554;
+    --navy-2: #243b74;
+    --ink: #172033;
+    --muted: #667085;
+    --line: #e5eaf2;
+    --paper: #ffffff;
+    --canvas: #f4f7fb;
+    --accent: #e15514;
+    --accent-soft: #fff1e9;
+    --green: #17834b;
+    --green-soft: #eaf8f0;
+    --red: #c43232;
+    --red-soft: #fff0f0;
+    --amber: #9a6700;
+    --amber-soft: #fff6df;
+    --shadow: 0 18px 50px rgba(27, 46, 87, .09);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--canvas); color: var(--ink); min-height: 100vh; }
+  button, input { font: inherit; }
+  button { cursor: pointer; }
+  .topbar { height: 68px; background: var(--navy); color: white; display: flex; align-items: center; justify-content: space-between; padding: 0 max(22px, calc((100vw - 1120px)/2)); }
+  .brand { display: flex; align-items: center; gap: 12px; font-weight: 750; letter-spacing: .01em; }
+  .brand-mark { width: 34px; height: 34px; border-radius: 10px; background: var(--accent); display: grid; place-items: center; font-weight: 900; }
+  .top-meta { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: #c7d2fe; font-weight: 700; }
+  main { width: min(100% - 32px, 960px); margin: 34px auto 64px; }
+  .screen { display: none; }
+  .screen.active { display: block; animation: appear .22s ease-out; }
+  @keyframes appear { from { opacity: .45; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: 20px; box-shadow: var(--shadow); }
+  .hero { overflow: hidden; }
+  .hero-band { background: linear-gradient(125deg, var(--navy), var(--navy-2)); color: #fff; padding: 34px 38px; position: relative; }
+  .hero-band:after { content: ""; position: absolute; width: 230px; height: 230px; border: 1px solid rgba(255,255,255,.14); border-radius: 50%; right: -42px; top: -112px; box-shadow: 0 0 0 28px rgba(255,255,255,.035), 0 0 0 58px rgba(255,255,255,.025); }
+  .eyebrow { color: #fed7c2; font-size: 12px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+  h1 { margin: 12px 0 8px; font-size: clamp(30px, 5vw, 44px); line-height: 1.08; letter-spacing: -.035em; }
+  .subtitle { margin: 0; color: #dbe4ff; font-size: 16px; }
+  .hero-content { padding: 30px 38px 36px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px; }
+  .stat { background: #f7f9fc; border: 1px solid var(--line); border-radius: 13px; padding: 14px 16px; }
+  .stat strong { display: block; font-size: 20px; color: var(--navy); }
+  .stat span { color: var(--muted); font-size: 12px; font-weight: 650; }
+  .field-label { display: block; font-size: 13px; font-weight: 750; margin: 0 0 8px; }
+  .text-field { width: 100%; border: 1px solid #cfd7e5; border-radius: 11px; background: #fff; padding: 13px 14px; color: var(--ink); outline: none; transition: border .15s, box-shadow .15s; }
+  .text-field:focus { border-color: var(--navy-2); box-shadow: 0 0 0 3px rgba(36,59,116,.1); }
+  .form-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 16px; }
+  .hint { font-size: 12px; color: var(--muted); margin: 8px 0 0; }
+  .btn { border: 0; border-radius: 11px; padding: 13px 19px; font-weight: 800; transition: transform .12s, opacity .12s, background .12s; }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary { background: var(--accent); color: white; box-shadow: 0 7px 16px rgba(225,85,20,.2); }
+  .btn-primary:hover { background: #c9470d; }
+  .btn-primary:disabled { background: #c5cbd5; box-shadow: none; cursor: not-allowed; }
+  .btn-secondary { background: #edf1f7; color: var(--navy); }
+  .btn-secondary:hover { background: #e1e7f0; }
+  .start-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 24px; }
+  .notice { font-size: 12px; color: var(--muted); max-width: 400px; line-height: 1.5; }
+  .test-head { padding: 22px 26px; margin-bottom: 18px; }
+  .test-head-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .test-title { font-size: 20px; font-weight: 850; color: var(--navy); }
+  .test-subtitle { font-size: 13px; color: var(--muted); margin-top: 3px; }
+  .timer { min-width: 112px; border-radius: 13px; background: var(--navy); color: white; padding: 10px 14px; text-align: center; }
+  .timer.warning { background: #9b5a00; }
+  .timer.danger { background: #b42318; animation: pulse 1s infinite; }
+  @keyframes pulse { 50% { opacity: .76; } }
+  .timer-label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: .13em; color: #cbd5f5; font-weight: 800; }
+  .timer-value { display: block; font-size: 25px; line-height: 1.2; font-weight: 900; font-variant-numeric: tabular-nums; }
+  .progress-wrap { margin-top: 18px; }
+  .progress-meta { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; font-weight: 700; margin-bottom: 7px; }
+  .progress-track { height: 7px; background: #e8edf5; border-radius: 20px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 0%; border-radius: inherit; background: var(--accent); transition: width .2s; }
+  .section-card { padding: 25px 27px; margin-bottom: 18px; }
+  .section-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+  .section-heading h2 { margin: 0; font-size: 18px; color: var(--navy); }
+  .section-heading p { margin: 5px 0 0; color: var(--muted); font-size: 13px; }
+  .points { white-space: nowrap; color: var(--muted); font-size: 12px; font-weight: 750; background: #f4f6fa; padding: 7px 10px; border-radius: 20px; }
+  .question { border-top: 1px solid var(--line); padding: 17px 0 18px; }
+  .question:first-of-type { border-top: 0; }
+  .q-prompt { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; line-height: 1.55; font-weight: 650; }
+  .q-number { flex: 0 0 29px; height: 29px; display: grid; place-items: center; border-radius: 9px; background: #edf1f8; color: var(--navy); font-size: 12px; font-weight: 900; }
+  .options { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 9px; margin: 13px 0 0 39px; }
+  .option { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border: 1px solid #e1e6ef; border-radius: 10px; cursor: pointer; color: #344054; font-size: 13px; min-height: 43px; transition: all .12s; }
+  .option:hover { border-color: #aebbd2; background: #f8faff; }
+  .option.selected { border-color: var(--navy-2); background: #eef2ff; color: var(--navy); box-shadow: inset 0 0 0 1px var(--navy-2); }
+  .option input { accent-color: var(--navy-2); margin: 0; }
+  .wordbank { border: 1px solid #dbe4f1; border-radius: 12px; padding: 13px 15px; margin: 5px 0 10px 39px; background: #f8faff; }
+  .wordbank-title { display: block; color: var(--navy); font-size: 10px; font-weight: 900; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 9px; }
+  .wordchips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .wordchip { background: white; border: 1px solid #d9e1ed; color: #344054; padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; }
+  .gap-sentence { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin: 11px 0 0 39px; font-size: 14px; line-height: 1.85; color: #344054; }
+  .gap-input { display: inline-block; width: 190px; max-width: 100%; border: 0; border-bottom: 2px solid #8c9bb4; border-radius: 4px 4px 0 0; background: #f4f7fc; padding: 5px 8px; color: var(--navy); outline: none; font-weight: 750; text-align: center; }
+  .gap-input:focus { border-bottom-color: var(--accent); background: #fff6f1; }
+  .gap-input::placeholder { color: #9aa5b5; font-weight: 500; font-size: 12px; }
+  .submit-bar { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 18px 22px; }
+  .submit-note { color: var(--muted); font-size: 12px; line-height: 1.5; }
+  .result-hero { padding: 30px; text-align: center; }
+  .result-kicker { color: var(--muted); font-size: 12px; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; }
+  .score-circle { width: 142px; height: 142px; margin: 18px auto 14px; border: 9px solid #e9edf5; border-top-color: var(--accent); border-right-color: var(--accent); border-radius: 50%; display: grid; place-items: center; }
+  .score-main { font-size: 37px; line-height: 1; color: var(--navy); font-weight: 950; letter-spacing: -.04em; }
+  .score-denom { color: var(--muted); font-size: 12px; font-weight: 750; margin-top: 5px; }
+  .result-title { margin: 8px 0 4px; font-size: 25px; color: var(--navy); }
+  .result-caption { color: var(--muted); font-size: 14px; margin: 0; }
+  .result-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 0 24px 24px; }
+  .result-stat { padding: 14px 10px; border: 1px solid var(--line); border-radius: 12px; text-align: center; }
+  .result-stat b { display: block; font-size: 20px; color: var(--navy); }
+  .result-stat span { color: var(--muted); font-size: 11px; font-weight: 700; }
+  .review { padding: 24px 26px; margin-top: 18px; }
+  .review h2 { color: var(--navy); margin: 0 0 15px; font-size: 19px; }
+  .review-item { border-top: 1px solid var(--line); padding: 15px 0; }
+  .review-item:first-of-type { border-top: 0; }
+  .review-top { display: flex; align-items: flex-start; gap: 10px; }
+  .status-mark { width: 24px; height: 24px; flex: 0 0 24px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 900; }
+  .status-mark.correct { background: var(--green-soft); color: var(--green); }
+  .status-mark.incorrect { background: var(--red-soft); color: var(--red); }
+  .review-q { font-size: 14px; font-weight: 700; line-height: 1.5; }
+  .review-details { margin: 8px 0 0 34px; display: grid; gap: 4px; color: var(--muted); font-size: 12px; }
+  .review-details .right { color: var(--green); font-weight: 750; }
+  .review-details .wrong { color: var(--red); font-weight: 750; }
+  .review-filter { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 14px; }
+  .filter-btn { border: 1px solid var(--line); background: white; padding: 7px 11px; border-radius: 20px; color: var(--muted); font-size: 12px; font-weight: 750; }
+  .filter-btn.active { background: var(--navy); border-color: var(--navy); color: white; }
+  .result-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; padding: 22px 0 0; }
+  .empty-state { background: var(--green-soft); color: var(--green); padding: 16px; border-radius: 12px; font-size: 14px; font-weight: 700; }
+  .footer { text-align: center; color: #98a2b3; font-size: 11px; margin-top: 24px; }
+  .hidden { display: none !important; }
+  @media (max-width: 640px) {
+    main { width: min(100% - 20px, 960px); margin-top: 16px; }
+    .topbar { height: 58px; padding: 0 14px; }
+    .top-meta { font-size: 9px; }
+    .hero-band { padding: 27px 23px; }
+    .hero-content { padding: 23px; }
+    .stats { gap: 7px; }
+    .stat { padding: 11px 9px; }
+    .stat strong { font-size: 17px; }
+    .stat span { font-size: 10px; }
+    .form-grid { grid-template-columns: 1fr; gap: 13px; }
+    .start-row { align-items: stretch; flex-direction: column; }
+    .start-row .btn { width: 100%; }
+    .test-head { padding: 17px; }
+    .test-head-row { align-items: flex-start; }
+    .test-title { font-size: 17px; }
+    .timer { min-width: 94px; padding: 8px 10px; }
+    .timer-value { font-size: 22px; }
+    .section-card { padding: 19px 15px; }
+    .section-heading h2 { font-size: 16px; }
+    .options { margin-left: 0; grid-template-columns: 1fr; }
+    .wordbank, .gap-sentence { margin-left: 0; }
+    .gap-sentence { align-items: flex-start; }
+    .gap-input { width: 155px; }
+    .submit-bar { align-items: stretch; flex-direction: column; }
+    .submit-bar .btn { width: 100%; }
+    .result-stats { grid-template-columns: repeat(2, 1fr); padding: 0 15px 18px; }
+    .review { padding: 20px 16px; }
+  }
+  @media print {
+    body { background: white; }
+    .topbar, .result-actions, .footer, .review-filter { display: none !important; }
+    main { width: 100%; margin: 0; }
+    .card { box-shadow: none; break-inside: avoid; }
+    .review-item { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">V</span><span>Vocabulary Assessment</span></div>
+  <div class="top-meta">Unit 14 · Urbanisation</div>
+</header>
+<main>
+  <section id="landing" class="screen active">
+    <div class="card hero">
+      <div class="hero-band">
+        <div class="eyebrow">Vocabulary Builder · Unit 14</div>
+        <h1>Urbanisation</h1>
+        <p class="subtitle">Vocabulary Test · 30 questions · 30 marks</p>
+      </div>
+      <div class="hero-content">
+        <div class="stats">
+          <div class="stat"><strong>30</strong><span>Total questions</span></div>
+          <div class="stat"><strong>10 min</strong><span>Time limit</span></div>
+          <div class="stat"><strong>30 marks</strong><span>1 mark per question</span></div>
+        </div>
+        <div class="form-grid">
+          <div>
+            <label class="field-label" for="studentName">Student name <span style="color:var(--red)">*</span></label>
+            <input class="text-field" id="studentName" type="text" maxlength="70" autocomplete="name" placeholder="Enter your full name" required>
+          </div>
+          <div>
+            <label class="field-label" for="studentClass">Class (optional)</label>
+            <input class="text-field" id="studentClass" type="text" maxlength="40" placeholder="e.g. B2 Group">
+          </div>
+        </div>
+        <p class="hint">Your name is required to begin. Your answers will be marked automatically when you submit.</p>
+        <div class="start-row">
+          <div class="notice">The 10-minute timer begins when you select Start Test. If time runs out, your answers will be submitted automatically.</div>
+          <button id="startBtn" class="btn btn-primary" disabled>Start Test <span aria-hidden="true">→</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="footer">Read each question carefully. You may submit before the timer reaches zero.</div>
+  </section>
+
+  <section id="test" class="screen">
+    <div class="card test-head">
+      <div class="test-head-row">
+        <div>
+          <div class="test-title">Unit 14 · Urbanisation</div>
+          <div class="test-subtitle">Student: <strong id="testStudentName"></strong> <span id="testStudentClass"></span></div>
+        </div>
+        <div id="timerBox" class="timer" role="timer" aria-live="polite">
+          <span class="timer-label">Time remaining</span><span id="timerValue" class="timer-value">10:00</span>
+        </div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-meta"><span>Test progress</span><span id="progressText">0 / 30 answered</span></div>
+        <div class="progress-track"><div id="progressFill" class="progress-fill"></div></div>
+      </div>
+    </div>
+
+    <form id="testForm" autocomplete="off">
+      <div class="card section-card" id="mcSection">
+        <div class="section-heading">
+          <div><h2>Part A · Multiple Choice</h2><p>Choose the correct word or phrase. Each question is worth 1 mark.</p></div>
+          <span class="points">15 marks</span>
+        </div>
+        <div id="mcQuestions"></div>
+      </div>
+
+      <div class="card section-card" id="gapGroup1">
+        <div class="section-heading">
+          <div><h2>Part B · Contextual Gap Fill</h2><p>Complete each sentence using a word from the box. Use each word once in its group.</p></div>
+          <span class="points">Questions 16–20</span>
+        </div>
+        <div class="wordbank"><span class="wordbank-title">Word Box 1</span><div class="wordchips" id="bank1"></div></div>
+        <div id="gapQuestions1"></div>
+      </div>
+
+      <div class="card section-card" id="gapGroup2">
+        <div class="section-heading">
+          <div><h2>Contextual Gap Fill · Continued</h2><p>Type one word into each gap. Use each word once in this group.</p></div>
+          <span class="points">Questions 21–25</span>
+        </div>
+        <div class="wordbank"><span class="wordbank-title">Word Box 2</span><div class="wordchips" id="bank2"></div></div>
+        <div id="gapQuestions2"></div>
+      </div>
+
+      <div class="card section-card" id="gapGroup3">
+        <div class="section-heading">
+          <div><h2>Contextual Gap Fill · Continued</h2><p>Type one word into each gap. Use each word once in this group.</p></div>
+          <span class="points">Questions 26–30</span>
+        </div>
+        <div class="wordbank"><span class="wordbank-title">Word Box 3</span><div class="wordchips" id="bank3"></div></div>
+        <div id="gapQuestions3"></div>
+      </div>
+
+      <div class="card submit-bar">
+        <div class="submit-note"><strong id="submitAnswered">0 of 30 answered.</strong><br>Unanswered questions will receive zero marks. The test also submits automatically when time expires.</div>
+        <button type="button" id="submitBtn" class="btn btn-primary">Submit Test</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="results" class="screen">
+    <div class="card">
+      <div class="result-hero">
+        <div class="result-kicker">Unit 14 · Urbanisation</div>
+        <div class="score-circle"><div><div id="scoreMain" class="score-main">0/30</div><div class="score-denom" id="scorePercent">0%</div></div></div>
+        <h1 class="result-title" id="resultTitle">Test completed</h1>
+        <p class="result-caption" id="resultCaption"></p>
+        <p class="result-caption" id="completionMode" style="margin-top:6px"></p>
+      </div>
+      <div class="result-stats">
+        <div class="result-stat"><b id="mcScore">0/15</b><span>Multiple choice</span></div>
+        <div class="result-stat"><b id="gap1Score">0/5</b><span>Gap fill 16–20</span></div>
+        <div class="result-stat"><b id="gap2Score">0/5</b><span>Gap fill 21–25</span></div>
+        <div class="result-stat"><b id="gap3Score">0/5</b><span>Gap fill 26–30</span></div>
+      </div>
+    </div>
+    <div class="card review">
+      <h2>Answer Review</h2>
+      <div class="review-filter">
+        <button class="filter-btn active" data-filter="all">All questions</button>
+        <button class="filter-btn" data-filter="incorrect">Mistakes only</button>
+        <button class="filter-btn" data-filter="correct">Correct only</button>
+      </div>
+      <div id="reviewList"></div>
+    </div>
+    <div class="result-actions">
+      <button id="printBtn" class="btn btn-secondary">Print Results</button>
+      <button id="retakeBtn" class="btn btn-primary">Retake Test</button>
+    </div>
+    <div class="footer">Unit 14 · Urbanisation Vocabulary Test</div>
+  </section>
+</main>
+<script>
+(() => {
+  'use strict';
+  const MC = [
+    {n:1, q:'An advantage or positive result of something is a ...', options:['obstacle','benefit','setback','dilemma'], answer:1},
+    {n:2, q:'A situation in which a difficult choice must be made is a ...', options:['solution','dilemma','compromise','issue'], answer:1},
+    {n:3, q:'The basic systems and services of a place, such as roads and water, are its ...', options:['infrastructure','population','tolerance','traffic'], answer:0},
+    {n:4, q:'A very large city, usually with over ten million people, is a ...', options:['slum','migrant','megacity','inhabitant'], answer:2},
+    {n:5, q:'A situation in which too many people live in an area for its resources is ...', options:['urbanisation','poverty','overpopulation','isolation'], answer:2},
+    {n:6, q:'Which adjective means enough or good enough for a particular purpose?', options:['adequate','crowded','overpriced','isolated'], answer:0},
+    {n:7, q:'Which adjective means having both positive and negative effects?', options:['one-sided','double-edged','short-sighted','boring'], answer:1},
+    {n:8, q:'A person who plans wisely for the distant future is ...', options:['overworked','long-sighted','short-term','tolerant'], answer:1},
+    {n:9, q:'To make a problem or situation worse is to ...', options:['enhance','resolve','aggravate','adjust'], answer:2},
+    {n:10, q:'To become worse in condition or quality is to ...', options:['flourish','deteriorate','modify','include'], answer:1},
+    {n:11, q:'To recognise or discover exactly what something is means to ...', options:['identify','ignore','exclude','tolerate'], answer:0},
+    {n:12, q:'To make changes to a system in order to improve it is to ...', options:['present','reform','linger','compete'], answer:1},
+    {n:13, q:'To control an activity by using rules means to ...', options:['regulate','raise','cause','face'], answer:0},
+    {n:14, q:'To change something completely is to ...', options:['transform','compound','deal with','worsen'], answer:0},
+    {n:15, q:'To succeed despite a problem or obstacle is to ...', options:['overcome','exclude','aggravate','tolerate'], answer:0}
+  ];
+  const GROUPS = [
+    {id:1, bank:['challenge','compromise','inhabitant','obstacle','setback'], items:[
+      {n:16, before:'Providing affordable homes for every family is a major', after:'for the city.', answer:'challenge'},
+      {n:17, before:'After long discussions, both sides accepted a', after:'on the parking plan.', answer:'compromise'},
+      {n:18, before:'Every', after:'was invited to the meeting about the new railway.', answer:'inhabitant'},
+      {n:19, before:'The high cost of land is an', after:'to building a new school.', answer:'obstacle'},
+      {n:20, before:'The storm was a serious', after:'because it damaged the construction site.', answer:'setback'}
+    ]},
+    {id:2, bank:['crowded','decent','isolated','pressing','rural'], items:[
+      {n:21, before:'The buses are extremely', after:'during the morning rush hour.', answer:'crowded'},
+      {n:22, before:'Everyone should have a safe and', after:'place to live.', answer:'decent'},
+      {n:23, before:'The mountain settlement is completely', after:', with no nearby towns or public transport.', answer:'isolated'},
+      {n:24, before:'Finding clean drinking water is a', after:'concern after the drought.', answer:'pressing'},
+      {n:25, before:'Some', after:'communities outside the city have limited access to public transport.', answer:'rural'}
+    ]},
+    {id:3, bank:['address','enhance','exclude','flourish','regulate'], items:[
+      {n:26, before:'The council must', after:'the shortage of affordable housing.', answer:'address'},
+      {n:27, before:'New trees and benches will', after:'the appearance of the public square.', answer:'enhance'},
+      {n:28, before:'The scheme should not', after:'families who cannot pay high fees.', answer:'exclude'},
+      {n:29, before:'Small shops can', after:'when the area is safe and attractive.', answer:'flourish'},
+      {n:30, before:'The government needs to', after:'building standards to improve safety.', answer:'regulate'}
+    ]}
+  ];
+  const $ = id => document.getElementById(id);
+  let student = '', className = '', deadline = 0, timerHandle = null, submitted = false, report = [], currentFilter = 'all';
+
+  function showScreen(name) {
+    ['landing','test','results'].forEach(id => $(id).classList.toggle('active', id === name));
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+  function renderQuestions() {
+    $('mcQuestions').innerHTML = MC.map(q => `
+      <div class="question" data-question="${q.n}">
+        <div class="q-prompt"><span class="q-number">${q.n}</span><span>${escapeHTML(q.q)}</span></div>
+        <div class="options">${q.options.map((option,i)=>`
+          <label class="option" data-option="${q.n}-${i}">
+            <input type="radio" name="mc${q.n}" value="${i}" aria-label="Question ${q.n}, option ${String.fromCharCode(65+i)}">
+            <span><strong>${String.fromCharCode(65+i)})</strong> ${escapeHTML(option)}</span>
+          </label>`).join('')}
+        </div>
+      </div>`).join('');
+    GROUPS.forEach(group => {
+      $(`bank${group.id}`).innerHTML = group.bank.map(word=>`<span class="wordchip">${escapeHTML(word)}</span>`).join('');
+      $(`gapQuestions${group.id}`).innerHTML = group.items.map(item=>`
+        <div class="question" data-question="${item.n}">
+          <div class="q-prompt"><span class="q-number">${item.n}</span><span>Complete the sentence:</span></div>
+          <div class="gap-sentence"><span>${escapeHTML(item.before)}</span><input class="gap-input" type="text" id="gap${item.n}" name="gap${item.n}" maxlength="50" spellcheck="false" autocapitalize="off" aria-label="Answer for question ${item.n}" placeholder="Type your answer"><span>${escapeHTML(item.after)}</span></div>
+        </div>`).join('');
+    });
+  }
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  }
+  function normalize(value) {
+    return String(value || '').trim().toLowerCase().replace(/\s+/g,' ').replace(/^[.,;:!?]+|[.,;:!?]+$/g,'');
+  }
+  function answeredCount() {
+    let count = 0;
+    MC.forEach(q => { if (document.querySelector(`input[name="mc${q.n}"]:checked`)) count++; });
+    GROUPS.forEach(g => g.items.forEach(item => { if ($(`gap${item.n}`).value.trim()) count++; }));
+    return count;
+  }
+  function updateProgress() {
+    const count = answeredCount();
+    $('progressText').textContent = `${count} / 30 answered`;
+    $('progressFill').style.width = `${count / 30 * 100}%`;
+    $('submitAnswered').textContent = `${count} of 30 answered.`;
+  }
+  function startTest() {
+    const name = $('studentName').value.trim();
+    if (!name) { $('studentName').focus(); return; }
+    student = name;
+    className = $('studentClass').value.trim();
+    $('testStudentName').textContent = student;
+    $('testStudentClass').textContent = className ? `· ${className}` : '';
+    submitted = false;
+    $('testForm').reset();
+    document.querySelectorAll('.option.selected').forEach(el => el.classList.remove('selected'));
+    updateProgress();
+    deadline = Date.now() + 10 * 60 * 1000;
+    updateTimer();
+    clearInterval(timerHandle);
+    timerHandle = setInterval(updateTimer, 250);
+    showScreen('test');
+  }
+  function updateTimer() {
+    if (submitted) return;
+    const remaining = Math.max(0, deadline - Date.now());
+    const seconds = Math.ceil(remaining / 1000);
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    $('timerValue').textContent = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+    const box = $('timerBox');
+    box.classList.toggle('warning', seconds <= 120 && seconds > 30);
+    box.classList.toggle('danger', seconds <= 30);
+    if (remaining <= 0) submitTest(true);
+  }
+  function collectAndMark() {
+    const rows = [];
+    MC.forEach(q => {
+      const checked = document.querySelector(`input[name="mc${q.n}"]:checked`);
+      const selected = checked ? Number(checked.value) : null;
+      rows.push({n:q.n, type:'Multiple choice', prompt:q.q, user:selected === null ? '' : `${String.fromCharCode(65+selected)}) ${q.options[selected]}`, correct:`${String.fromCharCode(65+q.answer)}) ${q.options[q.answer]}`, isCorrect:selected === q.answer, section:'mc'});
+    });
+    GROUPS.forEach(g => g.items.forEach(item => {
+      const user = $(`gap${item.n}`).value.trim();
+      rows.push({n:item.n, type:`Gap fill · Word Box ${g.id}`, prompt:`${item.before} ____ ${item.after}`, user, correct:item.answer, isCorrect:normalize(user) === normalize(item.answer), section:`gap${g.id}`});
+    }));
+    return rows.sort((a,b)=>a.n-b.n);
+  }
+  function submitTest(auto = false) {
+    if (submitted) return;
+    if (!auto) {
+      const count = answeredCount();
+      if (!window.confirm(`Submit your test now? You have answered ${count} out of 30 questions. Unanswered questions will receive zero marks.`)) return;
+    }
+    submitted = true;
+    clearInterval(timerHandle);
+    report = collectAndMark();
+    renderResults(auto);
+    showScreen('results');
+  }
+  function renderResults(auto) {
+    const total = report.filter(r=>r.isCorrect).length;
+    const mcScore = report.filter(r=>r.section==='mc' && r.isCorrect).length;
+    const scores = [1,2,3].map(id=>report.filter(r=>r.section===`gap${id}` && r.isCorrect).length);
+    const percent = Math.round(total/30*100);
+    $('scoreMain').textContent = `${total}/30`;
+    $('scorePercent').textContent = `${percent}%`;
+    $('mcScore').textContent = `${mcScore}/15`;
+    scores.forEach((score,i)=>$(`gap${i+1}Score`).textContent = `${score}/5`);
+    $('resultTitle').textContent = total >= 27 ? 'Excellent work' : total >= 23 ? 'Very good work' : total >= 18 ? 'Good effort' : total >= 15 ? 'Keep practising' : 'Keep working on it';
+    $('resultCaption').textContent = `${student}${className ? ` · ${className}` : ''} — ${total} correct answers out of 30.`;
+    $('completionMode').textContent = auto ? 'Time expired. Your answers were submitted automatically.' : `Submitted with ${Math.max(0, Math.ceil((deadline-Date.now())/1000))} seconds remaining.`;
+    currentFilter = 'all';
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active', b.dataset.filter==='all'));
+    renderReview();
+  }
+  function renderReview() {
+    const filtered = report.filter(r => currentFilter==='all' || (currentFilter==='correct' ? r.isCorrect : !r.isCorrect));
+    if (!filtered.length) {
+      $('reviewList').innerHTML = currentFilter==='incorrect' ? '<div class="empty-state">No mistakes. All 30 answers are correct.</div>' : '<div class="empty-state">There are no questions in this category.</div>';
+      return;
+    }
+    $('reviewList').innerHTML = filtered.map(r=>`
+      <div class="review-item">
+        <div class="review-top">
+          <span class="status-mark ${r.isCorrect?'correct':'incorrect'}">${r.isCorrect?'✓':'×'}</span>
+          <div><div class="review-q">${r.n}. ${escapeHTML(r.prompt)}</div><div class="hint" style="margin-top:3px">${escapeHTML(r.type)}</div></div>
+        </div>
+        <div class="review-details">
+          <span class="${r.isCorrect?'right':'wrong'}">Your answer: ${r.user ? escapeHTML(r.user) : 'Not answered'}</span>
+          ${r.isCorrect ? '' : `<span class="right">Correct answer: ${escapeHTML(r.correct)}</span>`}
+        </div>
+      </div>`).join('');
+  }
+  function retake() {
+    clearInterval(timerHandle);
+    $('studentName').value = student;
+    $('studentClass').value = className;
+    $('testForm').reset();
+    document.querySelectorAll('.option.selected').forEach(el => el.classList.remove('selected'));
+    submitted = false;
+    showScreen('landing');
+    $('studentName').focus();
+  }
+
+  renderQuestions();
+  $('studentName').addEventListener('input', () => { $('startBtn').disabled = !$('studentName').value.trim(); });
+  $('startBtn').addEventListener('click', startTest);
+  $('studentName').addEventListener('keydown', e => { if (e.key === 'Enter' && !$('startBtn').disabled) startTest(); });
+  $('testForm').addEventListener('change', e => {
+    if (e.target.matches('input[type="radio"]')) {
+      document.querySelectorAll(`label[data-option^="${e.target.name.replace('mc','')}-"]`).forEach(l=>l.classList.remove('selected'));
+      e.target.closest('.option').classList.add('selected');
+    }
+    updateProgress();
+  });
+  $('testForm').addEventListener('input', e => { if (e.target.matches('.gap-input')) updateProgress(); });
+  $('submitBtn').addEventListener('click', () => submitTest(false));
+  document.querySelectorAll('.filter-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    currentFilter = btn.dataset.filter;
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active',b===btn));
+    renderReview();
+  }));
+  $('printBtn').addEventListener('click',()=>window.print());
+  $('retakeBtn').addEventListener('click',retake);
+  document.addEventListener('visibilitychange',()=>{ if (!document.hidden && !submitted && $('test').classList.contains('active')) updateTimer(); });
+})();
+</script>
+</body>
+</html>
